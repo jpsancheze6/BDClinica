@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="764.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bdclinica.FXMLDocumentController">
+   <children>
+      <Pane fx:id="paneBotones" prefHeight="562.0" prefWidth="180.0">
+         <children>
+            <Button fx:id="btnAgregarPaciente" mnemonicParsing="false" onAction="#agregarPaciente" prefHeight="80.0" prefWidth="180.0" text="Agregar Paciente" />
+            <Button fx:id="btnPacientes" layoutY="80.0" mnemonicParsing="false" onAction="#pacientes" prefHeight="80.0" prefWidth="180.0" text="Pacientes" />
+            <Button fx:id="btnModificarPacientes1" layoutY="160.0" mnemonicParsing="false" onAction="#citas" prefHeight="80.0" prefWidth="180.0" text="Citas" />
+            <Button fx:id="btnHistorial" layoutY="240.0" mnemonicParsing="false" onAction="#historial" prefHeight="80.0" prefWidth="180.0" text="Historial" />
+            <Button fx:id="btnReportes" layoutY="320.0" mnemonicParsing="false" onAction="#reportes" prefHeight="80.0" prefWidth="180.0" text="Reportes" />
+            <Button fx:id="btnConfiguracion" layoutY="400.0" mnemonicParsing="false" onAction="#configuracion" prefHeight="80.0" prefWidth="180.0" text="Configuración" />
+            <Button fx:id="btnConfiguracion1" layoutY="480.0" mnemonicParsing="false" onAction="#extra" prefHeight="80.0" prefWidth="180.0" text="???" />
+         </children>
+      </Pane>
+      <Pane fx:id="paneAgregarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+         <children>
+            <Button layoutX="49.0" layoutY="28.0" mnemonicParsing="false" text="Button" />
+         </children></Pane>
+      <Pane fx:id="panePacientes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+         <children>
+            <Button layoutX="14.0" layoutY="109.0" mnemonicParsing="false" text="Button" />
+         </children></Pane>
+      <Pane fx:id="paneCitas" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+         <children>
+            <Button layoutX="14.0" layoutY="184.0" mnemonicParsing="false" text="Button" />
+         </children></Pane>
+      <Pane fx:id="paneHistorial" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+         <children>
+            <Button layoutX="14.0" layoutY="269.0" mnemonicParsing="false" text="Button" />
+         </children></Pane>
+      <Pane fx:id="paneReportes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+         <children>
+            <Button layoutX="14.0" layoutY="354.0" mnemonicParsing="false" text="Button" />
+         </children></Pane>
+      <Pane fx:id="paneConfiguracion" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+         <children>
+            <Button layoutX="14.0" layoutY="435.0" mnemonicParsing="false" text="Button" />
+         </children></Pane>
+      <Pane fx:id="paneExtra" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+         <children>
+            <Button layoutX="14.0" layoutY="508.0" mnemonicParsing="false" text="Button" />
+         </children></Pane>
+   </children>
+</Pane>
