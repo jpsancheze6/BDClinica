@@ -1,20 +1,42 @@
 package bdclinica;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.stage.StageStyle;
+import BD.conexionBD;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
+import javafx.collections.FXCollections;
 
 public class FXMLDocumentController implements Initializable {
-    
+
     @FXML
-    private Pane paneAgregarPaciente, panePacientes, paneCitas,paneHistorial,
+    private Pane paneAgregarPaciente, panePacientes, paneCitas, paneHistorial,
             paneReportes, paneConfiguracion, paneExtra;
-    
     @FXML
-    private void agregarPaciente(ActionEvent event){
+    private TextField txtNombre;
+    @FXML
+    private DatePicker dtFecha;
+    @FXML
+    private CheckBox cuadroMasculino, cuadroFemenino;
+    @FXML
+    private ComboBox cbxMunicipios;
+
+    @FXML
+    private void agregarPaciente(ActionEvent event) throws SQLException {
         paneAgregarPaciente.setVisible(true);
         paneCitas.setVisible(false);
         paneConfiguracion.setVisible(false);
@@ -23,10 +45,31 @@ public class FXMLDocumentController implements Initializable {
         panePacientes.setVisible(false);
         paneReportes.setVisible(false);
         //Código extra desde acá
-        
+        //Conectar con la base de datos para cargar municipios
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        String sentencia = "select * from municipio";
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery(sentencia);
+        //
+        ObservableList<String> municipios = FXCollections.observableArrayList();
+        municipios.add("-- Seleccione Municipio --");
+        int n = -1;
+        if (rs != null) {
+            while (rs.next()) {
+                System.out.println(rs.getString(1) + ", " + rs.getString(2));
+                //Agregar columna a los municipios
+                municipios.add(rs.getString(2));
+            }
+            cbxMunicipios.setItems(municipios);
+        } else {
+            System.out.println("No hay datos");
+        }
+        cancelarIngresarPaciente();
     }
+
     @FXML
-    private void pacientes(ActionEvent event){
+    private void pacientes(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(false);
         paneConfiguracion.setVisible(false);
@@ -35,10 +78,11 @@ public class FXMLDocumentController implements Initializable {
         panePacientes.setVisible(true);
         paneReportes.setVisible(false);
         //Código extra desde acá
-        
+
     }
+
     @FXML
-    private void citas(ActionEvent event){
+    private void citas(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(true);
         paneConfiguracion.setVisible(false);
@@ -47,10 +91,11 @@ public class FXMLDocumentController implements Initializable {
         panePacientes.setVisible(false);
         paneReportes.setVisible(false);
         //Código extra desde acá
-        
+
     }
+
     @FXML
-    private void historial(ActionEvent event){
+    private void historial(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(false);
         paneConfiguracion.setVisible(false);
@@ -59,10 +104,11 @@ public class FXMLDocumentController implements Initializable {
         panePacientes.setVisible(false);
         paneReportes.setVisible(false);
         //Código extra desde acá
-        
+
     }
+
     @FXML
-    private void reportes(ActionEvent event){
+    private void reportes(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(false);
         paneConfiguracion.setVisible(false);
@@ -71,10 +117,11 @@ public class FXMLDocumentController implements Initializable {
         panePacientes.setVisible(false);
         paneReportes.setVisible(true);
         //Código extra desde acá
-        
+
     }
+
     @FXML
-    private void configuracion(ActionEvent event){
+    private void configuracion(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(false);
         paneConfiguracion.setVisible(true);
@@ -83,10 +130,11 @@ public class FXMLDocumentController implements Initializable {
         panePacientes.setVisible(false);
         paneReportes.setVisible(false);
         //Código extra desde acá
-        
+
     }
+
     @FXML
-    private void extra(ActionEvent event){
+    private void extra(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(false);
         paneConfiguracion.setVisible(false);
@@ -95,12 +143,77 @@ public class FXMLDocumentController implements Initializable {
         panePacientes.setVisible(false);
         paneReportes.setVisible(false);
         //Código extra desde acá
-        
+
     }
-    
+
+    //************************************************************************//
+    //Pacientes
+    @FXML
+    private void seleccionarMasculino() {
+        cuadroFemenino.setSelected(false);
+        cuadroMasculino.setSelected(true);
+    }
+
+    @FXML
+    private void seleccionarFemenino() {
+        cuadroFemenino.setSelected(true);
+        cuadroMasculino.setSelected(false);
+    }
+
+    @FXML
+    private void guardarUsuario() {
+        String nombre = txtNombre.getText();
+        LocalDate fecha = dtFecha.getValue();
+        //Comprobaciones de que no estén vacios los datos
+        int n = 0;
+        if (nombre.equals("") || nombre.equals(null)) {
+            n++;
+        }
+        if (fecha.equals(LocalDate.now())) {
+            n++;
+        }
+        if (cuadroFemenino.isSelected() == false) {
+            if (cuadroMasculino.isSelected() == false) {
+                n++;
+            }
+        }
+        if (cuadroMasculino.isSelected() == false) {
+            if (cuadroFemenino.isSelected() == false) {
+                n++;
+            }
+        }
+        if (cbxMunicipios.getSelectionModel().getSelectedIndex() == 0) {
+            n++;
+        }
+        
+        
+        if (n > 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Error");
+            alert.setHeaderText("Datos incompletos");
+            alert.setContentText("Por favor ingrese todos los datos");
+            alert.showAndWait();
+        }else{
+            //Mandar a registrarPaciente.java
+            
+        }
+
+    }
+
+    @FXML
+    private void cancelarIngresarPaciente() {
+        txtNombre.setText("");
+        dtFecha.setValue(LocalDate.now());
+        cbxMunicipios.getSelectionModel().select(0);
+        cuadroMasculino.setSelected(false);
+        cuadroFemenino.setSelected(false);
+    }
+
+    //************************************************************************//
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
 }
