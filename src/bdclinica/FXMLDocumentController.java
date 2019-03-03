@@ -16,18 +16,21 @@ import BD.conexionBD;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import paciente.datosPacientes;
 import paciente.registrarPaciente;
 
 public class FXMLDocumentController implements Initializable {
@@ -43,6 +46,8 @@ public class FXMLDocumentController implements Initializable {
     private CheckBox cuadroMasculino, cuadroFemenino;
     @FXML
     private ComboBox cbxMunicipios;
+    @FXML
+    private TableView tblPacientes;
 
     @FXML
     private void agregarPaciente(ActionEvent event) throws SQLException {
@@ -87,7 +92,83 @@ public class FXMLDocumentController implements Initializable {
         panePacientes.setVisible(true);
         paneReportes.setVisible(false);
         //Código extra desde acá
+        //Agregar a tblPacientes los pacientes que hay
+        tblPacientes.getColumns().clear();
+        TableColumn id = new TableColumn("ID");
+        id.setCellValueFactory(new PropertyValueFactory<datosPacientes, Integer>("id"));
+        TableColumn nombre = new TableColumn("Nombre");
+        nombre.setCellValueFactory(new PropertyValueFactory<datosPacientes, String>("nombre"));
+        TableColumn fecha = new TableColumn("Nacimiento");
+        fecha.setCellValueFactory(new PropertyValueFactory<datosPacientes, Date>("fecha_de_Nacimiento"));
+        TableColumn sexo = new TableColumn("Sexo");
+        sexo.setCellValueFactory(new PropertyValueFactory<datosPacientes, String>("sexo"));
+        TableColumn idMunicipio = new TableColumn("Municipio");
+        idMunicipio.setCellValueFactory(new PropertyValueFactory<datosPacientes, Integer>("idMunicipio"));
+        TableColumn idHistorial = new TableColumn("Historial");
+        idHistorial.setCellValueFactory(new PropertyValueFactory<datosPacientes, Integer>("idHistorial"));
 
+        tblPacientes.getColumns().addAll(id, nombre, fecha, sexo, idMunicipio, idHistorial);
+        //Agregar filas de la consulta de la base de datos
+        ObservableList<datosPacientes> data = null;
+        try {
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            String sentencia = "select * from paciente";
+            Statement stm = con.createStatement();
+            ResultSet rs;
+            rs = stm.executeQuery(sentencia);
+            int n = -1;
+            int m = 0;
+            if (rs != null) {
+                while (rs.next()) {
+                    //Agregar columna a los municipios
+                    //Acá se agregan las filas a data para después añadirlos a la tabla
+                    if (m == 0) {
+                        data = FXCollections.observableArrayList(new 
+                            datosPacientes(rs.getInt(1), rs.getString(2), rs.getDate(3),
+                                    rs.getString(4), rs.getInt(5), rs.getInt(6)));
+                        m++;
+                    } else {
+                        data.add(new datosPacientes(rs.getInt(1), rs.getString(2), 
+                                rs.getDate(3), rs.getString(4), rs.getInt(5), 
+                                rs.getInt(6)));
+                        m++;
+                    }
+                }
+                tblPacientes.setItems(data);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.initStyle(StageStyle.UTILITY);
+                alert.setTitle("Advertencia");
+                alert.setHeaderText("Sin datos");
+                alert.setContentText("Aún no se han registrado datos");
+                alert.showAndWait();
+            }
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error en la BD");
+            alert.setContentText("Comprobar errores");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
     }
 
     @FXML

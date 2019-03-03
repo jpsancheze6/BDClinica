@@ -22,11 +22,6 @@
       </Pane>
       <Pane fx:id="paneAgregarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
          <children>
-            <Label layoutX="186.0" layoutY="35.0" text="Ingreso del Paciente">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
             <TextField fx:id="txtNombre" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
             <DatePicker fx:id="dtFecha" layoutX="146.0" layoutY="170.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
             <CheckBox fx:id="cuadroMasculino" layoutX="209.0" layoutY="224.0" mnemonicParsing="false" onAction="#seleccionarMasculino" text="Masculino">
@@ -50,10 +45,25 @@
                   <Font size="14.0" />
                </font>
             </Button>
+            <Label layoutX="197.0" layoutY="24.0" text="Ingreso de Pacientes">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
          </children></Pane>
       <Pane fx:id="panePacientes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
          <children>
-            <Button layoutX="14.0" layoutY="109.0" mnemonicParsing="false" text="Button" />
+            <Label layoutX="199.0" layoutY="14.0" text="Lista de Pacientes">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblPacientes" layoutX="14.0" layoutY="58.0" prefHeight="400.0" prefWidth="560.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
          </children></Pane>
       <Pane fx:id="paneCitas" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
          <children>

@@ -16,6 +16,7 @@ public class BDClinica extends Application {
         
         stage.setScene(scene);
         stage.setTitle("Clínica Médica");
+        stage.setResizable(false);
         stage.show();
     }
 
