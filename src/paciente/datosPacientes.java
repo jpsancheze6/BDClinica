@@ -2,8 +2,6 @@ package paciente;
 
 import java.sql.Date;
 
-
-
 public class datosPacientes {
     private int id,idMunicipio,idHistorial;
     private String nombre, sexo;
@@ -15,7 +13,7 @@ public class datosPacientes {
         this.idHistorial = idHistorial;
         this.nombre = nombre;
         this.sexo = sexo;
-        this.fecha_de_Nacimiento = fecha_de_Nacimiento;
+        this.fecha_de_Nacimiento = fecha;
     }
 
     public int getId() {
