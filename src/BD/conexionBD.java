@@ -1,11 +1,19 @@
 package BD;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.stage.StageStyle;
 
 public class conexionBD {
-    
+
     public String driver = "com.mysql.jdbc.Driver";
     public String base = "clinica";//<- Esto cambiarlo sin duda
     public String host = "127.0.0.1";//<- Cambiar esto
@@ -18,13 +26,35 @@ public class conexionBD {
             + "useSSL=false";
     public String username = "root";//<- Cambiar esto por el usuario
     public String password = "";//<- Y esto por la contraseña
-    
+
     public Connection conectarMySQL() {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error en la BD");
+            alert.setContentText("Comprobar errores");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
         }
         return conn;
     }

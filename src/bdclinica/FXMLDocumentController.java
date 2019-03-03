@@ -13,13 +13,22 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import BD.conexionBD;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.collections.FXCollections;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import paciente.registrarPaciente;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -57,7 +66,7 @@ public class FXMLDocumentController implements Initializable {
         int n = -1;
         if (rs != null) {
             while (rs.next()) {
-                System.out.println(rs.getString(1) + ", " + rs.getString(2));
+                //System.out.println(rs.getString(1) + ", " + rs.getString(2));
                 //Agregar columna a los municipios
                 municipios.add(rs.getString(2));
             }
@@ -164,6 +173,7 @@ public class FXMLDocumentController implements Initializable {
     private void guardarUsuario() {
         String nombre = txtNombre.getText();
         LocalDate fecha = dtFecha.getValue();
+        String genero = "";
         //Comprobaciones de que no estén vacios los datos
         int n = 0;
         if (nombre.equals("") || nombre.equals(null)) {
@@ -182,11 +192,15 @@ public class FXMLDocumentController implements Initializable {
                 n++;
             }
         }
-        if (cbxMunicipios.getSelectionModel().getSelectedIndex() == 0) {
+        if (cuadroMasculino.isSelected() == true) {
+            genero = "M";
+        } else {
+            genero = "F";
+        }
+        int seleccion = cbxMunicipios.getSelectionModel().getSelectedIndex();
+        if (seleccion == 0) {
             n++;
         }
-        
-        
         if (n > 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initStyle(StageStyle.UTILITY);
@@ -194,9 +208,11 @@ public class FXMLDocumentController implements Initializable {
             alert.setHeaderText("Datos incompletos");
             alert.setContentText("Por favor ingrese todos los datos");
             alert.showAndWait();
-        }else{
+        } else {
             //Mandar a registrarPaciente.java
-            
+            registrarPaciente rp = new registrarPaciente();
+            rp.recibirDatos(nombre, fecha, genero, seleccion);
+            cancelarIngresarPaciente();
         }
 
     }
