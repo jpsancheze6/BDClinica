@@ -39,7 +39,7 @@ public class FXMLDocumentController implements Initializable {
     private Pane paneAgregarPaciente, panePacientes, paneCitas, paneHistorial,
             paneReportes, paneConfiguracion, paneExtra;
     @FXML
-    private TextField txtNombre;
+    private TextField txtNombre, txtApellido;
     @FXML
     private DatePicker dtFecha;
     @FXML
@@ -71,7 +71,6 @@ public class FXMLDocumentController implements Initializable {
         int n = -1;
         if (rs != null) {
             while (rs.next()) {
-                //System.out.println(rs.getString(1) + ", " + rs.getString(2));
                 //Agregar columna a los municipios
                 municipios.add(rs.getString(2));
             }
@@ -98,6 +97,8 @@ public class FXMLDocumentController implements Initializable {
         id.setCellValueFactory(new PropertyValueFactory<datosPacientes, Integer>("id"));
         TableColumn nombre = new TableColumn("Nombre");
         nombre.setCellValueFactory(new PropertyValueFactory<datosPacientes, String>("nombre"));
+        TableColumn apellido = new TableColumn("Apellido");
+        apellido.setCellValueFactory(new PropertyValueFactory<datosPacientes, String>("apellido"));
         TableColumn fecha = new TableColumn("Nacimiento");
         fecha.setCellValueFactory(new PropertyValueFactory<datosPacientes, Date>("fecha_de_Nacimiento"));
         TableColumn sexo = new TableColumn("Sexo");
@@ -107,13 +108,13 @@ public class FXMLDocumentController implements Initializable {
         TableColumn idHistorial = new TableColumn("Historial");
         idHistorial.setCellValueFactory(new PropertyValueFactory<datosPacientes, Integer>("idHistorial"));
 
-        tblPacientes.getColumns().addAll(id, nombre, fecha, sexo, idMunicipio, idHistorial);
+        tblPacientes.getColumns().addAll(id, nombre, apellido, fecha, sexo, idMunicipio, idHistorial);
         //Agregar filas de la consulta de la base de datos
         ObservableList<datosPacientes> data = null;
         try {
             conexionBD sql = new conexionBD();
             Connection con = sql.conectarMySQL();
-            String sentencia = "select * from paciente";
+            String sentencia = "select p.idPaciente, p.Nombre, p.apellido, p.Fecha_de_Nacimiento, p.Sexo, m.Nombre, p.idHistorial from paciente p inner join municipio m on m.idMunicipio = p.idMunicipio";
             Statement stm = con.createStatement();
             ResultSet rs;
             rs = stm.executeQuery(sentencia);
@@ -124,14 +125,12 @@ public class FXMLDocumentController implements Initializable {
                     //Agregar columna a los municipios
                     //Acá se agregan las filas a data para después añadirlos a la tabla
                     if (m == 0) {
-                        data = FXCollections.observableArrayList(new 
-                            datosPacientes(rs.getInt(1), rs.getString(2), rs.getDate(3),
-                                    rs.getString(4), rs.getInt(5), rs.getInt(6)));
+                        data = FXCollections.observableArrayList(new datosPacientes(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                rs.getDate(4),rs.getString(5), rs.getString(6), rs.getInt(7)));
                         m++;
                     } else {
-                        data.add(new datosPacientes(rs.getInt(1), rs.getString(2), 
-                                rs.getDate(3), rs.getString(4), rs.getInt(5), 
-                                rs.getInt(6)));
+                        data.add(new datosPacientes(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                rs.getDate(4),rs.getString(5), rs.getString(6), rs.getInt(7)));
                         m++;
                     }
                 }
@@ -254,9 +253,13 @@ public class FXMLDocumentController implements Initializable {
     private void guardarUsuario() {
         String nombre = txtNombre.getText();
         LocalDate fecha = dtFecha.getValue();
-        String genero = "";
+        String apellido = txtApellido.getText();
+        String genero;
         //Comprobaciones de que no estén vacios los datos
         int n = 0;
+        if (apellido.equals("") || apellido.equals(null)) {
+            n++;
+        }
         if (nombre.equals("") || nombre.equals(null)) {
             n++;
         }
@@ -292,7 +295,7 @@ public class FXMLDocumentController implements Initializable {
         } else {
             //Mandar a registrarPaciente.java
             registrarPaciente rp = new registrarPaciente();
-            rp.recibirDatos(nombre, fecha, genero, seleccion);
+            rp.recibirDatos(nombre, apellido, fecha, genero, seleccion);
             cancelarIngresarPaciente();
         }
 
@@ -301,10 +304,16 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void cancelarIngresarPaciente() {
         txtNombre.setText("");
+        txtApellido.setText("");
         dtFecha.setValue(LocalDate.now());
         cbxMunicipios.getSelectionModel().select(0);
         cuadroMasculino.setSelected(false);
         cuadroFemenino.setSelected(false);
+    }
+
+    @FXML
+    private void editarPaciente() {
+        System.out.println(tblPacientes.getItems().get(tblPacientes.getSelectionModel().getSelectedIndex()));
     }
 
     //************************************************************************//

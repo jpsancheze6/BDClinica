@@ -23,24 +23,25 @@
       <Pane fx:id="paneAgregarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
          <children>
             <TextField fx:id="txtNombre" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
-            <DatePicker fx:id="dtFecha" layoutX="146.0" layoutY="170.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
-            <CheckBox fx:id="cuadroMasculino" layoutX="209.0" layoutY="224.0" mnemonicParsing="false" onAction="#seleccionarMasculino" text="Masculino">
+            <TextField fx:id="txtApellido" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
+            <DatePicker fx:id="dtFecha" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
+            <CheckBox fx:id="cuadroMasculino" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculino" text="Masculino">
                <font>
                   <Font size="14.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="cuadroFemenino" layoutX="343.0" layoutY="224.0" mnemonicParsing="false" onAction="#seleccionarFemenino" text="Femenino">
+            <CheckBox fx:id="cuadroFemenino" layoutX="341.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarFemenino" text="Femenino">
                <font>
                   <Font size="14.0" />
                </font>
             </CheckBox>
-            <ComboBox fx:id="cbxMunicipios" layoutX="150.0" layoutY="269.0" prefHeight="25.0" prefWidth="345.0" />
-            <Button fx:id="bntConfirmar" layoutX="225.0" layoutY="346.0" mnemonicParsing="false" onAction="#guardarUsuario" text="Confirmar">
+            <ComboBox fx:id="cbxMunicipios" layoutX="148.0" layoutY="305.0" prefHeight="25.0" prefWidth="345.0" />
+            <Button fx:id="bntConfirmar" layoutX="223.0" layoutY="382.0" mnemonicParsing="false" onAction="#guardarUsuario" text="Confirmar">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btnCancelar" layoutX="339.0" layoutY="346.0" mnemonicParsing="false" onAction="#cancelarIngresarPaciente" text="Cancelar">
+            <Button fx:id="btnCancelar" layoutX="337.0" layoutY="382.0" mnemonicParsing="false" onAction="#cancelarIngresarPaciente" text="Cancelar">
                <font>
                   <Font size="14.0" />
                </font>
@@ -64,6 +65,11 @@
                 <TableColumn prefWidth="75.0" text="C2" />
               </columns>
             </TableView>
+            <Button layoutX="227.0" layoutY="481.0" mnemonicParsing="false" onAction="#editarPaciente" prefHeight="47.0" prefWidth="134.0" text="Editar Paciente">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children></Pane>
       <Pane fx:id="paneCitas" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
          <children>

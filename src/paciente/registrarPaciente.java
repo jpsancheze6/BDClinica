@@ -4,7 +4,6 @@ import BD.conexionBD;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -17,13 +16,13 @@ import javafx.stage.StageStyle;
 
 public class registrarPaciente {
 
-    public void recibirDatos(String nombre, LocalDate fecha, String genero, int id) {
+    public void recibirDatos(String nombre, String apellido, LocalDate fecha, String genero, int id) {
         try {
             conexionBD sql = new conexionBD();
             Connection con = sql.conectarMySQL();
             String sentencia
-                    = "insert into paciente(Nombre, Fecha_de_Nacimiento, Sexo, idMunicipio) values"
-                    + "(\"" + nombre + "\",\"" + fecha + "\",\"" + genero + "\"," + id + ");";
+                    = "insert into paciente(Nombre, Apellido ,Fecha_de_Nacimiento, Sexo, idMunicipio) values"
+                    + "(\"" + nombre + "\",\"" + apellido + "\",\"" + fecha + "\",\"" + genero + "\"," + id + ");";
             Statement stm = con.createStatement();
             int rs = stm.executeUpdate(sentencia);
             if (rs == 1) {

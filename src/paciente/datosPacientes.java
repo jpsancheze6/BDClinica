@@ -3,17 +3,26 @@ package paciente;
 import java.sql.Date;
 
 public class datosPacientes {
-    private int id,idMunicipio,idHistorial;
-    private String nombre, sexo;
+    private int id,idHistorial;
+    private String apellido, nombre, sexo, municipio;
     private Date fecha_de_Nacimiento;
 
-    public datosPacientes(int id, String nombre, Date fecha, String sexo, int idMunicipio, int idHistorial) {
+    public datosPacientes(int id, String nombre, String apellido, Date fecha, String sexo, String municipio, int idHistorial) {
         this.id = id;
-        this.idMunicipio = idMunicipio;
+        this.municipio = municipio;
         this.idHistorial = idHistorial;
         this.nombre = nombre;
+        this.apellido = apellido;
         this.sexo = sexo;
         this.fecha_de_Nacimiento = fecha;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public int getId() {
@@ -24,12 +33,12 @@ public class datosPacientes {
         this.id = id;
     }
 
-    public int getIdMunicipio() {
-        return idMunicipio;
+    public String getIdMunicipio() {
+        return municipio;
     }
 
-    public void setIdMunicipio(int idMunicipio) {
-        this.idMunicipio = idMunicipio;
+    public void setIdMunicipio(String municipio) {
+        this.municipio = municipio;
     }
 
     public int getIdHistorial() {
