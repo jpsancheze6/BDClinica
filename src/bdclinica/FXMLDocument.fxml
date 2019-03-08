@@ -65,7 +65,7 @@
                 <TableColumn prefWidth="75.0" text="C2" />
               </columns>
             </TableView>
-            <Button layoutX="227.0" layoutY="481.0" mnemonicParsing="false" onAction="#editarPaciente" prefHeight="47.0" prefWidth="134.0" text="Editar Paciente">
+            <Button fx:id="btnEditar" layoutX="227.0" layoutY="481.0" mnemonicParsing="false" onAction="#editarPaciente" prefHeight="47.0" prefWidth="134.0" text="Editar Paciente">
                <font>
                   <Font size="14.0" />
                </font>
@@ -91,5 +91,38 @@
          <children>
             <Button layoutX="14.0" layoutY="508.0" mnemonicParsing="false" text="Button" />
          </children></Pane>
+      <Pane fx:id="paneEditarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+         <children>
+            <Label layoutX="197.0" layoutY="24.0" text="Edición de Pacientes">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtNombreEdicion" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
+            <TextField fx:id="txtApellidoEdicion" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
+            <DatePicker fx:id="dtFechaEdicion" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
+            <CheckBox fx:id="cuadroMasculinoEdicion" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculinoEdicion" text="Masculino">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="cuadroFemeninoEdicion" layoutX="341.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarFemeninoEdicion" text="Femenino">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </CheckBox>
+            <ComboBox fx:id="cbxMunicipiosEdicion" layoutX="148.0" layoutY="305.0" prefHeight="25.0" prefWidth="345.0" />
+            <Button fx:id="bntConfirmarEdicion" layoutX="223.0" layoutY="382.0" mnemonicParsing="false" onAction="#guardarUsuarioEditado" text="Confirmar">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnCancelarEdicion" layoutX="337.0" layoutY="382.0" mnemonicParsing="false" onAction="#cancelarEdicion" text="Cancelar">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
    </children>
 </Pane>

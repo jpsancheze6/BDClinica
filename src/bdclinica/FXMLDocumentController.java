@@ -35,9 +35,11 @@ import paciente.registrarPaciente;
 
 public class FXMLDocumentController implements Initializable {
 
+    int clave;
+    
     @FXML
     private Pane paneAgregarPaciente, panePacientes, paneCitas, paneHistorial,
-            paneReportes, paneConfiguracion, paneExtra;
+            paneReportes, paneConfiguracion, paneExtra, paneEditarPaciente;
     @FXML
     private TextField txtNombre, txtApellido;
     @FXML
@@ -46,6 +48,14 @@ public class FXMLDocumentController implements Initializable {
     private CheckBox cuadroMasculino, cuadroFemenino;
     @FXML
     private ComboBox cbxMunicipios;
+    @FXML
+    private TextField txtNombreEdicion, txtApellidoEdicion;
+    @FXML
+    private DatePicker dtFechaEdicion;
+    @FXML
+    private CheckBox cuadroMasculinoEdicion, cuadroFemeninoEdicion;
+    @FXML
+    private ComboBox cbxMunicipiosEdicion;
     @FXML
     private TableView tblPacientes;
 
@@ -82,7 +92,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void pacientes(ActionEvent event) {
+    private void pacientes() {
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(false);
         paneConfiguracion.setVisible(false);
@@ -126,11 +136,11 @@ public class FXMLDocumentController implements Initializable {
                     //Acá se agregan las filas a data para después añadirlos a la tabla
                     if (m == 0) {
                         data = FXCollections.observableArrayList(new datosPacientes(rs.getInt(1), rs.getString(2), rs.getString(3),
-                                rs.getDate(4),rs.getString(5), rs.getString(6), rs.getInt(7)));
+                                rs.getDate(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
                         m++;
                     } else {
                         data.add(new datosPacientes(rs.getInt(1), rs.getString(2), rs.getString(3),
-                                rs.getDate(4),rs.getString(5), rs.getString(6), rs.getInt(7)));
+                                rs.getDate(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
                         m++;
                     }
                 }
@@ -245,8 +255,26 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void seleccionarFemenino() {
-        cuadroFemenino.setSelected(true);
-        cuadroMasculino.setSelected(false);
+        cuadroFemeninoEdicion.setSelected(true);
+        cuadroMasculinoEdicion.setSelected(false);
+    }
+
+    @FXML
+    private void seleccionarMasculinoEdicion() {
+        cuadroFemeninoEdicion.setSelected(false);
+        cuadroMasculinoEdicion.setSelected(true);
+    }
+
+    @FXML
+    private void seleccionarFemeninoEdicion() {
+        cuadroFemeninoEdicion.setSelected(true);
+        cuadroMasculinoEdicion.setSelected(false);
+    }
+
+    @FXML
+    private void cancelarEdicion() {
+        paneEditarPaciente.setVisible(false);
+        pacientes();
     }
 
     @FXML
@@ -302,6 +330,58 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
+    private void guardarUsuarioEditado() {
+        String nombre = txtNombreEdicion.getText();
+        LocalDate fecha = dtFechaEdicion.getValue();
+        String apellido = txtApellidoEdicion.getText();
+        String genero;
+        //Comprobaciones de que no estén vacios los datos
+        int n = 0;
+        if (apellido.equals("") || apellido.equals(null)) {
+            n++;
+        }
+        if (nombre.equals("") || nombre.equals(null)) {
+            n++;
+        }
+        if (fecha.equals(LocalDate.now())) {
+            n++;
+        }
+        if (cuadroFemeninoEdicion.isSelected() == false) {
+            if (cuadroMasculinoEdicion.isSelected() == false) {
+                n++;
+            }
+        }
+        if (cuadroMasculinoEdicion.isSelected() == false) {
+            if (cuadroFemeninoEdicion.isSelected() == false) {
+                n++;
+            }
+        }
+        if (cuadroMasculinoEdicion.isSelected() == true) {
+            genero = "M";
+        } else {
+            genero = "F";
+        }
+        int seleccion = cbxMunicipiosEdicion.getSelectionModel().getSelectedIndex();
+        if (seleccion == 0) {
+            n++;
+        }
+        if (n > 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Error");
+            alert.setHeaderText("Datos incompletos");
+            alert.setContentText("Por favor ingrese todos los datos");
+            alert.showAndWait();
+        } else {
+            //Mandar a registrarPaciente.java
+            registrarPaciente rp = new registrarPaciente();
+            rp.recibirDatosEdicion(clave, nombre, apellido, fecha, genero, seleccion);
+            paneEditarPaciente.setVisible(false);
+            panePacientes.setVisible(true);
+        }
+    }
+
+    @FXML
     private void cancelarIngresarPaciente() {
         txtNombre.setText("");
         txtApellido.setText("");
@@ -313,7 +393,75 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void editarPaciente() {
-        System.out.println(tblPacientes.getItems().get(tblPacientes.getSelectionModel().getSelectedIndex()));
+        try {
+            datosPacientes a = (datosPacientes) tblPacientes.getSelectionModel().getSelectedItem();
+            int id = a.getId();
+            String nombre = a.getNombre();
+            String apellido = a.getApellido();
+            Date fecha = a.getFecha_de_Nacimiento();
+            String sexo = a.getSexo();
+            String municipio = a.getIdMunicipio();
+            int historial = a.getIdHistorial();
+
+            //cargar listado de municipios
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            String sentencia = "select * from municipio";
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sentencia);
+            ObservableList<String> municipios = FXCollections.observableArrayList();
+            municipios.add("-- Seleccione Municipio --");
+            int n = -1;
+            if (rs != null) {
+                while (rs.next()) {
+                    municipios.add(rs.getString(2));
+                }
+                cbxMunicipiosEdicion.setItems(municipios);
+            } else {
+                System.out.println("No hay datos");
+            }
+            //Colocar datos
+            panePacientes.setVisible(false);
+            paneEditarPaciente.setVisible(true);
+
+            txtNombreEdicion.setText(nombre);
+            txtApellidoEdicion.setText(apellido);
+            if (sexo.equals("M") || sexo.equals("m")) {
+                cuadroMasculinoEdicion.setSelected(true);
+            } else {
+                cuadroFemeninoEdicion.setSelected(true);
+            }
+            cbxMunicipiosEdicion.getSelectionModel().select(municipio);
+            //Fecha de nacimiento
+            dtFechaEdicion.setValue(fecha.toLocalDate());
+            
+            this.clave = id;
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Seleccione un registro para editar");
+            alert.setContentText("Error");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
+
     }
 
     //************************************************************************//

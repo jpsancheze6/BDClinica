@@ -62,4 +62,51 @@ public class registrarPaciente {
             alert.showAndWait();
         }
     }
+    
+    public void recibirDatosEdicion(int clave, String nombre, String apellido, LocalDate fecha, String genero, int id) {
+        try {
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            String sentencia
+                    = "update paciente  set Nombre = \"" + nombre +"\", apellido = \"" + apellido + "\", "
+                    + "Fecha_de_Nacimiento = '" + fecha +"', Sexo = \"" + genero +"\", idMunicipio = " + id + " "
+                    + "where idPaciente = " + clave + ";";
+            Statement stm = con.createStatement();
+            int rs = stm.executeUpdate(sentencia);
+            if (rs == 1) {
+                //Mensaje de que se llenó correctamente y resetear valores
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.initStyle(StageStyle.UTILITY);
+                alert.setTitle("Información");
+                alert.setHeaderText("Creado");
+                alert.setContentText("Usuario Creado Correctamente");
+                alert.showAndWait();
+            }
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error en la BD");
+            alert.setContentText("Comprobar errores");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
+    }
+   
 }
