@@ -24,5 +24,4 @@ public class BDClinica extends Application {
         launch(args);
         System.out.print("DDDDD");
     }
-    
 }
