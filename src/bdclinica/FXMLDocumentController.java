@@ -39,9 +39,7 @@ public class FXMLDocumentController implements Initializable {
     int clave;
     
     @FXML
-<<<<<<< HEAD
-    private Pane paneAgregarPaciente, panePacientes, paneCitas, paneHistorial,
-            paneReportes, paneConfiguracion, paneExtra, paneEditarPaciente;
+    private Pane paneEditarPaciente;
     @FXML
     private TextField txtNombre, txtApellido;
     @FXML
@@ -54,11 +52,10 @@ public class FXMLDocumentController implements Initializable {
     private TextField txtNombreEdicion, txtApellidoEdicion;
     @FXML
     private DatePicker dtFechaEdicion;
-=======
+    @FXML
     private Pane paneAgregarPaciente, panePacientes, paneCitas,paneHistorial,
             paneReportes, paneConfiguracion, paneExtra, paneH, paneAgregarH;
     
->>>>>>> origin/jorgeizas/feature/historial
     @FXML
     private CheckBox cuadroMasculinoEdicion, cuadroFemeninoEdicion;
     @FXML
@@ -203,15 +200,13 @@ public class FXMLDocumentController implements Initializable {
         paneH.setVisible(false);
         paneAgregarH.setVisible(false);
         //Código extra desde acá
-<<<<<<< HEAD
 
     }
 
-=======
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    // HISTORIAL /////
->>>>>>> origin/jorgeizas/feature/historial
     @FXML
     private void historial(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
@@ -224,11 +219,7 @@ public class FXMLDocumentController implements Initializable {
         paneH.setVisible(false);
         paneAgregarH.setVisible(false);
         //Código extra desde acá
-<<<<<<< HEAD
 
-    }
-
-=======
     }
 
     //Boton para abrir el historial del paciente seleccionado(btnAbrir)
@@ -278,9 +269,6 @@ public class FXMLDocumentController implements Initializable {
         paneHistorial.setVisible(true);
         paneAgregarH.setVisible(false);
     }
-    // HISTORIAL/////
-    
->>>>>>> origin/jorgeizas/feature/historial
     @FXML
     private void reportes(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
@@ -546,9 +534,5 @@ public class FXMLDocumentController implements Initializable {
     }
 
     //************************************************************************//
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }
 
 }
