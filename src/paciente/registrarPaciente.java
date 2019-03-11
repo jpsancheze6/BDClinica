@@ -79,7 +79,7 @@ public class registrarPaciente {
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Información");
                 alert.setHeaderText("Creado");
-                alert.setContentText("Usuario Editado Correctamente");
+                alert.setContentText("Usuario Creado Correctamente");
                 alert.showAndWait();
             }
         } catch (SQLException ex) {
