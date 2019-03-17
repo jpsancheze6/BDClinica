@@ -1,23 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cita;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-/**
- *
- * @author tito88
- */
 public class paciente_tabla {
-    
-    
-       private SimpleIntegerProperty Id;
+
+    private SimpleIntegerProperty Id;
     private SimpleStringProperty Nombre;
     private SimpleStringProperty Apellido;
+
     public paciente_tabla(Integer Id1, String Nombre1, String Apellido1) {
         this.Id = new SimpleIntegerProperty(Id1);
         this.Nombre = new SimpleStringProperty(Nombre1);

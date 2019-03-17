@@ -77,9 +77,9 @@ public class registrarPaciente {
                 //Mensaje de que se llenó correctamente y resetear valores
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.initStyle(StageStyle.UTILITY);
-                alert.setTitle("Información");
-                alert.setHeaderText("Creado");
-                alert.setContentText("Usuario Creado Correctamente");
+                alert.setTitle("Operación correcta");
+                alert.setHeaderText("Editado");
+                alert.setContentText("Usuario editado correctamente");
                 alert.showAndWait();
             }
         } catch (SQLException ex) {

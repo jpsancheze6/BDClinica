@@ -13,6 +13,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import BD.conexionBD;
+import com.sun.javafx.collections.ElementObservableListDecorator;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Connection;
@@ -293,7 +294,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     public void tabla() throws SQLException {
-
+        lista = FXCollections.observableArrayList();
         String nombre1 = nombre.getText();
         //conectando con base de datos
         Connection conn = null;
@@ -524,6 +525,7 @@ public class FXMLDocumentController implements Initializable {
             rp.recibirDatosEdicion(clave, nombre, apellido, fecha, genero, seleccion);
             paneEditarPaciente.setVisible(false);
             panePacientes.setVisible(true);
+            pacientes();
         }
     }
 
@@ -586,8 +588,8 @@ public class FXMLDocumentController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initStyle(StageStyle.UTILITY);
             alert.setTitle("Excepción");
-            alert.setHeaderText("Seleccione un registro para editar");
-            alert.setContentText("Error");
+            alert.setHeaderText("Se produjo un error al registrar el usuario");
+            alert.setContentText("Revise errores, (posiblemente no se selecciono un registro)");
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
@@ -607,7 +609,6 @@ public class FXMLDocumentController implements Initializable {
             alert.getDialogPane().setExpandableContent(expContent);
             alert.showAndWait();
         }
-
     }
 
     //************************************************************************//
