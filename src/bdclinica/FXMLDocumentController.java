@@ -13,7 +13,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import BD.conexionBD;
-import com.sun.javafx.collections.ElementObservableListDecorator;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Connection;
@@ -23,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
@@ -38,9 +38,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javax.swing.JOptionPane;
 import paciente.datosPacientes;
 import paciente.registrarPaciente;
+import cita.paciente_tablacita;
+import cita.Modificar;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -80,6 +83,56 @@ public class FXMLDocumentController implements Initializable {
     private ObservableList<paciente_tabla> lista = FXCollections.observableArrayList();
 
     @FXML
+    private TableView<paciente_tablacita> tabla2;
+    public TableColumn<paciente_tablacita, Integer> Idcita;
+    public TableColumn<paciente_tablacita, String> Nombrepaciente;
+    public TableColumn<paciente_tablacita, String> Reconsultacita;
+    public TableColumn<paciente_tablacita, String> Telefonocita;
+    public TableColumn<paciente_tablacita, String> Fechacita;
+    public TableColumn<paciente_tablacita, String> Atendidocita;
+    public TableColumn<paciente_tablacita, String> costocita;
+    private ObservableList<paciente_tablacita> lista2 = FXCollections.observableArrayList();
+
+    @FXML
+    private Button modificarcita, actualizar, agregar, cancelar;
+    @FXML
+    int idcita1 = 0;
+
+    public void actualizardatos() {
+        lista2.clear();
+        Modificar mod = new Modificar();
+        boolean atendido1 = false, reconsulta1 = false;
+        String nombre1 = nombre.getText();
+        String telefono1 = telefono.getText();
+        String costo1 = costo.getText();
+        int costo2 = Integer.parseInt(costo1);
+        String id = idPaciente.getText();
+        int idpaciente = Integer.parseInt(id);
+
+        //Tomando los  valores de los checkbox
+        boolean selected = reconsulta.isSelected();
+        boolean selected1 = atendido.isSelected();
+        if (selected == true) {
+            reconsulta1 = true;
+        }
+        if (selected1 == true) {
+            atendido1 = true;
+        }
+        mod.Actualizar(idcita1, nombre1, reconsulta1, telefono1, atendido1, costo2);
+        nombre.clear();
+        telefono.clear();
+        costo.clear();
+        idPaciente.clear();
+        reconsulta.setSelected(false);
+        atendido.setSelected(false);
+        Hora.clear();
+        actualizar.setDisable(true);
+        modificarcita.setDisable(true);
+        tabla2.setVisible(false);
+        lista2.clear();
+    }
+
+    @FXML
     private void agregarPaciente(ActionEvent event) {
         paneAgregarPaciente.setVisible(true);
         paneCitas.setVisible(false);
@@ -111,9 +164,30 @@ public class FXMLDocumentController implements Initializable {
             }
             cancelarIngresarPaciente();
         } catch (SQLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error");
+            alert.setContentText("Ha ocurrido un error, revise los detalles: ");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
         }
-
     }
 
     //Boton para abrir el historial del paciente seleccionado(btnAbrir)
@@ -269,27 +343,68 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void agregarcita() throws SQLException, ClassNotFoundException, ParseException {
         Agregarcita citas = new Agregarcita();
+        if ((nombre.getText().equals("")) || (telefono.getText().equals("")) || (costo.getText().equals(""))) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Advertencia");
+            alert.setHeaderText("Error");
+            alert.setContentText("Faltan campos por llenar");
 
-        boolean atendido1 = false, reconsulta1 = false;
-        String nombre1 = nombre.getText();
-        String telefono1 = telefono.getText();
-        String costo1 = costo.getText();
-        int costo2 = Integer.parseInt(costo1);
-        String id = idPaciente.getText();
-        int idpaciente = Integer.parseInt(id);
+            alert.showAndWait();
+        } else {
 
-        //Tomando los  valores de los checkbox
-        boolean selected = reconsulta.isSelected();
-        boolean selected1 = atendido.isSelected();
-        if (selected == true) {
-            reconsulta1 = true;
+            boolean atendido1 = false, reconsulta1 = false;
+            String nombre1 = nombre.getText();
+            String telefono1 = telefono.getText();
+            String costo1 = costo.getText();
+            int costo2 = Integer.parseInt(costo1);
+            String id = idPaciente.getText();
+            int idpaciente = Integer.parseInt(id);
+            //tomando la fecha y hora
+            LocalDate localDate = fecha.getValue();
+
+            DateTimeFormatter fecha1 = DateTimeFormatter.ISO_LOCAL_DATE;
+            String fecha2 = (localDate).format(fecha1);
+            String hora = Hora.getText();
+            fecha2 = fecha2 + " " + hora;
+
+            //Tomando los  valores de los checkbox
+            boolean selected = reconsulta.isSelected();
+            boolean selected1 = atendido.isSelected();
+            if (selected == true) {
+                reconsulta1 = true;
+            }
+            if (selected1 == true) {
+                atendido1 = true;
+            }
+            nombre.clear();
+            telefono.clear();
+            costo.clear();
+            idPaciente.clear();
+            reconsulta.setSelected(false);
+            atendido.setSelected(false);
+            Hora.clear();
+            //agregar.setDisable(true);
+            lista.clear();
+            lista2.clear();
+            //enviando al metodo
+            citas.recibirdatos(nombre1, reconsulta1, telefono1, fecha2, idpaciente, atendido1, costo2);
         }
-        if (selected1 == true) {
-            atendido1 = true;
-        }
-        //enviando al metodo
-        citas.recibirdatos(nombre1, reconsulta1, telefono1, null, idpaciente, atendido1, costo2);
+    }
 
+    @FXML
+    private void cancelarprocesos() {
+        tabla.setVisible(false);
+        tabla2.setVisible(false);
+        actualizar.setDisable(true);
+        modificarcita.setDisable(true);
+        agregar.setDisable(false);
+    }
+
+    @FXML
+    public void Buscar() throws SQLException {
+        tabla();
+        agregar.setDisable(false);
     }
 
     @FXML
@@ -320,24 +435,232 @@ public class FXMLDocumentController implements Initializable {
             Nombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
             Apellido.setCellValueFactory(new PropertyValueFactory<>("Apellido"));
             tabla.setItems(lista);
+            tabla.setVisible(true);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "nell");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error");
+            alert.setContentText("Revise los errores para continuar");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
         }
-
     }
 
     @FXML
     public void seleccionado() {
         //Obtiene el id del paciente seleccionado
-        paciente_tabla persona = tabla.getSelectionModel().getSelectedItem();
-        int id1 = persona.getId();
-        String id2 = "";
-        id2 = id2 + id1;
-        //Escribe el id en el textfield
-        idPaciente.setText(id2);
-        //Habilita 
-        telefono.setDisable(false);
-        costo.setDisable(false);
+        try {
+            paciente_tabla persona = tabla.getSelectionModel().getSelectedItem();
+            int id1 = persona.getId();
+            String id2 = "";
+            id2 = id2 + id1;
+            //Escribe el id en el textfield
+            idPaciente.setText(id2);
+            nombre.setText(persona.getNombre());
+            //Habilita 
+            telefono.setDisable(false);
+            costo.setDisable(false);
+            modificarcita.setDisable(false);
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Ha ocurrido un error");
+            alert.setContentText("Posiblemente hace falta seleccionar un registro");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    public void tabla2() throws SQLException {
+        lista2.clear();
+        lista.clear();
+        tabla2.setVisible(true);
+        tabla.setVisible(false);
+        String id = idPaciente.getText();
+        if (id.equals("")) {
+
+        } else {
+            int idpaciente = Integer.parseInt(id);
+
+            //conectando con base de datos
+            Connection conn = null;
+            conexionBD conexion = new conexionBD();
+            conn = conexion.conectarMySQL();
+            //Obteniendo pacientes con mismo nombre
+            try {
+
+                //Haciendo la consulta
+                String selectSQL = "SELECT idCita,Nombre,Reconsulta, Telefono, Fecha,Atendido,costo FROM cita WHERE idPaciente =" + id;
+                PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+                ResultSet rs = preparedStatement.executeQuery(selectSQL);
+                //ciclo para agregar todos los pacientes con el nombre a la lista
+
+                while (rs.next()) {
+
+                    int id1 = rs.getInt(1);
+                    String Nombre11 = rs.getString(2);
+                    boolean Reconsulta1 = rs.getBoolean(3);
+                    String Telefono1 = rs.getString(4);
+                    //  String Fecha1= rs.getString(5);
+                    Timestamp Fecha1 = rs.getTimestamp(5);
+                    boolean Atendido1 = rs.getBoolean(6);
+                    int costo1 = rs.getInt(7);
+                    String fecha2 = new SimpleDateFormat("yyyy-MM-dd  hh:ss:mm").format(Fecha1);
+                    paciente_tablacita listap = new paciente_tablacita(id1, Nombre11, Reconsulta1, Telefono1, fecha2, Atendido1, costo1);
+                    lista2.add(listap);
+                }
+                rs.close();
+                conn.close();
+                //agrega a la tabla
+                Idcita.setCellValueFactory(new PropertyValueFactory<>("Id"));
+                Nombrepaciente.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+                Reconsultacita.setCellValueFactory(new PropertyValueFactory<>("Reconsulta"));
+                Telefonocita.setCellValueFactory(new PropertyValueFactory<>("Telefono"));
+                Fechacita.setCellValueFactory(new PropertyValueFactory<>("Fecha"));
+                Atendidocita.setCellValueFactory(new PropertyValueFactory<>("Atendido"));
+                costocita.setCellValueFactory(new PropertyValueFactory<>("Costo"));
+                tabla2.setItems(lista2);
+            } catch (SQLException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.initStyle(StageStyle.UTILITY);
+                alert.setTitle("Excepción");
+                alert.setHeaderText("Ocurrió un error");
+                alert.setContentText("Revisar errores para continuar");
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                ex.printStackTrace(pw);
+                String exceptionText = sw.toString();
+                Label label = new Label("Detalles:");
+                TextArea textArea = new TextArea(exceptionText);
+                textArea.setEditable(false);
+                textArea.setWrapText(true);
+                textArea.setMaxWidth(Double.MAX_VALUE);
+                textArea.setMaxHeight(Double.MAX_VALUE);
+                GridPane.setVgrow(textArea, Priority.ALWAYS);
+                GridPane.setHgrow(textArea, Priority.ALWAYS);
+                GridPane expContent = new GridPane();
+                expContent.setMaxWidth(Double.MAX_VALUE);
+                expContent.add(label, 0, 0);
+                expContent.add(textArea, 0, 1);
+                alert.getDialogPane().setExpandableContent(expContent);
+                alert.showAndWait();
+            }
+        }
+
+    }
+
+    @FXML
+    public void seleccionadotabla2() {
+        //Obtiene el id del paciente seleccionado
+        try {
+            paciente_tablacita persona = tabla2.getSelectionModel().getSelectedItem();
+            idcita1 = persona.getId();
+            agregar.setDisable(true);
+            String fecha1 = persona.getFecha();
+            //ciclo para separar fecha y hora
+            int largo = fecha1.length();
+            //usando una bandera
+            String fechalocal = "";
+            String horalocal = "";
+            boolean bandera = false;
+
+            for (int x = 0; x < largo; x++) {
+                char c = fecha1.charAt(x);
+
+                if (c == ' ') {
+                    c = fecha1.charAt(x + 2);
+                    x = x + 2;
+
+                    for (int x1 = x; x1 < largo; x1++) {
+                        c = fecha1.charAt(x1);
+                        horalocal = horalocal + c;
+                    }
+                    x = largo;
+                } else {
+                    if (c == '-') {
+                        c = '/';
+                        fechalocal = fechalocal + c;
+                    } else {
+                        fechalocal = fechalocal + c;
+                    }
+                }
+            }
+            //dando formato a fecha
+            LocalDate localDate1 = LocalDate.parse(fechalocal, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+            fecha.setValue(localDate1);
+            String id2 = "";
+            nombre.setText(persona.getNombre());
+            //Habilita 
+            telefono.setDisable(false);
+            Hora.setText(horalocal);
+            costo.setDisable(false);
+            actualizar.setDisable(false);
+            boolean boleano = persona.getReconsulta();
+            reconsulta.setSelected(boleano);
+            telefono.setText(persona.getTelefono());
+            boleano = persona.getAtendido();
+            atendido.setSelected(boleano);
+            costo.setText(id2 + persona.getCosto());
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Ha ocurrido un error");
+            alert.setContentText("Posiblemente hace falta seleccionar un registro");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
     }
 
     @FXML

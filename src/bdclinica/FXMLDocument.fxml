@@ -87,16 +87,17 @@
         </Pane>
         <Pane fx:id="paneCitas" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
-                <CheckBox fx:id="reconsulta" layoutX="111.0" layoutY="84.0" mnemonicParsing="false" text="Reconsulta" />
-                <CheckBox fx:id="atendido" layoutX="127.0" layoutY="364.0" mnemonicParsing="false" text="Atendido" />
-                <TextField fx:id="nombre" layoutX="30.0" layoutY="38.0" prefHeight="25.0" prefWidth="250.0" promptText="Nombre" />
-                <TextField fx:id="telefono" disable="true" layoutX="30.0" layoutY="125.0" prefHeight="25.0" prefWidth="250.0" promptText="Telefono" />
-                <TextField fx:id="idPaciente" disable="true" layoutX="88.0" layoutY="307.0" promptText="ID Paciente" />
-                <DatePicker fx:id="fecha" layoutX="30.0" layoutY="177.0" prefHeight="31.0" prefWidth="132.0" promptText="Fecha" />
-                <Button layoutX="84.0" layoutY="463.0" mnemonicParsing="false" onMouseClicked="#agregarcita" prefHeight="47.0" prefWidth="149.0" text="Ingresar" />
-                <TextField fx:id="costo" disable="true" layoutX="88.0" layoutY="411.0" promptText="Costo" />
-                <TextField fx:id="Hora" layoutX="190.0" layoutY="177.0" prefHeight="31.0" prefWidth="95.0" promptText="Hora" />
-                <TableView fx:id="tabla" layoutX="311.0" layoutY="38.0" onMouseClicked="#seleccionado" prefHeight="494.0" prefWidth="250.0">
+                <CheckBox fx:id="reconsulta" layoutX="96.0" layoutY="84.0" mnemonicParsing="false" text="Reconsulta" />
+                <CheckBox fx:id="atendido" layoutX="99.0" layoutY="383.0" mnemonicParsing="false" text="Atendido" />
+                <TextField fx:id="nombre" layoutX="61.0" layoutY="38.0" promptText="Nombre" />
+                <TextField fx:id="telefono" disable="true" layoutX="61.0" layoutY="113.0" promptText="Telefono" />
+                <TextField fx:id="idPaciente" disable="true" layoutX="59.0" layoutY="337.0" promptText="ID Paciente" />
+                <DatePicker fx:id="fecha" layoutX="30.0" layoutY="169.0" prefHeight="31.0" prefWidth="119.0" promptText="Fecha" />
+                <Button fx:id="agregar" disable="true" layoutX="69.0" layoutY="477.0" mnemonicParsing="false" onMouseClicked="#agregarcita" prefHeight="47.0" prefWidth="132.0" text="Ingresar" />
+                <TextField fx:id="costo" disable="true" layoutX="60.0" layoutY="420.0" promptText="Costo" />
+                <Button fx:id="cancelar" layoutX="167.0" layoutY="219.0" mnemonicParsing="false" onAction="#cancelarprocesos" text="Cancelar" />
+                <TextField fx:id="Hora" layoutX="167.0" layoutY="169.0" prefHeight="31.0" prefWidth="95.0" promptText="Hora" />
+                <TableView fx:id="tabla" layoutX="318.0" layoutY="51.0" onMouseClicked="#seleccionado" prefHeight="200.0" prefWidth="250.0" visible="false">
                     <columns>
                         <TableColumn fx:id="Id" prefWidth="75.0" text="Id" />
                         <TableColumn fx:id="Nombre" prefWidth="75.0" text="Nombre" />
@@ -104,8 +105,20 @@
                     </columns>
 
                 </TableView>
-                <Button fx:id="b" layoutX="117.0" layoutY="237.0" mnemonicParsing="false" onAction="#tabla" text="Buscar paciente" />
-            <Separator layoutX="13.0" layoutY="278.0" prefHeight="17.0" prefWidth="286.0" />
+                <Button fx:id="buscar" layoutX="47.0" layoutY="219.0" mnemonicParsing="false" onAction="#Buscar" text="Buscar paciente" />
+                <Button fx:id="modificarcita" disable="true" layoutX="425.0" layoutY="524.0" mnemonicParsing="false" onAction="#tabla2" text="Modificar cita" />
+                <TableView fx:id="tabla2" layoutX="270.0" layoutY="295.0" onMouseClicked="#seleccionadotabla2" prefHeight="225.0" prefWidth="298.0" visible="false">
+                    <columns>
+                        <TableColumn fx:id="Idcita" prefWidth="75.0" text="Id" />
+                        <TableColumn fx:id="Nombrepaciente" prefWidth="75.0" text="Nombre" />
+                        <TableColumn fx:id="Reconsultacita" prefWidth="75.0" text="Reconsulta" />
+                        <TableColumn fx:id="Telefonocita" prefWidth="75.0" text="Telefono" />
+                        <TableColumn fx:id="Fechacita" prefWidth="75.0" text="Fecha" />
+                        <TableColumn fx:id="Atendidocita" prefWidth="75.0" text="Atendido" />
+                        <TableColumn fx:id="costocita" prefWidth="75.0" text="Costo" />
+                    </columns>
+                </TableView>
+                <Button fx:id="actualizar" disable="true" layoutX="325.0" layoutY="524.0" mnemonicParsing="false" onAction="#actualizardatos" text="Actualizar cita" />
             </children>
         </Pane>
         <Pane fx:id="paneHistorial" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
