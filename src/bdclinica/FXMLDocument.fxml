@@ -157,6 +157,23 @@
         <Pane fx:id="paneExtra" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
                 <Button layoutX="14.0" layoutY="508.0" mnemonicParsing="false" text="Button" />
+                
+            <TableView fx:id="tablaconsulta" layoutX="14.0" layoutY="26.0" prefHeight="209.0" prefWidth="525.0">
+              <columns>
+                 <TableColumn fx:id="Idcitac" prefWidth="75.0" text="Id" />
+                        <TableColumn fx:id="Nombrepacientec" prefWidth="75.0" text="Nombre" />
+                        <TableColumn fx:id="Reconsultacitac" prefWidth="75.0" text="Reconsulta" />
+                        <TableColumn fx:id="Telefonocitac" prefWidth="75.0" text="Telefono" />
+                        <TableColumn fx:id="Fechacitac" prefWidth="75.0" text="Fecha" />
+                        <TableColumn fx:id="Atendidocitac" prefWidth="75.0" text="Atendido" />
+                        <TableColumn fx:id="costocitac" prefWidth="75.0" text="Costo" />
+              </columns>
+            </TableView>
+                <Button fx:id="consultacita" layoutX="27.0" layoutY="287.0" mnemonicParsing="false" onAction="#tabla3" text="Citas" />
+            <Button fx:id="citapornombre" layoutX="27.0" layoutY="345.0" mnemonicParsing="false" onAction="#consultacitapornombre" text="Citas por nombre" />
+            <Button fx:id="citaporfecha" layoutX="27.0" layoutY="399.0" mnemonicParsing="false" onAction="#fechacon" text="Citas por fecha" />
+            <DatePicker fx:id="fechac" disable="true" layoutX="270.0" layoutY="399.0" onAction="#consultaporfecha" promptText="SELECCIONE FECHA" />
+            <Label fx:id="g" layoutX="344.0" layoutY="318.0" visible="false" />
             </children>
         </Pane>
         <Pane fx:id="paneEditarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">

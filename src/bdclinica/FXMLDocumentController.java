@@ -44,6 +44,8 @@ import cita.paciente_tablacita;
 import cita.Modificar;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
+import javafx.scene.control.TextInputDialog;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -97,6 +99,18 @@ public class FXMLDocumentController implements Initializable {
     private Button modificarcita, actualizar, agregar, cancelar;
     @FXML
     int idcita1 = 0;
+
+    @FXML
+
+    private TableView<paciente_tablacita> tablaconsulta;
+    public TableColumn<paciente_tablacita, Integer> Idcitac;
+    public TableColumn<paciente_tablacita, String> Nombrepacientec;
+    public TableColumn<paciente_tablacita, String> Reconsultacitac;
+    public TableColumn<paciente_tablacita, String> Telefonocitac;
+    public TableColumn<paciente_tablacita, String> Fechacitac;
+    public TableColumn<paciente_tablacita, String> Atendidocitac;
+    public TableColumn<paciente_tablacita, String> costocitac;
+    private ObservableList<paciente_tablacita> listaconsulta = FXCollections.observableArrayList();
 
     public void actualizardatos() {
         lista2.clear();
@@ -585,6 +599,74 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
+    public void tabla3() throws SQLException {
+        listaconsulta.clear();
+
+        try {
+            //conectando con base de datos
+            Connection conn = null;
+            conexionBD conexion = new conexionBD();
+            conn = conexion.conectarMySQL();
+            //Haciendo la consulta
+            String selectSQL = "SELECT idCita,Nombre,Reconsulta, Telefono, Fecha,Atendido,costo FROM cita";
+            PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            //ciclo para agregar todos los pacientes con el nombre a la lista
+
+            while (rs.next()) {
+
+                int id1 = rs.getInt(1);
+                String Nombre11 = rs.getString(2);
+                boolean Reconsulta1 = rs.getBoolean(3);
+                String Telefono1 = rs.getString(4);
+                //  String Fecha1= rs.getString(5);
+                Timestamp Fecha1 = rs.getTimestamp(5);
+                boolean Atendido1 = rs.getBoolean(6);
+                int costo1 = rs.getInt(7);
+                String fecha2 = new SimpleDateFormat("yyyy-MM-dd  hh:ss:mm").format(Fecha1);
+                paciente_tablacita listap = new paciente_tablacita(id1, Nombre11, Reconsulta1, Telefono1, fecha2, Atendido1, costo1);
+                listaconsulta.add(listap);
+            }
+            rs.close();
+            conn.close();
+            //agrega a la tabla
+            Idcitac.setCellValueFactory(new PropertyValueFactory<>("Id"));
+            Nombrepacientec.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+            Reconsultacitac.setCellValueFactory(new PropertyValueFactory<>("Reconsulta"));
+            Telefonocitac.setCellValueFactory(new PropertyValueFactory<>("Telefono"));
+            Fechacitac.setCellValueFactory(new PropertyValueFactory<>("Fecha"));
+            Atendidocitac.setCellValueFactory(new PropertyValueFactory<>("Atendido"));
+            costocitac.setCellValueFactory(new PropertyValueFactory<>("Costo"));
+            tablaconsulta.setItems(listaconsulta);
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Ocurrió un error");
+            alert.setContentText("Revisar errores para continuar");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
+
+    }
+
+    @FXML
     public void seleccionadotabla2() {
         //Obtiene el id del paciente seleccionado
         try {
@@ -661,6 +743,188 @@ public class FXMLDocumentController implements Initializable {
             alert.getDialogPane().setExpandableContent(expContent);
             alert.showAndWait();
         }
+    }
+
+    @FXML
+    Label g;
+    Button citapornombre;
+
+    @FXML
+    public void tablacitas(String campo, String valor) throws SQLException {
+        listaconsulta.clear();
+
+        try {
+            //conectando con base de datos
+            Connection conn = null;
+            conexionBD conexion = new conexionBD();
+            conn = conexion.conectarMySQL();
+            //Haciendo la consulta
+            String selectSQL = "SELECT idCita,Nombre,Reconsulta, Telefono, Fecha, Atendido,costo FROM cita Where " + campo + " LIKE '%" + valor + "%'";
+            PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            //ciclo para agregar todos los pacientes con el nombre a la lista
+
+            while (rs.next()) {
+
+                int id1 = rs.getInt(1);
+                String Nombre11 = rs.getString(2);
+                boolean Reconsulta1 = rs.getBoolean(3);
+                String Telefono1 = rs.getString(4);
+                //  String Fecha1= rs.getString(5);
+                Timestamp Fecha1 = rs.getTimestamp(5);
+                boolean Atendido1 = rs.getBoolean(6);
+                int costo1 = rs.getInt(7);
+                String fecha2 = new SimpleDateFormat("yyyy-MM-dd  hh:ss:mm").format(Fecha1);
+                paciente_tablacita listap = new paciente_tablacita(id1, Nombre11, Reconsulta1, Telefono1, fecha2, Atendido1, costo1);
+                listaconsulta.add(listap);
+            }
+            rs.close();
+            conn.close();
+            //agrega a la tabla
+            Idcitac.setCellValueFactory(new PropertyValueFactory<>("Id"));
+            Nombrepacientec.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+            Reconsultacitac.setCellValueFactory(new PropertyValueFactory<>("Reconsulta"));
+            Telefonocitac.setCellValueFactory(new PropertyValueFactory<>("Telefono"));
+            Fechacitac.setCellValueFactory(new PropertyValueFactory<>("Fecha"));
+            Atendidocitac.setCellValueFactory(new PropertyValueFactory<>("Atendido"));
+            costocitac.setCellValueFactory(new PropertyValueFactory<>("Costo"));
+            tablaconsulta.setItems(listaconsulta);
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Ocurrió un error");
+            alert.setContentText("Revisar errores para continuar");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
+
+    }
+
+    public void tablacitasfecha(String f1, String f2) throws SQLException {
+        listaconsulta.clear();
+
+        try {
+            //conectando con base de datos
+            Connection conn = null;
+            conexionBD conexion = new conexionBD();
+            conn = conexion.conectarMySQL();
+            //Haciendo la consulta
+            String selectSQL = "SELECT idCita,Nombre,Reconsulta, Telefono, Fecha, Atendido,costo FROM cita Where Fecha between " + f1 + " and " + f2;
+            PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            //ciclo para agregar todos los pacientes con el nombre a la lista
+
+            while (rs.next()) {
+
+                int id1 = rs.getInt(1);
+                String Nombre11 = rs.getString(2);
+                boolean Reconsulta1 = rs.getBoolean(3);
+                String Telefono1 = rs.getString(4);
+                //  String Fecha1= rs.getString(5);
+                Timestamp Fecha1 = rs.getTimestamp(5);
+                boolean Atendido1 = rs.getBoolean(6);
+                int costo1 = rs.getInt(7);
+                String fecha2 = new SimpleDateFormat("yyyy-MM-dd  hh:ss:mm").format(Fecha1);
+                paciente_tablacita listap = new paciente_tablacita(id1, Nombre11, Reconsulta1, Telefono1, fecha2, Atendido1, costo1);
+                listaconsulta.add(listap);
+            }
+            rs.close();
+            conn.close();
+            //agrega a la tabla
+            Idcitac.setCellValueFactory(new PropertyValueFactory<>("Id"));
+            Nombrepacientec.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+            Reconsultacitac.setCellValueFactory(new PropertyValueFactory<>("Reconsulta"));
+            Telefonocitac.setCellValueFactory(new PropertyValueFactory<>("Telefono"));
+            Fechacitac.setCellValueFactory(new PropertyValueFactory<>("Fecha"));
+            Atendidocitac.setCellValueFactory(new PropertyValueFactory<>("Atendido"));
+            costocitac.setCellValueFactory(new PropertyValueFactory<>("Costo"));
+            tablaconsulta.setItems(listaconsulta);
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Ocurrió un error");
+            alert.setContentText("Revisar errores para continuar");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
+
+    }
+
+    @FXML
+    public void consultacitapornombre() throws SQLException {
+        String nombreconsulta = mensaje1();
+        tablacitas("Nombre", nombreconsulta);
+    }
+
+    public String mensaje1() {
+        TextInputDialog dialog = new TextInputDialog("Ingreso de nombre a buscar");
+        dialog.setTitle("CITAS");
+        dialog.setHeaderText("Ingrese nombre de paciente:");
+        dialog.setContentText("Nombre:");
+        Optional<String> respuesta = dialog.showAndWait();
+        respuesta.ifPresent(nombre -> {
+            g.setText(nombre);
+        });
+        String r = g.getText();
+        return (r);
+    }
+
+    @FXML
+    DatePicker fechac;
+
+    @FXML
+    public void fechacon() {
+        fechac.setDisable(false);
+
+    }
+
+    @FXML
+    public void consultaporfecha() throws SQLException {
+
+        LocalDate fechacita = fechac.getValue();
+        DateTimeFormatter fecha0 = DateTimeFormatter.ISO_LOCAL_DATE;
+        String fecha1 = (fechacita).format(fecha0);
+        String hora = "00:00:00";
+        String hora2 = "23:59:00";
+        String fecha2 = "'" + fecha1 + " " + hora + "'";
+        String fecha3 = "'" + fecha1 + " " + hora2 + "'";
+        tablacitasfecha(fecha2, fecha3);
+        fecha.setDisable(true);
+
     }
 
     @FXML
