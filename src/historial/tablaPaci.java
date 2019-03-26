@@ -1,4 +1,12 @@
+
 package historial;
+
+/**
+ *
+ * @author izasj
+ */
+public class tablaPaci {
+    package historial;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -38,4 +46,5 @@ public class tablePaci {
     public void setApellido(String apellido) {
         this.Apellido = new SimpleStringProperty(apellido);
     }
+}
 }
