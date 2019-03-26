@@ -1,3 +1,5 @@
 /BDClinica/nbproject/private/
 /dist/
 /build/
+src/cita/Agregarcita.java
+src/cita/paciente_tabla.java

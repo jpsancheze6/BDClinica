@@ -2,69 +2,136 @@ package bdclinica;
 
 import java.awt.Button;
 import java.net.URL;
-import java.time.LocalDate;
+import cita.paciente_tabla;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+import cita.Agregarcita;
+import java.text.ParseException;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import BD.conexionBD;
+import historial.tablePaci;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ComboBox;
 import javafx.collections.FXCollections;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javax.swing.JOptionPane;
 import paciente.datosPacientes;
 import paciente.registrarPaciente;
 
 public class FXMLDocumentController implements Initializable {
 
     int clave;
-    
-    @FXML
-    private Pane paneEditarPaciente;
-    @FXML
-    private TextField txtNombre, txtApellido;
-    @FXML
-    private DatePicker dtFecha;
-    @FXML
-    private CheckBox cuadroMasculino, cuadroFemenino;
-    @FXML
-    private ComboBox cbxMunicipios;
-    @FXML
-    private TextField txtNombreEdicion, txtApellidoEdicion;
-    @FXML
-    private DatePicker dtFechaEdicion;
-    @FXML
-    private Pane paneAgregarPaciente, panePacientes, paneCitas,paneHistorial,
-            paneReportes, paneConfiguracion, paneExtra, paneH, paneAgregarH;
-    
-    @FXML
-    private CheckBox cuadroMasculinoEdicion, cuadroFemeninoEdicion;
-    @FXML
-    private ComboBox cbxMunicipiosEdicion;
-    @FXML
-    private TableView tblPacientes;
 
     @FXML
-    private void agregarPaciente(ActionEvent event) throws SQLException {
+    private Pane paneAgregarPaciente, panePacientes, paneCitas, paneHistorial,
+            paneReportes, paneConfiguracion, paneExtra, paneEditarPaciente, paneH,
+            paneAgregarH, paneBotones, paneLogin;
+    @FXML
+    private javafx.scene.control.TextField nombre, telefono, costo, idPaciente, Hora;
+    @FXML
+    private DatePicker fecha, dtFecha, dtFechaEdicion;
+    @FXML
+    public TableView tblPacientes;
+    @FXML
+    public TableView<tablePaci> tablePA;
+    @FXML
+    private javafx.scene.control.Button b;
+    @FXML
+    public TableColumn<tablePaci, String> NombrePaciente;
+    @FXML
+    public TableColumn<tablePaci, String> ApellidoPaciente;
+    @FXML
+    public TableColumn<tablePaci, Integer> IDPaciente;
+    @FXML
+    private CheckBox reconsulta;
+    @FXML
+    private CheckBox atendido;
+    @FXML
+    private TableView<paciente_tabla> tabla;
+    @FXML
+    public TableColumn<paciente_tabla, Integer> Id;
+    @FXML
+    public ComboBox cbxMunicipios, cbxMunicipiosEdicion;
+    @FXML
+    public TableColumn<paciente_tabla, String> Nombre;
+    @FXML
+    public TableColumn<paciente_tabla, String> Apellido;
+    @FXML
+    public CheckBox cuadroMasculino, cuadroFemenino, cuadroMasculinoEdicion, cuadroFemeninoEdicion;
+    @FXML
+    public TextField txtNombre, txtApellido, txtNombreEdicion, txtApellidoEdicion, txtN, txtHid, txtPac, txtUsuario, txtContrasena;
+    @FXML
+    private ObservableList<paciente_tabla> lista = FXCollections.observableArrayList();
+    @FXML
+    private ObservableList<tablePaci> datosP = FXCollections.observableArrayList();
+
+    // Funcion para ingresar con el usuario y contraseña
+      @FXML
+    public void ingresar(ActionEvent event) {
+        Connection con = null;
+        conexionBD conBD = new conexionBD();
+        con = conBD.conectarMySQL();
+        String user = txtUsuario.getText();
+        String contra = txtContrasena.getText();
+        try{
+            //consulta
+            String consul = "select Iniciar("+"\"" + user + "\",\"" + contra + "\")";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(consul);
+            int val = rs.getInt(1);
+            if( val == 1) 
+                usuario(event);
+            else {
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecta2");
+                txtUsuario.setText(null);
+                txtContrasena.setText(null);
+            }
+        }catch(SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecta");
+        }
+    }
+    
+    
+    @FXML
+    private void usuario(ActionEvent event) {
+        paneAgregarPaciente.setVisible(false);
+        paneCitas.setVisible(false);
+        paneConfiguracion.setVisible(false);
+        paneExtra.setVisible(false);
+        paneHistorial.setVisible(false);
+        panePacientes.setVisible(false);
+        paneReportes.setVisible(false);
+        paneBotones.setVisible(true);
+        paneLogin.setVisible(false);
+        //Código extra desde acá
+    }
+    
+    @FXML
+    private void agregarPaciente(ActionEvent event) {
         paneAgregarPaciente.setVisible(true);
         paneCitas.setVisible(false);
         paneConfiguracion.setVisible(false);
@@ -79,23 +146,29 @@ public class FXMLDocumentController implements Initializable {
         conexionBD sql = new conexionBD();
         Connection con = sql.conectarMySQL();
         String sentencia = "select * from municipio";
-        Statement stm = con.createStatement();
-        ResultSet rs = stm.executeQuery(sentencia);
-        //
-        ObservableList<String> municipios = FXCollections.observableArrayList();
-        municipios.add("-- Seleccione Municipio --");
-        int n = -1;
-        if (rs != null) {
-            while (rs.next()) {
-                //Agregar columna a los municipios
-                municipios.add(rs.getString(2));
+        try {
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sentencia);
+            //
+            ObservableList<String> municipios = FXCollections.observableArrayList();
+            municipios.add("-- Seleccione Municipio --");
+            int n = -1;
+            if (rs != null) {
+                while (rs.next()) {
+                    //Agregar columna a los municipios
+                    municipios.add(rs.getString(2));
+                }
+                cbxMunicipios.setItems(municipios);
+            } else {
+                System.out.println("No hay datos");
             }
-            cbxMunicipios.setItems(municipios);
-        } else {
-            System.out.println("No hay datos");
+            cancelarIngresarPaciente();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        cancelarIngresarPaciente();
+
     }
+    
 
     @FXML
     private void pacientes() {
@@ -106,8 +179,6 @@ public class FXMLDocumentController implements Initializable {
         paneHistorial.setVisible(false);
         panePacientes.setVisible(true);
         paneReportes.setVisible(false);
-        paneH.setVisible(false);
-        paneAgregarH.setVisible(false);
         //Código extra desde acá
         //Agregar a tblPacientes los pacientes que hay
         tblPacientes.getColumns().clear();
@@ -134,6 +205,7 @@ public class FXMLDocumentController implements Initializable {
             Connection con = sql.conectarMySQL();
             String sentencia = "select p.idPaciente, p.Nombre, p.apellido, p.Fecha_de_Nacimiento, p.Sexo, m.Nombre, p.idHistorial from paciente p inner join municipio m on m.idMunicipio = p.idMunicipio";
             Statement stm = con.createStatement();
+            
             ResultSet rs;
             rs = stm.executeQuery(sentencia);
             int n = -1;
@@ -200,13 +272,83 @@ public class FXMLDocumentController implements Initializable {
         paneH.setVisible(false);
         paneAgregarH.setVisible(false);
         //Código extra desde acá
+    }
+
+    @FXML
+    private void agregarcita() throws SQLException, ClassNotFoundException, ParseException {
+        Agregarcita citas = new Agregarcita();
+
+        boolean atendido1 = false, reconsulta1 = false;
+        String nombre1 = nombre.getText();
+        String telefono1 = telefono.getText();
+        String costo1 = costo.getText();
+        int costo2 = Integer.parseInt(costo1);
+        String id = idPaciente.getText();
+        int idpaciente = Integer.parseInt(id);
+
+        //Tomando los  valores de los checkbox
+        boolean selected = reconsulta.isSelected();
+        boolean selected1 = atendido.isSelected();
+        if (selected == true) {
+            reconsulta1 = true;
+        }
+        if (selected1 == true) {
+            atendido1 = true;
+        }
+        //enviando al metodo
+        citas.recibirdatos(nombre1, reconsulta1, telefono1, null, idpaciente, atendido1, costo2);
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @FXML
+    public void tabla() throws SQLException {
+        lista = FXCollections.observableArrayList();
+        String nombre1 = nombre.getText();
+        //conectando con base de datos
+        Connection conn = null;
+        conexionBD conexion = new conexionBD();
+        conn = conexion.conectarMySQL();
+        PreparedStatement stmt = null;
+        //Obteniendo pacientes con mismo nombre
+        try {
+            //Haciendo la consulta
+            String selectSQL = "SELECT idPaciente, Nombre, Apellido FROM paciente WHERE Nombre LIKE '%" + nombre1 + "%'";
+            PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            //ciclo para agregar todos los pacientes con el nombre a la lista
+            while (rs.next()) {
+                int id1 = rs.getInt(1);
+                String Nombre1 = rs.getString(2);
+                String Apellido = rs.getString(3);
+                paciente_tabla listap = new paciente_tabla(id1, Nombre1, Apellido);
+                lista.add(listap);
+            }
+            //agrega a la tabla
+            Id.setCellValueFactory(new PropertyValueFactory<>("Id"));
+            Nombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+            Apellido.setCellValueFactory(new PropertyValueFactory<>("Apellido"));
+            tabla.setItems(lista);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "nell");
+        }
+
     }
+
+    @FXML
+    public void seleccionado() {
+        //Obtiene el id del paciente seleccionado
+        paciente_tabla persona = tabla.getSelectionModel().getSelectedItem();
+        int id1 = persona.getId();
+        String id2 = "";
+        id2 = id2 + id1;
+        //Escribe el id en el textfield
+        idPaciente.setText(id2);
+        //Habilita 
+        telefono.setDisable(false);
+        costo.setDisable(false);
+    }
+
+    // HISTORIAL
     @FXML
     private void historial(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
@@ -216,34 +358,14 @@ public class FXMLDocumentController implements Initializable {
         paneHistorial.setVisible(true);
         panePacientes.setVisible(false);
         paneReportes.setVisible(false);
-        paneH.setVisible(false);
-        paneAgregarH.setVisible(false);
+        txtN.setText(null);
+        tablePA.getItems().clear();
         //Código extra desde acá
-
     }
 
-    //Boton para abrir el historial del paciente seleccionado(btnAbrir)
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        paneAgregarPaciente.setVisible(false);
-        paneCitas.setVisible(false);
-        paneConfiguracion.setVisible(false);
-        paneExtra.setVisible(false);
-        paneHistorial.setVisible(false);
-        panePacientes.setVisible(false);
-        paneReportes.setVisible(false);
-        paneH.setVisible(true);
-        paneAgregarH.setVisible(false);
-    }
-    
-    //Boton para buscar el historial a partir del nombre (btnBuscar)
-    @FXML
-    private void handleButtonAction2(ActionEvent event) {  
-    }
-    
     //Boton para agregar una consulta al historial del paciente seleccionado (btnAC)
     @FXML
-    private void handleButtonAction3(ActionEvent event) {  
+    private void handleButtonAction3(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(false);
         paneConfiguracion.setVisible(false);
@@ -254,14 +376,14 @@ public class FXMLDocumentController implements Initializable {
         paneH.setVisible(false);
         paneAgregarH.setVisible(true);
     }
-    
+
     //Boton para regresar al pane historial (btnReg)
     @FXML
     private void handleButtonAction4(ActionEvent event) {
         paneH.setVisible(false);
         paneHistorial.setVisible(true);
     }
-    
+
     //Boton para agregar datos de una consulta al historial del paciente (btnAgregar)
     @FXML
     private void handleButtonAction5(ActionEvent event) {
@@ -269,6 +391,65 @@ public class FXMLDocumentController implements Initializable {
         paneHistorial.setVisible(true);
         paneAgregarH.setVisible(false);
     }
+    
+    @FXML
+    public void tablePA()throws SQLException {
+        datosP = FXCollections.observableArrayList();
+        Connection con = null;
+        conexionBD conBD = new conexionBD();
+        con = conBD.conectarMySQL();
+        String no = null;
+        no = txtN.getText();
+        try{
+            String selectSQL = "select idPaciente, Nombre, apellido from paciente where apellido LIKE '%" + no + "%'";
+            PreparedStatement preparedStatement = con.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            while (rs.next()) {
+                int idP = rs.getInt("idPaciente");
+                String nomb = rs.getString("Nombre");
+                String apell = rs.getString("apellido");
+                tablePaci tp = new tablePaci(idP, nomb, apell);
+                datosP.add(tp);
+            }
+            //agrega a la tabla
+            IDPaciente.setCellValueFactory(new PropertyValueFactory<>("Id"));
+            NombrePaciente.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+            ApellidoPaciente.setCellValueFactory(new PropertyValueFactory<>("Apellido"));
+            tablePA.setItems(datosP);
+        }catch(SQLException ex) {
+            JOptionPane.showMessageDialog(null, "nell");
+        }
+    }
+    
+    @FXML
+    public void seleccionarFila(ActionEvent event){
+        txtN.setText(null);
+        tablePaci pa = tablePA.getSelectionModel().getSelectedItem();
+        int h = pa.getId();
+        String no = pa.getNombre();
+        String ap = pa.getApellido();
+        abrirpaneH(h, no, ap);
+    }
+    
+    @FXML
+    public void abrirpaneH(int idHist, String no, String ap) {
+        txtN.setText(null);
+        paneAgregarPaciente.setVisible(false);
+        paneCitas.setVisible(false);
+        paneConfiguracion.setVisible(false);
+        paneExtra.setVisible(false);
+        paneHistorial.setVisible(false);
+        panePacientes.setVisible(false);
+        paneReportes.setVisible(false);
+        paneH.setVisible(true);
+        paneAgregarH.setVisible(false);
+        txtHid.setText(String.valueOf(idHist));
+        txtPac.setText(no + " " + ap);
+    }
+    
+    // HISTORIAL/////
+    
+
     @FXML
     private void reportes(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
@@ -278,8 +459,6 @@ public class FXMLDocumentController implements Initializable {
         paneHistorial.setVisible(false);
         panePacientes.setVisible(false);
         paneReportes.setVisible(true);
-        paneH.setVisible(false);
-        paneAgregarH.setVisible(false);
         //Código extra desde acá
 
     }
@@ -293,8 +472,6 @@ public class FXMLDocumentController implements Initializable {
         paneHistorial.setVisible(false);
         panePacientes.setVisible(false);
         paneReportes.setVisible(false);
-        paneH.setVisible(false);
-        paneAgregarH.setVisible(false);
         //Código extra desde acá
 
     }
@@ -308,8 +485,6 @@ public class FXMLDocumentController implements Initializable {
         paneHistorial.setVisible(false);
         panePacientes.setVisible(false);
         paneReportes.setVisible(false);
-        paneH.setVisible(false);
-        paneAgregarH.setVisible(false);
         //Código extra desde acá
 
     }
@@ -447,6 +622,7 @@ public class FXMLDocumentController implements Initializable {
             rp.recibirDatosEdicion(clave, nombre, apellido, fecha, genero, seleccion);
             paneEditarPaciente.setVisible(false);
             panePacientes.setVisible(true);
+            pacientes();
         }
     }
 
@@ -503,14 +679,14 @@ public class FXMLDocumentController implements Initializable {
             cbxMunicipiosEdicion.getSelectionModel().select(municipio);
             //Fecha de nacimiento
             dtFechaEdicion.setValue(fecha.toLocalDate());
-            
+
             this.clave = id;
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initStyle(StageStyle.UTILITY);
             alert.setTitle("Excepción");
-            alert.setHeaderText("Seleccione un registro para editar");
-            alert.setContentText("Error");
+            alert.setHeaderText("Se produjo un error al registrar el usuario");
+            alert.setContentText("Revise errores, (posiblemente no se selecciono un registro)");
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
@@ -530,9 +706,12 @@ public class FXMLDocumentController implements Initializable {
             alert.getDialogPane().setExpandableContent(expContent);
             alert.showAndWait();
         }
-
     }
 
     //************************************************************************//
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }
 
 }

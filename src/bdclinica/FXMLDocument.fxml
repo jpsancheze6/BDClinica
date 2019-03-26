@@ -1,209 +1,226 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="764.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bdclinica.FXMLDocumentController">
-   <children>
-      <Pane fx:id="paneBotones" prefHeight="562.0" prefWidth="180.0">
-         <children>
-            <Button fx:id="btnAgregarPaciente" mnemonicParsing="false" onAction="#agregarPaciente" prefHeight="80.0" prefWidth="180.0" text="Agregar Paciente" />
-            <Button fx:id="btnPacientes" layoutY="80.0" mnemonicParsing="false" onAction="#pacientes" prefHeight="80.0" prefWidth="180.0" text="Pacientes" />
-            <Button fx:id="btnModificarPacientes1" layoutY="160.0" mnemonicParsing="false" onAction="#citas" prefHeight="80.0" prefWidth="180.0" text="Citas" />
-            <Button fx:id="btnHistorial" layoutY="240.0" mnemonicParsing="false" onAction="#historial" prefHeight="80.0" prefWidth="180.0" text="Historial">
-            </Button>
-            <Button fx:id="btnReportes" layoutY="320.0" mnemonicParsing="false" onAction="#reportes" prefHeight="80.0" prefWidth="180.0" text="Reportes" />
-            <Button fx:id="btnConfiguracion" layoutY="400.0" mnemonicParsing="false" onAction="#configuracion" prefHeight="80.0" prefWidth="180.0" text="Configuración" />
-            <Button fx:id="btnConfiguracion1" layoutY="480.0" mnemonicParsing="false" onAction="#extra" prefHeight="80.0" prefWidth="180.0" text="???" />
-         </children>
-      </Pane>
-      <Pane fx:id="paneAgregarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
-         <children>
-            <TextField fx:id="txtNombre" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
-            <TextField fx:id="txtApellido" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
-            <DatePicker fx:id="dtFecha" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
-            <CheckBox fx:id="cuadroMasculino" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculino" text="Masculino">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </CheckBox>
-            <CheckBox fx:id="cuadroFemenino" layoutX="341.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarFemenino" text="Femenino">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </CheckBox>
-            <ComboBox fx:id="cbxMunicipios" layoutX="148.0" layoutY="305.0" prefHeight="25.0" prefWidth="345.0" />
-            <Button fx:id="bntConfirmar" layoutX="223.0" layoutY="382.0" mnemonicParsing="false" onAction="#guardarUsuario" text="Confirmar">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnCancelar" layoutX="337.0" layoutY="382.0" mnemonicParsing="false" onAction="#cancelarIngresarPaciente" text="Cancelar">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-            <Label layoutX="197.0" layoutY="24.0" text="Ingreso de Pacientes">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-         </children></Pane>
-      <Pane fx:id="panePacientes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
-         <children>
-            <Label layoutX="199.0" layoutY="14.0" text="Lista de Pacientes">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <TableView fx:id="tblPacientes" layoutX="14.0" layoutY="58.0" prefHeight="400.0" prefWidth="560.0">
+<Pane fx:id="panePrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="764.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bdclinica.FXMLDocumentController">
+    <children>
+        <Pane fx:id="paneBotones" prefHeight="562.0" prefWidth="180.0" visible="false">
+            <children>
+                <Button fx:id="btnAgregarPaciente" mnemonicParsing="false" onAction="#agregarPaciente" prefHeight="80.0" prefWidth="180.0" text="Agregar Paciente" />
+                <Button fx:id="btnPacientes" layoutY="80.0" mnemonicParsing="false" onAction="#pacientes" prefHeight="80.0" prefWidth="180.0" text="Pacientes" />
+                <Button fx:id="btnModificarPacientes1" layoutY="160.0" mnemonicParsing="false" onAction="#citas" prefHeight="80.0" prefWidth="180.0" text="Citas" />
+                <Button fx:id="btnHistorial" layoutY="240.0" mnemonicParsing="false" onAction="#historial" prefHeight="80.0" prefWidth="180.0" text="Historial" />
+                <Button fx:id="btnReportes" layoutY="320.0" mnemonicParsing="false" onAction="#reportes" prefHeight="80.0" prefWidth="180.0" text="Reportes" />
+                <Button fx:id="btnConfiguracion" layoutY="400.0" mnemonicParsing="false" onAction="#configuracion" prefHeight="80.0" prefWidth="180.0" text="Configuracion" />
+                <Button fx:id="btnConfiguracion1" layoutY="480.0" mnemonicParsing="false" onAction="#extra" prefHeight="80.0" prefWidth="180.0" text="???" />
+            </children>
+        </Pane>
+        <Pane fx:id="paneAgregarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+            <children>
+                <TextField fx:id="txtNombre" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
+                <TextField fx:id="txtApellido" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
+                <DatePicker fx:id="dtFecha" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
+                <CheckBox fx:id="cuadroMasculino" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculino" text="Masculino">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </CheckBox>
+                <CheckBox fx:id="cuadroFemenino" layoutX="341.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarFemenino" text="Femenino">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </CheckBox>
+                <ComboBox fx:id="cbxMunicipios" layoutX="148.0" layoutY="305.0" prefHeight="25.0" prefWidth="345.0" />
+                <Button fx:id="bntConfirmar" layoutX="223.0" layoutY="382.0" mnemonicParsing="false" onAction="#guardarUsuario" text="Confirmar">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnCancelar" layoutX="337.0" layoutY="382.0" mnemonicParsing="false" onAction="#cancelarIngresarPaciente" text="Cancelar">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+                <Label layoutX="197.0" layoutY="24.0" text="Ingreso de Pacientes">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+        <Pane fx:id="panePacientes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+            <children>
+                <Label layoutX="199.0" layoutY="14.0" text="Lista de Pacientes">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <TableView fx:id="tblPacientes" layoutX="14.0" layoutY="58.0" prefHeight="400.0" prefWidth="560.0">
+                    <columns>
+                        <TableColumn prefWidth="75.0" text="C1" />
+                        <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                </TableView>
+                <Button fx:id="btnEditar" layoutX="227.0" layoutY="481.0" mnemonicParsing="false" onAction="#editarPaciente" prefHeight="47.0" prefWidth="134.0" text="Editar Paciente">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+        <Pane fx:id="paneCitas" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+            <children>
+                <CheckBox fx:id="reconsulta" layoutX="111.0" layoutY="84.0" mnemonicParsing="false" text="Reconsulta" />
+                <CheckBox fx:id="atendido" layoutX="127.0" layoutY="364.0" mnemonicParsing="false" text="Atendido" />
+                <TextField fx:id="nombre" layoutX="30.0" layoutY="38.0" prefHeight="25.0" prefWidth="250.0" promptText="Nombre" />
+                <TextField fx:id="telefono" disable="true" layoutX="30.0" layoutY="125.0" prefHeight="25.0" prefWidth="250.0" promptText="Telefono" />
+                <TextField fx:id="idPaciente" disable="true" layoutX="88.0" layoutY="307.0" promptText="ID Paciente" />
+                <DatePicker fx:id="fecha" layoutX="30.0" layoutY="177.0" prefHeight="31.0" prefWidth="132.0" promptText="Fecha" />
+                <Button layoutX="84.0" layoutY="463.0" mnemonicParsing="false" onMouseClicked="#agregarcita" prefHeight="47.0" prefWidth="149.0" text="Ingresar" />
+                <TextField fx:id="costo" disable="true" layoutX="88.0" layoutY="411.0" promptText="Costo" />
+                <TextField fx:id="Hora" layoutX="190.0" layoutY="177.0" prefHeight="31.0" prefWidth="95.0" promptText="Hora" />
+                <TableView fx:id="tabla" layoutX="311.0" layoutY="38.0" onMouseClicked="#seleccionado" prefHeight="494.0" prefWidth="250.0">
+                    <columns>
+                        <TableColumn fx:id="Id" prefWidth="75.0" text="Id" />
+                        <TableColumn fx:id="Nombre" prefWidth="75.0" text="Nombre" />
+                        <TableColumn fx:id="Apellido" prefWidth="75.0" text="Apellido" />
+                    </columns>
+
+                </TableView>
+                <Button fx:id="b" layoutX="117.0" layoutY="237.0" mnemonicParsing="false" onAction="#tabla" text="Buscar paciente" />
+            <Separator layoutX="13.0" layoutY="278.0" prefHeight="17.0" prefWidth="286.0" />
+            </children>
+        </Pane>
+        <Pane fx:id="paneHistorial" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+            <children>
+                <Label layoutX="253.0" layoutY="22.0" text="HISTORIAL">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="txtN" layoutX="108.0" layoutY="85.0" prefHeight="25.0" prefWidth="286.0" promptText=" Apellido del Paciente">
+                    <font>
+                        <Font name="Arial" size="12.0" />
+                    </font>
+                </TextField>
+                <Button fx:id="btnBuscar" layoutX="402.0" layoutY="85.0" mnemonicParsing="false" onAction="#tablePA" text="Buscar" />
+                <Button fx:id="btnAbrir" layoutX="502.0" layoutY="509.0" mnemonicParsing="false" onAction="#seleccionarFila" text="Abrir">
+                </Button>
+            <TableView fx:id="tablePA" layoutX="61.0" layoutY="155.0" prefHeight="330.0" prefWidth="478.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="IDPaciente" prefWidth="102.0" text="ID" />
+                <TableColumn fx:id="NombrePaciente" prefWidth="159.0" text="Nombre" />
+                  <TableColumn fx:id="ApellidoPaciente" minWidth="0.0" prefWidth="216.0" text="Apellido" />
               </columns>
             </TableView>
-            <Button fx:id="btnEditar" layoutX="227.0" layoutY="481.0" mnemonicParsing="false" onAction="#editarPaciente" prefHeight="47.0" prefWidth="134.0" text="Editar Paciente">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-         </children></Pane>
-      <Pane fx:id="paneCitas" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+            </children>
+        </Pane>
+        <Pane fx:id="paneReportes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+            <children>
+                <Button layoutX="14.0" layoutY="354.0" mnemonicParsing="false" text="Button" />
+            </children>
+        </Pane>
+        <Pane fx:id="paneConfiguracion" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+            <children>
+                <Button layoutX="14.0" layoutY="435.0" mnemonicParsing="false" text="Button" />
+            </children>
+        </Pane>
+        <Pane fx:id="paneExtra" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+            <children>
+                <Button layoutX="14.0" layoutY="508.0" mnemonicParsing="false" text="Button" />
+            </children>
+        </Pane>
+        <Pane fx:id="paneEditarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+            <children>
+                <Label layoutX="197.0" layoutY="24.0" text="Ediciรณn de Pacientes">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="txtNombreEdicion" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
+                <TextField fx:id="txtApellidoEdicion" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
+                <DatePicker fx:id="dtFechaEdicion" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
+                <CheckBox fx:id="cuadroMasculinoEdicion" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculinoEdicion" text="Masculino">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </CheckBox>
+                <CheckBox fx:id="cuadroFemeninoEdicion" layoutX="341.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarFemeninoEdicion" text="Femenino">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </CheckBox>
+                <ComboBox fx:id="cbxMunicipiosEdicion" layoutX="148.0" layoutY="305.0" prefHeight="25.0" prefWidth="345.0" />
+                <Button fx:id="bntConfirmarEdicion" layoutX="223.0" layoutY="382.0" mnemonicParsing="false" onAction="#guardarUsuarioEditado" text="Confirmar">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnCancelarEdicion" layoutX="337.0" layoutY="382.0" mnemonicParsing="false" onAction="#cancelarEdicion" text="Cancelar">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+        <Pane fx:id="paneH" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
+            <children>
+                <Button fx:id="btnReg" layoutX="504.0" layoutY="513.0" mnemonicParsing="false" onAction="#handleButtonAction4" text="Regresar" />
+                <TableView fx:id="tableHist" layoutX="21.0" layoutY="79.0" prefHeight="425.0" prefWidth="544.0">
+                    <columns>
+                        <TableColumn fx:id="fHist" prefWidth="113.0" text="Fecha" />
+                        <TableColumn fx:id="edadHist" prefWidth="51.0" text="Edad" />
+                        <TableColumn fx:id="padeHist" prefWidth="135.0" text="Padecimiento" />
+                        <TableColumn fx:id="mediHist" minWidth="1.0" prefWidth="111.0" text="Medicamento" />
+                        <TableColumn fx:id="descHist" minWidth="5.0" prefWidth="133.0" text="Descripccion" />
+                    </columns>
+                </TableView>
+                <Label layoutX="42.0" layoutY="29.0" text="Historial ID:" />
+                <Label layoutX="210.0" layoutY="29.0" text="Paciente:" />
+                <TextField fx:id="txtHid" disable="true" layoutX="110.0" layoutY="25.0" prefHeight="25.0" prefWidth="61.0" />
+                <TextField fx:id="txtPac" disable="true" layoutX="261.0" layoutY="25.0" prefHeight="25.0" prefWidth="306.0" />
+                <Button fx:id="btnAC" layoutX="21.0" layoutY="513.0" mnemonicParsing="false" onAction="#handleButtonAction3" text="Agregar Consulta">            </Button>
+            </children>
+        </Pane>
+        <Pane fx:id="paneAgregarH" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
+            <children>
+                <TextArea fx:id="txtPade" layoutX="119.0" layoutY="55.0" prefHeight="62.0" prefWidth="386.0" promptText="Padecimiento">
+                </TextArea>
+                <TextArea fx:id="txtDesc" layoutX="119.0" layoutY="186.0" prefHeight="62.0" prefWidth="386.0" promptText="Descipcion">
+                </TextArea>
+                <TextArea fx:id="txtAnte" layoutX="119.0" layoutY="281.0" prefHeight="54.0" prefWidth="386.0" promptText="Antecedentes">
+                </TextArea>
+                <TextField fx:id="txtMed" layoutX="119.0" layoutY="137.0" prefHeight="25.0" prefWidth="386.0" promptText="Medicamento" />
+                <Separator layoutX="54.0" layoutY="259.0" prefHeight="10.0" prefWidth="470.0" visible="false" />
+                <TextArea fx:id="txtHC" layoutX="119.0" layoutY="356.0" prefHeight="62.0" prefWidth="386.0" promptText="Historia Clinica">
+                </TextArea>
+                <TextArea fx:id="txtEF" layoutX="119.0" layoutY="437.0" prefHeight="54.0" prefWidth="386.0" promptText="Examen Fisico">
+                </TextArea>
+                <Button fx:id="btnAgregar" layoutX="286.0" layoutY="511.0" mnemonicParsing="false" onAction="#handleButtonAction5" text="Agregar" />
+                <DatePicker layoutX="119.0" layoutY="23.0" prefHeight="25.0" prefWidth="386.0" promptText="Fecha" />
+            <Separator layoutX="78.0" layoutY="263.0" prefHeight="0.0" prefWidth="455.0" />
+            </children>
+        </Pane>
+      <Pane fx:id="paneLogin" prefHeight="561.0" prefWidth="764.0">
          <children>
-            <Button layoutX="14.0" layoutY="184.0" mnemonicParsing="false" text="Button" />
-         </children></Pane>
-      <Pane fx:id="paneHistorial" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
-         <children>
-            <Label layoutX="253.0" layoutY="22.0" text="HISTORIAL">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
-            <Label layoutX="124.0" layoutY="89.0" text="Nombre del Paciente :" />
-            <TextField fx:id="txtN" layoutX="248.0" layoutY="85.0" prefHeight="25.0" prefWidth="146.0">
-               <font>
-                  <Font name="Arial" size="12.0" />
-               </font>
-            </TextField>
-            <TreeTableView layoutX="41.0" layoutY="161.0" prefHeight="339.0" prefWidth="504.0">
-              <columns>
-                <TreeTableColumn fx:id="tablePA" prefWidth="503.0" text="Pacientes" />
-              </columns>
-            </TreeTableView>
-            <Button fx:id="btnBuscar" layoutX="402.0" layoutY="85.0" mnemonicParsing="false" text="Buscar">
-            </Button>
-            <Button fx:id="btnAbrir" layoutX="502.0" layoutY="509.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Abrir">
-            </Button>
-         </children></Pane>
-      <Pane fx:id="paneReportes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
-         <children>
-            <Button layoutX="14.0" layoutY="354.0" mnemonicParsing="false" text="Button" />
-         </children></Pane>
-      <Pane fx:id="paneConfiguracion" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
-         <children>
-            <Button layoutX="14.0" layoutY="435.0" mnemonicParsing="false" text="Button" />
-         </children></Pane>
-      <Pane fx:id="paneExtra" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
-         <children>
-            <Button layoutX="14.0" layoutY="508.0" mnemonicParsing="false" text="Button" />
+            <Button fx:id="btnLogin" layoutX="358.0" layoutY="391.0" mnemonicParsing="false" onAction="#ingresar" text="Entrar" />
+            <Label layoutX="220.0" layoutY="290.0" text="Usuario:" />
+            <Label layoutX="200.0" layoutY="336.0" text="Contraseña:" />
+            <TextField fx:id="txtUsuario" layoutX="272.0" layoutY="286.0" prefHeight="25.0" prefWidth="219.0" />
+            <TextField fx:id="txtContrasena" layoutX="272.0" layoutY="332.0" prefHeight="25.0" prefWidth="219.0" />
+            <Label layoutX="347.0" layoutY="222.0" text="BIENVENIDO" />
          </children>
       </Pane>
-      <Pane fx:id="paneEditarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
-         <children>
-            <Label layoutX="197.0" layoutY="24.0" text="Edición de Pacientes">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtNombreEdicion" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
-            <TextField fx:id="txtApellidoEdicion" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
-            <DatePicker fx:id="dtFechaEdicion" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
-            <CheckBox fx:id="cuadroMasculinoEdicion" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculinoEdicion" text="Masculino">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </CheckBox>
-            <CheckBox fx:id="cuadroFemeninoEdicion" layoutX="341.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarFemeninoEdicion" text="Femenino">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </CheckBox>
-            <ComboBox fx:id="cbxMunicipiosEdicion" layoutX="148.0" layoutY="305.0" prefHeight="25.0" prefWidth="345.0" />
-            <Button fx:id="bntConfirmarEdicion" layoutX="223.0" layoutY="382.0" mnemonicParsing="false" onAction="#guardarUsuarioEditado" text="Confirmar">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnCancelarEdicion" layoutX="337.0" layoutY="382.0" mnemonicParsing="false" onAction="#cancelarEdicion" text="Cancelar">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-         </children>
-      </Pane>
-      <Pane fx:id="paneH" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
-         <children>
-            <Button fx:id="btnReg" layoutX="504.0" layoutY="513.0" mnemonicParsing="false" onAction="#handleButtonAction4" text="Regresar">
-                
-            </Button>
-            <TableView fx:id="tableHist" layoutX="21.0" layoutY="79.0" prefHeight="425.0" prefWidth="544.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="Fecha" />
-                <TableColumn prefWidth="75.0" text="Edad" />
-                  <TableColumn prefWidth="75.0" text="Padecimiento" />
-                  <TableColumn prefWidth="75.0" text="Medicamento" />
-                  <TableColumn prefWidth="75.0" text="Descripccion" />
-              </columns>
-            </TableView>
-            <Label layoutX="42.0" layoutY="29.0" text="Historial ID:" />
-            <Label layoutX="210.0" layoutY="29.0" text="Paciente:" />
-            <TextField fx:id="txtHid" disable="true" layoutX="110.0" layoutY="25.0" prefHeight="25.0" prefWidth="61.0" />
-            <TextField fx:id="txtPac" disable="true" layoutX="261.0" layoutY="25.0" prefHeight="25.0" prefWidth="306.0" />
-            <Button fx:id="btnAC" layoutX="21.0" layoutY="513.0" mnemonicParsing="false" onAction="#handleButtonAction3" text="Agregar Consulta">
-            </Button>
-         </children>
-      </Pane>
-      <Pane fx:id="paneAgregarH" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
-         <children>
-            <Label layoutX="77.0" layoutY="19.0" text="Fecha:" />
-            <Label layoutX="39.0" layoutY="69.0" text="Padecimiento:" />
-            <Label layoutX="42.0" layoutY="209.0" text="Descripccion:" />
-            <Label layoutX="40.0" layoutY="300.0" text="Antecedentes:" />
-            <Label layoutX="38.0" layoutY="141.0" text="Medicamento:" />
-            <TextField fx:id="txtFecha" layoutX="119.0" layoutY="15.0" prefHeight="25.0" prefWidth="170.0">
-            </TextField>
-            <TextArea fx:id="txtPade" layoutX="119.0" layoutY="55.0" prefHeight="62.0" prefWidth="386.0">
-            </TextArea>
-            <TextArea fx:id="txtDesc" layoutX="119.0" layoutY="186.0" prefHeight="62.0" prefWidth="386.0">
-            </TextArea>
-            <TextArea fx:id="txtAnte" layoutX="119.0" layoutY="281.0" prefHeight="54.0" prefWidth="386.0">
-            </TextArea>
-            <TextField fx:id="txtMed" layoutX="119.0" layoutY="137.0" prefHeight="25.0" prefWidth="386.0" />
-            <Separator layoutX="54.0" layoutY="259.0" prefHeight="10.0" prefWidth="470.0" />
-            <Label layoutX="35.0" layoutY="379.0" text="Historia Clinica:" />
-            <Label layoutX="39.0" layoutY="460.0" text="Examen Fisico:" />
-            <TextArea fx:id="txtHC" layoutX="119.0" layoutY="356.0" prefHeight="62.0" prefWidth="386.0">
-            </TextArea>
-            <TextArea fx:id="txtEF" layoutX="119.0" layoutY="437.0" prefHeight="54.0" prefWidth="386.0">
-            </TextArea>
-            <Button fx:id="btnAgregar" layoutX="286.0" layoutY="511.0" mnemonicParsing="false" onAction="#handleButtonAction5" text="Agregar" />
-         </children>
-      </Pane>
-   </children>
+    </children>
 </Pane>
