@@ -29,7 +29,7 @@
                 <Button fx:id="btnHistorial" layoutY="240.0" mnemonicParsing="false" onAction="#historial" prefHeight="80.0" prefWidth="180.0" text="Historial" />
                 <Button fx:id="btnReportes" layoutY="320.0" mnemonicParsing="false" onAction="#reportes" prefHeight="80.0" prefWidth="180.0" text="Reportes" />
                 <Button fx:id="btnConfiguracion" layoutY="400.0" mnemonicParsing="false" onAction="#configuracion" prefHeight="80.0" prefWidth="180.0" text="Configuracion" />
-                <Button fx:id="btnConfiguracion1" layoutY="480.0" mnemonicParsing="false" onAction="#extra" prefHeight="80.0" prefWidth="180.0" text="???" />
+                <Button fx:id="btnConfiguracion1" layoutY="480.0" mnemonicParsing="false" onAction="#extra" prefHeight="80.0" prefWidth="180.0" text="Historial Citas" />
             </children>
         </Pane>
         <Pane fx:id="paneAgregarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -150,13 +150,22 @@
             </children>
         </Pane>
         <Pane fx:id="paneConfiguracion" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
-            <children>
-                <Button layoutX="14.0" layoutY="435.0" mnemonicParsing="false" text="Button" />
-            </children>
+         <children>
+            <Button layoutX="249.0" layoutY="302.0" mnemonicParsing="false" onAction="#crearUsuario" text="Crear Usuario" />
+            <PasswordField fx:id="txtPass1" layoutX="219.0" layoutY="154.0" promptText="Contraseña" />
+            <PasswordField fx:id="txtPass2" layoutX="218.0" layoutY="197.0" promptText="Confirmar Contraseña" />
+            <TextField fx:id="txtUsuario" layoutX="218.0" layoutY="113.0" promptText="Nombre Usuario" />
+            <Label layoutX="202.0" layoutY="46.0" text="Registrar Usuario">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <CheckBox fx:id="cbxAdministrador" layoutX="202.0" layoutY="258.0" mnemonicParsing="false" onAction="#seleccionarAdministrador" text="Administrador" />
+            <CheckBox fx:id="cbxRegular" layoutX="319.0" layoutY="258.0" mnemonicParsing="false" onAction="#seleccionarRegular" text="Regular" />
+         </children>
         </Pane>
         <Pane fx:id="paneExtra" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
-                <Button layoutX="14.0" layoutY="508.0" mnemonicParsing="false" text="Button" />
                 
             <TableView fx:id="tablaconsulta" layoutX="14.0" layoutY="26.0" prefHeight="209.0" prefWidth="525.0">
               <columns>

@@ -23,8 +23,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
@@ -42,9 +40,13 @@ import paciente.datosPacientes;
 import paciente.registrarPaciente;
 import cita.paciente_tablacita;
 import cita.Modificar;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextInputDialog;
 
 public class FXMLDocumentController implements Initializable {
@@ -954,18 +956,121 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void configuracion(ActionEvent event) {
-        paneAgregarPaciente.setVisible(false);
-        paneCitas.setVisible(false);
-        paneConfiguracion.setVisible(true);
-        paneExtra.setVisible(false);
-        paneHistorial.setVisible(false);
-        panePacientes.setVisible(false);
-        paneReportes.setVisible(false);
-        //Código extra desde acá
+    private TextField txtUsuario;
+    @FXML
+    private PasswordField txtPass1, txtPass2;
+    @FXML
+    private CheckBox cbxAdministrador, cbxRegular;
+
+    @FXML
+    private void configuracion(ActionEvent event) throws FileNotFoundException, IOException {
+        RandomAccessFile archivo = new RandomAccessFile("confi.txt", "rw");
+        byte c = archivo.readByte();
+        archivo.close();
+        if (c == 1) {
+            paneAgregarPaciente.setVisible(false);
+            paneCitas.setVisible(false);
+            paneConfiguracion.setVisible(true);
+            paneExtra.setVisible(false);
+            paneHistorial.setVisible(false);
+            panePacientes.setVisible(false);
+            paneReportes.setVisible(false);
+            //Código extra desde acá
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Error");
+            alert.setHeaderText("No se puede ingresar");
+            alert.setContentText("El usuario ingresado no es administrador");
+            alert.showAndWait();
+        }
 
     }
 
+    @FXML
+    private void crearUsuario() throws SQLException {
+        String usuario = txtUsuario.getText();
+        String pass1 = txtPass1.getText();
+        String pass2 = txtPass2.getText();
+        String rol = "";
+        boolean admin = cbxAdministrador.isSelected();
+        boolean regular = cbxRegular.isSelected();
+        int n = 0;
+        if (pass1.equals(pass2)) {
+            if (admin == true || regular == true) {
+                if (admin == true) {
+                    rol = "Administrador";
+                } else if (regular == true) {
+                    rol = "Regular";
+                }
+                if (usuario.equals(null) || usuario.equals("")) {
+                    //El usuario no se ingresó
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.initStyle(StageStyle.UTILITY);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Datos incompletos");
+                    alert.setContentText("No se ingresó el usuario");
+                    alert.showAndWait();
+                } else {
+                    //Todos los datos se ingresaron correctamente
+                    //Ingresar en la base de datos
+                    conexionBD sql1 = new conexionBD();
+                    Connection con1 = sql1.conectarMySQL();
+                    String sentencia1 = "SELECT IngresarUsuario('" + usuario + "','" + pass1 + "','" + rol + "');";
+                    Statement stm1 = con1.createStatement();
+                    ResultSet rs1 = null;
+                    rs1 = stm1.executeQuery(sentencia1);
+                    while (rs1.next()) {
+                        int a = rs1.getInt(1);
+                        if (a == 1) {
+                            //usuario creado correctamente
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.initStyle(StageStyle.UTILITY);
+                            alert.setTitle("Información");
+                            alert.setHeaderText("Correcto");
+                            alert.setContentText("Usuario creado correctamente");
+                            alert.showAndWait();
+                            limpiarConfiguracion();
+                        } else if (a == 0) {
+                            //usuario no creado
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.initStyle(StageStyle.UTILITY);
+                            alert.setTitle("Error");
+                            alert.setHeaderText("Incorrecto");
+                            alert.setContentText("Usuario no creado, \n"
+                                    + "puede ser que ya exista un usuario con ese nombre");
+                            alert.showAndWait();
+                        }
+                    }
+                }
+            } else {
+                //No se selecciono ningún tipo de usuario
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.initStyle(StageStyle.UTILITY);
+                alert.setTitle("Error");
+                alert.setHeaderText("Falta tipo de usuario");
+                alert.setContentText("No se ha seleccionado ningún tipo de usuario");
+                alert.showAndWait();
+            }
+        } else {
+            //Contraseñas incorrectas
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error de contraseñas");
+            alert.setContentText("Las contraseñas no coinciden");
+            alert.showAndWait();
+        }
+    }
+
+    private void limpiarConfiguracion(){
+        txtUsuario.setText("");
+        txtPass1.setText("");
+        txtPass2.setText("");
+        cbxAdministrador.setSelected(false);
+        cbxRegular.setSelected(false);
+    }
+    
     @FXML
     private void extra(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
@@ -977,6 +1082,18 @@ public class FXMLDocumentController implements Initializable {
         paneReportes.setVisible(false);
         //Código extra desde acá
 
+    }
+
+    @FXML
+    private void seleccionarAdministrador() {
+        cbxRegular.setSelected(false);
+        cbxAdministrador.setSelected(true);
+    }
+
+    @FXML
+    private void seleccionarRegular() {
+        cbxRegular.setSelected(true);
+        cbxAdministrador.setSelected(false);
     }
 
     //************************************************************************//
