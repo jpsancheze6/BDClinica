@@ -184,6 +184,9 @@ public class FXMLDocumentController implements Initializable {
         paneHistorial.setVisible(false);
         panePacientes.setVisible(false);
         paneReportes.setVisible(false);
+        paneEditarPaciente.setVisible(false);
+        paneH.setVisible(false);
+        paneAgregarH.setVisible(false);
         //Código extra desde acá
         //Conectar con la base de datos para cargar municipios
         conexionBD sql = new conexionBD();
@@ -205,7 +208,6 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 System.out.println("No hay datos");
             }
-            cancelarIngresarPaciente();
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initStyle(StageStyle.UTILITY);
@@ -232,7 +234,6 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
         }
     }
-
     
     // HISTORIAL ------------
     @FXML
@@ -1191,9 +1192,7 @@ public class FXMLDocumentController implements Initializable {
         fecha.setDisable(true);
 
     }
-
     
-
     @FXML
     private void reportes(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
@@ -1492,6 +1491,14 @@ public class FXMLDocumentController implements Initializable {
         cbxMunicipios.getSelectionModel().select(0);
         cuadroMasculino.setSelected(false);
         cuadroFemenino.setSelected(false);
+        
+        paneAgregarPaciente.setVisible(false);
+        paneCitas.setVisible(false);
+        paneConfiguracion.setVisible(false);
+        paneExtra.setVisible(false);
+        paneHistorial.setVisible(false);
+        panePacientes.setVisible(true);
+        paneReportes.setVisible(false);
     }
 
     @FXML
@@ -1571,5 +1578,4 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
-
 }

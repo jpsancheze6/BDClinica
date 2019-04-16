@@ -8,9 +8,9 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="208.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bdclinica.FXMLLoginController">
    <children>
-      <Button fx:id="btnCancelar" layoutX="102.0" layoutY="122.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
-      <Button fx:id="btnAceptar" layoutX="32.0" layoutY="122.0" mnemonicParsing="false" onAction="#aceptar" text="Aceptar" />
       <TextField fx:id="txtUsuario" layoutX="32.0" layoutY="24.0" promptText="Usuario" />
       <PasswordField fx:id="txtPassword" layoutX="28.0" layoutY="75.0" promptText="Contraseña" />
+      <Button fx:id="btnAceptar" layoutX="32.0" layoutY="122.0" mnemonicParsing="false" onAction="#aceptar" text="Aceptar" />
+      <Button fx:id="btnCancelar" layoutX="102.0" layoutY="122.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
    </children>
 </Pane>
