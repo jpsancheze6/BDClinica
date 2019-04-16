@@ -145,11 +145,6 @@
             </TableView>
             </children>
         </Pane>
-        <Pane fx:id="paneReportes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
-            <children>
-                <Button layoutX="14.0" layoutY="354.0" mnemonicParsing="false" text="Button" />
-            </children>
-        </Pane>
         <Pane fx:id="paneConfiguracion" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
          <children>
             <Button layoutX="249.0" layoutY="302.0" mnemonicParsing="false" onAction="#crearUsuario" text="Crear Usuario" />
@@ -256,6 +251,14 @@
                 <Button fx:id="btnAgregar" layoutX="286.0" layoutY="511.0" mnemonicParsing="false" onAction="#handleButtonAction5" text="Agregar" />
             <Separator layoutX="95.0" layoutY="259.0" prefHeight="2.0" prefWidth="427.0" />
             </children>
+        </Pane>
+        <Pane fx:id="paneReportes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0">
+         <children>
+            <Button layoutX="78.0" layoutY="71.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Reporte Municipio" />
+            <Button layoutX="78.0" layoutY="134.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Reporte Edad" />
+            <Button layoutX="78.0" layoutY="202.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Reporte Sexo" />
+            <Button layoutX="77.0" layoutY="289.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Reporte Ingresos" />
+         </children>
         </Pane>
     </children>
 </Pane>
