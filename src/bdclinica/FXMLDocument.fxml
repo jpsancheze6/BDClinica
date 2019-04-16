@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="764.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bdclinica.FXMLDocumentController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="764.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bdclinica.FXMLDocumentController">
     <children>
         <Pane fx:id="paneBotones" prefHeight="562.0" prefWidth="180.0">
             <children>
@@ -128,20 +123,22 @@
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Label layoutX="124.0" layoutY="89.0" text="Nombre del Paciente :" />
+                <Label layoutX="124.0" layoutY="89.0" text="Apellido del Paciente :" />
                 <TextField fx:id="txtN" layoutX="248.0" layoutY="85.0" prefHeight="25.0" prefWidth="146.0">
                     <font>
                         <Font name="Arial" size="12.0" />
                     </font>
                 </TextField>
-                <TreeTableView layoutX="41.0" layoutY="161.0" prefHeight="339.0" prefWidth="504.0">
-                    <columns>
-                        <TreeTableColumn fx:id="tablePA" prefWidth="503.0" text="Pacientes" />
-                    </columns>
-                </TreeTableView>
-                <Button fx:id="btnBuscar" layoutX="402.0" layoutY="85.0" mnemonicParsing="false" text="Buscar" />
-                <Button fx:id="btnAbrir" layoutX="502.0" layoutY="509.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Abrir">
+                <Button fx:id="btnBuscar" layoutX="402.0" layoutY="85.0" mnemonicParsing="false" onAction="#tablePA" text="Buscar" />
+                <Button fx:id="btnAbrir" layoutX="502.0" layoutY="509.0" mnemonicParsing="false" onAction="#seleccionarFila" text="Abrir">
                 </Button>
+            <TableView fx:id="tablePA" layoutX="38.0" layoutY="130.0" prefHeight="367.0" prefWidth="510.0">
+              <columns>
+                <TableColumn fx:id="IDPaciente" prefWidth="89.0" text="ID" />
+                <TableColumn fx:id="NombrePaciente" minWidth="2.0" prefWidth="219.0" text="Nombre" />
+                  <TableColumn fx:id="ApellidoPaciente" prefWidth="201.0" text="Apellido" />
+              </columns>
+            </TableView>
             </children>
         </Pane>
         <Pane fx:id="paneReportes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -166,6 +163,7 @@
         </Pane>
         <Pane fx:id="paneExtra" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
+                <Button layoutX="14.0" layoutY="508.0" mnemonicParsing="false" text="Button" />
                 
             <TableView fx:id="tablaconsulta" layoutX="14.0" layoutY="26.0" prefHeight="209.0" prefWidth="525.0">
               <columns>
@@ -223,36 +221,36 @@
                 <Button fx:id="btnReg" layoutX="504.0" layoutY="513.0" mnemonicParsing="false" onAction="#handleButtonAction4" text="Regresar" />
                 <TableView fx:id="tableHist" layoutX="21.0" layoutY="79.0" prefHeight="425.0" prefWidth="544.0">
                     <columns>
-                        <TableColumn prefWidth="75.0" text="Fecha" />
-                        <TableColumn prefWidth="75.0" text="Edad" />
-                        <TableColumn prefWidth="75.0" text="Padecimiento" />
-                        <TableColumn prefWidth="75.0" text="Medicamento" />
-                        <TableColumn prefWidth="75.0" text="Descripccion" />
+                        <TableColumn fx:id="fechaHist" prefWidth="97.0" text="Fecha" />
+                        <TableColumn fx:id="edadHist" prefWidth="67.0" text="Edad" />
+                        <TableColumn fx:id="padeHist" prefWidth="148.0" text="Padecimiento" />
+                        <TableColumn fx:id="mediHist" prefWidth="87.0" text="Medicamento" />
+                        <TableColumn fx:id="descripHist" prefWidth="144.0" text="Descripccion" />
                     </columns>
                 </TableView>
                 <Label layoutX="42.0" layoutY="29.0" text="Historial ID:" />
                 <Label layoutX="210.0" layoutY="29.0" text="Paciente:" />
                 <TextField fx:id="txtHid" disable="true" layoutX="110.0" layoutY="25.0" prefHeight="25.0" prefWidth="61.0" />
                 <TextField fx:id="txtPac" disable="true" layoutX="261.0" layoutY="25.0" prefHeight="25.0" prefWidth="306.0" />
-                <Button fx:id="btnAC" layoutX="21.0" layoutY="513.0" mnemonicParsing="false" onAction="#handleButtonAction3" text="Agregar Consulta">            </Button>
+                <Button fx:id="btnAC" layoutX="21.0" layoutY="513.0" mnemonicParsing="false" onAction="#agregarConsulta" text="Agregar Consulta">            </Button>
             </children>
         </Pane>
         <Pane fx:id="paneAgregarH" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
             <children>
-                <TextArea fx:id="txtPade" layoutX="119.0" layoutY="55.0" prefHeight="62.0" prefWidth="386.0" promptText="Padecimiento">
+                <TextArea fx:id="txtPade" layoutX="119.0" layoutY="33.0" prefHeight="62.0" prefWidth="386.0" promptText="Padecimiento">
                 </TextArea>
-                <TextArea fx:id="txtDesc" layoutX="119.0" layoutY="186.0" prefHeight="62.0" prefWidth="386.0" promptText="Descipcion">
+                <TextArea fx:id="txtDesc" layoutX="119.0" layoutY="173.0" prefHeight="62.0" prefWidth="386.0" promptText="Descipcion">
                 </TextArea>
                 <TextArea fx:id="txtAnte" layoutX="119.0" layoutY="281.0" prefHeight="54.0" prefWidth="386.0" promptText="Antecedentes">
                 </TextArea>
-                <TextField fx:id="txtMed" layoutX="119.0" layoutY="137.0" prefHeight="25.0" prefWidth="386.0" promptText="Medicamento" />
+                <TextField fx:id="txtMed" layoutX="119.0" layoutY="118.0" prefHeight="25.0" prefWidth="386.0" promptText="Medicamento" />
                 <Separator layoutX="54.0" layoutY="259.0" prefHeight="10.0" prefWidth="470.0" visible="false" />
                 <TextArea fx:id="txtHC" layoutX="119.0" layoutY="356.0" prefHeight="62.0" prefWidth="386.0" promptText="Historia Clinica">
                 </TextArea>
                 <TextArea fx:id="txtEF" layoutX="119.0" layoutY="437.0" prefHeight="54.0" prefWidth="386.0" promptText="Examen Fisico">
                 </TextArea>
                 <Button fx:id="btnAgregar" layoutX="286.0" layoutY="511.0" mnemonicParsing="false" onAction="#handleButtonAction5" text="Agregar" />
-                <DatePicker layoutX="119.0" layoutY="23.0" prefHeight="25.0" prefWidth="386.0" promptText="Fecha" />
+            <Separator layoutX="95.0" layoutY="259.0" prefHeight="2.0" prefWidth="427.0" />
             </children>
         </Pane>
     </children>

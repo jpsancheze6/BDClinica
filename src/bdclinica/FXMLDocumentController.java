@@ -43,10 +43,12 @@ import cita.Modificar;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import javafx.scene.control.PasswordField;
+import historial.tableHistorial;
+import historial.tablePaci;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextInputDialog;
 
 public class FXMLDocumentController implements Initializable {
@@ -63,6 +65,30 @@ public class FXMLDocumentController implements Initializable {
     private DatePicker fecha, dtFecha, dtFechaEdicion;
     @FXML
     public TableView tblPacientes;
+    @FXML
+    private ObservableList<tablePaci> datosP = FXCollections.observableArrayList();
+    @FXML
+    private ObservableList<tableHistorial> datosHi = FXCollections.observableArrayList();
+    @FXML
+    public TableView<tablePaci> tablePA;
+    @FXML
+    public TableView<tableHistorial> tableHist;
+    @FXML
+    public TableColumn<tablePaci, String> NombrePaciente;
+    @FXML
+    public TableColumn<tablePaci, String> ApellidoPaciente;
+    @FXML
+    public TableColumn<tablePaci, Integer> IDPaciente;
+    @FXML
+    public TableColumn<tableHistorial, Date> fechaHist;
+    @FXML
+    public TableColumn<tableHistorial, Integer> edadHist;
+    @FXML
+    public TableColumn<tableHistorial, String> padeHist;
+    @FXML
+    public TableColumn<tableHistorial, String> mediHist;
+    @FXML
+    public TableColumn<tableHistorial, String> descripHist;
     @FXML
     private CheckBox reconsulta;
     @FXML
@@ -82,7 +108,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public CheckBox cuadroMasculino, cuadroFemenino, cuadroMasculinoEdicion, cuadroFemeninoEdicion;
     @FXML
-    public TextField txtNombre, txtApellido, txtNombreEdicion, txtApellidoEdicion;
+    public TextField txtNombre, txtApellido, txtNombreEdicion, txtApellidoEdicion, txtN, txtHid, txtPac, txtMed;
+    @FXML
+    public TextArea txtPade, txtDesc, txtAnte, txtHC, txtEF;
 
     private ObservableList<paciente_tabla> lista = FXCollections.observableArrayList();
 
@@ -103,7 +131,6 @@ public class FXMLDocumentController implements Initializable {
     int idcita1 = 0;
 
     @FXML
-
     private TableView<paciente_tablacita> tablaconsulta;
     public TableColumn<paciente_tablacita, Integer> Idcitac;
     public TableColumn<paciente_tablacita, String> Nombrepacientec;
@@ -113,7 +140,7 @@ public class FXMLDocumentController implements Initializable {
     public TableColumn<paciente_tablacita, String> Atendidocitac;
     public TableColumn<paciente_tablacita, String> costocitac;
     private ObservableList<paciente_tablacita> listaconsulta = FXCollections.observableArrayList();
-
+    
     public void actualizardatos() {
         lista2.clear();
         Modificar mod = new Modificar();
@@ -206,37 +233,269 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    //Boton para abrir el historial del paciente seleccionado(btnAbrir)
+    
+    // HISTORIAL ------------
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    private void historial(ActionEvent event) {
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(false);
         paneConfiguracion.setVisible(false);
         paneExtra.setVisible(false);
-        paneHistorial.setVisible(false);
+        paneHistorial.setVisible(true);
         panePacientes.setVisible(false);
         paneReportes.setVisible(false);
-        paneH.setVisible(true);
+        txtN.setText(null);
+        tablePA.getItems().clear();
+        paneH.setVisible(false);
         paneAgregarH.setVisible(false);
+        //Código extra desde acá
     }
 
-    //Boton para buscar el historial a partir del nombre (btnBuscar)
+    //tabla mostrar los pacientes en base a su apellido
     @FXML
-    private void handleButtonAction2(ActionEvent event) {
+    public void tablePA()throws SQLException {
+        datosP = FXCollections.observableArrayList();
+        Connection con = null;
+        conexionBD conBD = new conexionBD();
+        con = conBD.conectarMySQL();
+        String no = null;
+        no = txtN.getText();
+        try{
+            String selectSQL = "select idPaciente, Nombre, apellido from paciente where apellido LIKE '%" + no + "%'";
+            PreparedStatement preparedStatement = con.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            while (rs.next()) {
+                int idP = rs.getInt("idPaciente");
+                String nomb = rs.getString("Nombre");
+                String apell = rs.getString("Apellido");
+                tablePaci tp = new tablePaci(idP, nomb, apell);
+                datosP.add(tp);
+            }
+            //agrega a la tabla
+            IDPaciente.setCellValueFactory(new PropertyValueFactory<>("Id"));
+            NombrePaciente.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+            ApellidoPaciente.setCellValueFactory(new PropertyValueFactory<>("Apellido"));
+            tablePA.setItems(datosP);
+        }catch(SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error en la BD");
+            alert.setContentText("Comprobar errores");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
     }
 
     //Boton para agregar una consulta al historial del paciente seleccionado (btnAC)
     @FXML
-    private void handleButtonAction3(ActionEvent event) {
-        paneAgregarPaciente.setVisible(false);
-        paneCitas.setVisible(false);
-        paneConfiguracion.setVisible(false);
-        paneExtra.setVisible(false);
+    public void abrirpaneH(int idHist, String no, String ap) {
+        datosP = FXCollections.observableArrayList();
+        Connection con = null;
+        conexionBD conBD = new conexionBD();
+        con = conBD.conectarMySQL();
+        int idh = idHist;
+        try{
+            String selectSQL = "select r.Fecha, r.Edad, r.Padecimiento, r.medicamento, r.Descripccion from historial h inner join receta r on h.idHistorial = r.idHistorial  where h.idHistorial = "+  idh +" order by r.fecha;";
+            PreparedStatement preparedStatement = con.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            while (rs.next()) {
+                Date fe = rs.getDate(1);
+                int eda = rs.getInt(2);
+                String pa = rs.getString(3);
+                String me = rs.getString(4);
+                String de = rs.getString(5);
+                tableHistorial tp = new tableHistorial(fe, eda, pa, me, de);
+                datosHi.add(tp);
+            }
+            //agrega a la tabla
+            fechaHist.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+            edadHist.setCellValueFactory(new PropertyValueFactory<>("edad"));
+            padeHist.setCellValueFactory(new PropertyValueFactory<>("padecimiento"));
+            mediHist.setCellValueFactory(new PropertyValueFactory<>("medicamento"));
+            descripHist.setCellValueFactory(new PropertyValueFactory<>("descrip"));
+            tableHist.setItems(datosHi);
+        }catch(SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error en la BD");
+            alert.setContentText("Comprobar errores");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
+    }
+    
+    //abrir el historial del paciente seleccionado
+    @FXML
+    public void seleccionarFila(ActionEvent event){
+        txtN.setText(null);
+        tablePaci pa = tablePA.getSelectionModel().getSelectedItem();
+        int h = pa.getId();
+        String no = pa.getNombre();
+        String ap = pa.getApellido();
+        abrirpaneH(h, no, ap);
         paneHistorial.setVisible(false);
-        panePacientes.setVisible(false);
-        paneReportes.setVisible(false);
+        paneH.setVisible(true);
+        txtHid.setText(String.valueOf(h));
+        txtPac.setText(no + " " + ap);
+    }
+    
+    //Boton para agregar una consulta al historial del paciente seleccionado (btnAC)
+    @FXML
+    public void agregarConsulta(ActionEvent event) {
+        String idh = txtHid.getText();
         paneH.setVisible(false);
+        txtPade.setText(null);
+        txtMed.setText(null);
+        txtDesc.setText(null);
+        txtAnte.setText(null);
+        txtHC.setText(null);
+        txtEF.setText(null);
         paneAgregarH.setVisible(true);
+        Connection con = null;
+        conexionBD conBD = new conexionBD();
+        con = conBD.conectarMySQL();
+        try{
+            String selectSQL = "select Verificacion from historial where idHistorial = "+ idh +";";
+            PreparedStatement preparedStatement = con.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            int veri = 0;
+            while (rs.next()) {
+                veri = rs.getInt(1);
+            }
+            if( veri == 0) {
+                txtPade.setDisable(false);
+                txtMed.setDisable(false);
+                txtDesc.setDisable(false);
+                txtAnte.setDisable(false);
+                txtHC.setDisable(false);
+                txtEF.setDisable(false);
+                
+            } else {
+                txtAnte.setDisable(true);
+                txtHC.setDisable(true);
+                txtEF.setDisable(true);
+            }
+        }catch(SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error en la BD");
+            alert.setContentText("Comprobar errores");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
+    }
+    
+    @FXML
+    public void addHistorial(String idh) {
+        Connection con = null;
+        conexionBD conBD = new conexionBD();
+        con = conBD.conectarMySQL();
+        int idh2 = Integer.parseInt(idh);
+        
+        try{
+            String selectSQL = "select Verificacion from historial where idHistorial = "+ idh2 +";";
+            PreparedStatement preparedStatement = con.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            int veri = 0;
+            while (rs.next()) {
+                veri = rs.getInt(1);
+            }
+            if( veri == 0) {
+                String pad = txtPade.getText();
+                String me = txtMed.getText();
+                String des = txtDesc.getText();
+                String ante = txtAnte.getText();
+                String hCli = txtHC.getText();
+                String eFisi = txtEF.getText();
+                String selectSQL2 = "update paciente set idHistorial = "+ idh2 +" where idPaciente = "+ idh2 +";";
+                Statement stm = con.createStatement();
+                stm.executeUpdate(selectSQL2);
+                String selectSQL3 = "call primerIngreso(" + idh2 + ", \"" + pad + "\", \"" + me + "\", \"" + des + "\", \"" + hCli + "\", \"" + ante + "\", \"" + eFisi + "\");";
+                stm.executeUpdate(selectSQL3);
+            } else {
+                String pad = txtPade.getText();
+                String me = txtMed.getText();
+                String des = txtDesc.getText();
+                Statement stm = con.createStatement();
+                String selectSQL3 = "call Ingresos(" + idh2 + ", \"" + pad + "\", \"" + me + "\", \"" + des + "\");";
+                stm.executeUpdate(selectSQL3);
+            }
+        }catch(SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error en la BD");
+            alert.setContentText("Comprobar errores");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
     }
 
     //Boton para regresar al pane historial (btnReg)
@@ -244,16 +503,20 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonAction4(ActionEvent event) {
         paneH.setVisible(false);
         paneHistorial.setVisible(true);
+        tableHist.getItems().clear();
     }
 
     //Boton para agregar datos de una consulta al historial del paciente (btnAgregar)
     @FXML
     private void handleButtonAction5(ActionEvent event) {
+        String idh = txtHid.getText();
+        addHistorial(idh);
         paneH.setVisible(false);
         paneHistorial.setVisible(true);
         paneAgregarH.setVisible(false);
+        tableHist.getItems().clear();
     }
-    // HISTORIAL/////
+    // HISTORIAL---------
 
     @FXML
     private void pacientes() {
@@ -929,18 +1192,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    @FXML
-    private void historial(ActionEvent event) {
-        paneAgregarPaciente.setVisible(false);
-        paneCitas.setVisible(false);
-        paneConfiguracion.setVisible(false);
-        paneExtra.setVisible(false);
-        paneHistorial.setVisible(true);
-        panePacientes.setVisible(false);
-        paneReportes.setVisible(false);
-        //Código extra desde acá
-
-    }
+    
 
     @FXML
     private void reportes(ActionEvent event) {
@@ -954,7 +1206,7 @@ public class FXMLDocumentController implements Initializable {
         //Código extra desde acá
 
     }
-
+    
     @FXML
     private TextField txtUsuario;
     @FXML
@@ -986,8 +1238,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-
-    @FXML
+     @FXML
     private void crearUsuario() throws SQLException {
         String usuario = txtUsuario.getText();
         String pass1 = txtPass1.getText();

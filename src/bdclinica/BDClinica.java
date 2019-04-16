@@ -10,8 +10,7 @@ public class BDClinica extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLLogin.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLLogin.fxml"));        
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
@@ -22,7 +21,6 @@ public class BDClinica extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        System.out.print("DDDDD");
     }
     
 }
