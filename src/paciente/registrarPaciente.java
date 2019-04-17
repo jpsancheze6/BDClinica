@@ -16,13 +16,13 @@ import javafx.stage.StageStyle;
 
 public class registrarPaciente {
 
-    public void recibirDatos(String nombre, String apellido, LocalDate fecha, String genero, int id) {
+    public void recibirDatos(String nombre, String apellido, LocalDate fecha, String genero, int id, int telefono) {
         try {
             conexionBD sql = new conexionBD();
             Connection con = sql.conectarMySQL();
             String sentencia
-                    = "insert into paciente(Nombre, Apellido ,Fecha_de_Nacimiento, Sexo, idMunicipio) values"
-                    + "(\"" + nombre + "\",\"" + apellido + "\",\"" + fecha + "\",\"" + genero + "\"," + id + ");";
+                    = "insert into paciente(Nombre, Apellido ,Fecha_de_Nacimiento, Sexo, idMunicipio, telefono) values"
+                    + "(\"" + nombre + "\",\"" + apellido + "\",\"" + fecha + "\",\"" + genero + "\"," + id + "," + telefono + ");";
             Statement stm = con.createStatement();
             int rs = stm.executeUpdate(sentencia);
             if (rs == 1) {
@@ -32,8 +32,6 @@ public class registrarPaciente {
                 alert.setTitle("Información");
                 alert.setHeaderText("Creado");
                 alert.setContentText("Usuario Creado Correctamente");
-                
-
                 alert.showAndWait();
             }
         } catch (SQLException ex) {
@@ -63,13 +61,14 @@ public class registrarPaciente {
         }
     }
     
-    public void recibirDatosEdicion(int clave, String nombre, String apellido, LocalDate fecha, String genero, int id) {
+    public void recibirDatosEdicion(int clave, String nombre, String apellido, LocalDate fecha, String genero, int id, int telefono) {
         try {
             conexionBD sql = new conexionBD();
             Connection con = sql.conectarMySQL();
             String sentencia
                     = "update paciente  set Nombre = \"" + nombre +"\", apellido = \"" + apellido + "\", "
                     + "Fecha_de_Nacimiento = '" + fecha +"', Sexo = \"" + genero +"\", idMunicipio = " + id + " "
+                    + ", telefono = " + telefono + " "
                     + "where idPaciente = " + clave + ";";
             Statement stm = con.createStatement();
             int rs = stm.executeUpdate(sentencia);
