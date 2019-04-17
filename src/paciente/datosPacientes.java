@@ -3,11 +3,11 @@ package paciente;
 import java.sql.Date;
 
 public class datosPacientes {
-    private int id,idHistorial;
+    private int id,idHistorial, telefono;
     private String apellido, nombre, sexo, municipio;
     private Date fecha_de_Nacimiento;
 
-    public datosPacientes(int id, String nombre, String apellido, Date fecha, String sexo, String municipio, int idHistorial) {
+    public datosPacientes(int id, String nombre, String apellido, Date fecha, String sexo, String municipio, int idHistorial, int telefono) {
         this.id = id;
         this.municipio = municipio;
         this.idHistorial = idHistorial;
@@ -15,8 +15,16 @@ public class datosPacientes {
         this.apellido = apellido;
         this.sexo = sexo;
         this.fecha_de_Nacimiento = fecha;
+        this.telefono = telefono;
     }
 
+    public int getTelefono() {
+        return telefono;
+    }
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
+    }
+    
     public String getApellido() {
         return apellido;
     }
