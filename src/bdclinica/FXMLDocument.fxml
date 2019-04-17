@@ -264,14 +264,26 @@
         </Pane>
       <Pane fx:id="paneRIngresos" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
          <children>
-            <DatePicker layoutX="61.0" layoutY="97.0" promptText="Fecha Inicio" />
-            <DatePicker layoutX="309.0" layoutY="97.0" promptText="Fecha Final" />
-            <Label layoutX="203.0" layoutY="38.0" text="Reporte Ingresos">
+            <Label layoutX="205.0" layoutY="14.0" text="Reporte Ingresos">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button layoutX="242.0" layoutY="166.0" mnemonicParsing="false" text="Consultar" />
+            <DatePicker fx:id="fechaInicio" layoutX="63.0" layoutY="73.0" promptText="Fecha Inicio" />
+            <DatePicker fx:id="fechaFinal" layoutX="311.0" layoutY="73.0" promptText="Fecha Final" />
+            <Button layoutX="244.0" layoutY="124.0" mnemonicParsing="false" onAction="#consultarIngresos" text="Consultar" />
+            <TableView fx:id="tblIngresos" layoutX="13.0" layoutY="173.0" prefHeight="258.0" prefWidth="560.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+            <Button layoutX="435.0" layoutY="474.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
+            <Label fx:id="lblIngresos" layoutX="98.0" layoutY="478.0" text="       ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
     </children>

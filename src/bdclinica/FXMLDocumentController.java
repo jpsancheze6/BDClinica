@@ -49,7 +49,10 @@ import historial.tablePaci;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.TextInputDialog;
+import reportes.reporteIngresos;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -548,7 +551,7 @@ public class FXMLDocumentController implements Initializable {
         idHistorial.setCellValueFactory(new PropertyValueFactory<datosPacientes, Integer>("idHistorial"));
         TableColumn telefono = new TableColumn("Telefono");
         telefono.setCellValueFactory(new PropertyValueFactory<datosPacientes, Integer>("telefono"));
-        
+
         tblPacientes.getColumns().addAll(id, nombre, apellido, fecha, sexo, idMunicipio, telefono);
         //Agregar filas de la consulta de la base de datos
         ObservableList<datosPacientes> data = null;
@@ -1198,6 +1201,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void reportes(ActionEvent event) {
+        paneRIngresos.setVisible(false);
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(false);
         paneConfiguracion.setVisible(false);
@@ -1582,7 +1586,7 @@ public class FXMLDocumentController implements Initializable {
             String municipio = a.getIdMunicipio();
             int historial = a.getIdHistorial();
             int telefono = a.getTelefono();
-            
+
             //cargar listado de municipios
             conexionBD sql = new conexionBD();
             Connection con = sql.conectarMySQL();
@@ -1658,7 +1662,127 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(true);
         paneReportes.setVisible(false);
     }
+    @FXML
+    private DatePicker fechaInicio, fechaFinal;
+    @FXML
+    private TableView tblIngresos;
+    @FXML
+    private Label lblIngresos;
 
+    @FXML
+    private void consultarIngresos() {
+        tblIngresos.getColumns().clear();
+        //tomando la fecha y hora
+        String horaInicio = " 00:00:00";
+        String horaFinal = " 23:59:59";
+        //Primera fecha
+        LocalDate localDate = fechaInicio.getValue();
+        DateTimeFormatter fecha = DateTimeFormatter.ISO_LOCAL_DATE;
+        String fecha1 = (localDate).format(fecha);
+        fecha1 = fecha1 + horaInicio;
+        //Segunda fecha fecha
+        LocalDate localDate1 = fechaFinal.getValue();
+        String fecha2 = (localDate1).format(fecha);
+        fecha2 = fecha2 + horaFinal;
+
+        //Formatos de las columnas
+        TableColumn nombre = new TableColumn("Nombre");
+        nombre.setCellValueFactory(new PropertyValueFactory<reporteIngresos, String>("nombre"));
+        TableColumn apellido = new TableColumn("Apellido");
+        apellido.setCellValueFactory(new PropertyValueFactory<reporteIngresos, String>("apellido"));
+        TableColumn fechaF = new TableColumn("Fecha");
+        fechaF.setCellValueFactory(new PropertyValueFactory<reporteIngresos, Date>("fecha"));
+        TableColumn costo = new TableColumn("Costo");
+        costo.setCellValueFactory(new PropertyValueFactory<reporteIngresos, Double>("costo"));
+
+        tblIngresos.getColumns().addAll(nombre, apellido, fechaF, costo);
+        ObservableList<reporteIngresos> data = null;
+        //Consulta
+        try {
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            String sentencia = "select p.Nombre, p.apellido, date(c.Fecha), c.costo "
+                    + "from cita c inner join paciente p on p.idPaciente = c.idPaciente "
+                    + "where c.Atendido = 1 and c.Fecha between "
+                    + "cast('" + fecha1 + "' as datetime) and "
+                    + "cast('" + fecha2 + "' as datetime);";
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sentencia);
+            int n = -1;
+            int m = 0;
+            if (rs != null) {
+                while (rs.next()) {
+                    //Agregar columna a los municipios
+                    //Acá se agregan las filas a data para después añadirlos a la tabla
+                    if (m == 0) {
+                        data = FXCollections.observableArrayList(new reporteIngresos(rs.getString(1), rs.getString(2),
+                                rs.getDate(3), rs.getDouble(4)));
+                        m++;
+                    } else {
+                        data.add(new reporteIngresos(rs.getString(1), rs.getString(2),
+                                rs.getDate(3), rs.getDouble(4)));
+                        m++;
+                    }
+                }
+                tblIngresos.setItems(data);
+
+                //Colocar en el label los ingresos totales
+                String sentencia1 = "select sum(c.costo) "
+                        + "from cita c inner join paciente p on p.idPaciente = c.idPaciente "
+                        + "where c.Atendido = 1 and c.Fecha between "
+                        + "cast('" + fecha1 + "' as datetime) and "
+                        + "cast('" + fecha2 + "' as datetime);";
+                Statement stm1 = con.createStatement();
+                ResultSet rs1 = stm1.executeQuery(sentencia1);
+                if (rs1.next()) {
+                    lblIngresos.setText("Ingresos = Q " + rs1.getDouble(1));
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.initStyle(StageStyle.UTILITY);
+                alert.setTitle("Advertencia");
+                alert.setHeaderText("Sin datos");
+                alert.setContentText("Aún no se han registrado datos");
+                alert.showAndWait();
+            }
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error en la BD");
+            alert.setContentText("Comprobar errores");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void regresarReportes() {
+        fechaInicio.setPromptText("Fecha Inicio");
+        fechaFinal.setPromptText("Fecha final");
+        lblIngresos.setText("");
+        tblIngresos.getColumns().clear();
+        ActionEvent event = null;
+        reportes(event);
+    }
+
+    //Fin reporte ingresos
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
