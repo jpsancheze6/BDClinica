@@ -49,8 +49,6 @@ import historial.tablePaci;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.TextInputDialog;
 import reportes.reporteIngresos;
 
