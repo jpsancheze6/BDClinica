@@ -16,7 +16,7 @@ public class conexionBD {
 
     public String driver = "com.mysql.jdbc.Driver";
     public String base = "clinica";//<- Esto cambiarlo sin duda
-    public String host = "localhost";//<- Cambiar esto
+    public String host = "10.101.7.1";//<- Cambiar esto
     public String puerto = "3306";//<- Posiblemente eso
     public String url = "jdbc:mysql://" + host + ":" + puerto + "/" + base
             + "?useUnicode=true&"
@@ -24,8 +24,8 @@ public class conexionBD {
             + "useLegacyDatetimeCode=false&"
             + "serverTimezone=UTC&"
             + "useSSL=false";
-    public String username = "root";//<- Cambiar esto por el usuario
-    public String password = "";//<- Y esto por la contraseña
+    public String username = "docuser";//<- Cambiar esto por el usuario
+    public String password = "url.2019";//<- Y esto por la contraseña
 
     public Connection conectarMySQL() {
         Connection conn = null;
