@@ -72,6 +72,7 @@ public class FXMLLoginController implements Initializable {
                     Parent root1 = (Parent) fxmlLoader.load();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root1));
+                    stage.setResizable(false);
                     stage.show();
                     //Cerrar ventana actual
                     Stage actual = (Stage) txtPassword.getScene().getWindow();
