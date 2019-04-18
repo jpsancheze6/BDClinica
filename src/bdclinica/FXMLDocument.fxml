@@ -290,11 +290,36 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnMuni" layoutX="78.0" layoutY="71.0" mnemonicParsing="false" onAction="#reporteMu" prefHeight="47.0" prefWidth="140.0" text="Reporte Municipio" />
-                <Button fx:id="btnEdadRe" layoutX="78.0" layoutY="134.0" mnemonicParsing="false" onAction="#reporteEdad" prefHeight="47.0" prefWidth="140.0" text="Reporte Edad" />
-                <Button layoutX="78.0" layoutY="202.0" mnemonicParsing="false" onAction="#reportesexo" prefHeight="47.0" prefWidth="140.0" text="Reporte Sexo" />
-                <Button layoutX="78.0" layoutY="271.0" mnemonicParsing="false" onAction="#reporteIngresos" prefHeight="47.0" prefWidth="140.0" text="Reporte Ingresos" />
-                <Button fx:id="btnConfiguracion1" layoutX="78.0" layoutY="336.0" mnemonicParsing="false" onAction="#extra" prefHeight="47.0" prefWidth="140.0" text="Historial Citas" />
+                <Button fx:id="btnMuni" layoutX="17.0" layoutY="125.0" mnemonicParsing="false" onAction="#reporteMu" prefHeight="47.0" prefWidth="140.0" text="Reporte Municipio" />
+                <Button fx:id="btnEdadRe" layoutX="17.0" layoutY="188.0" mnemonicParsing="false" onAction="#reporteEdad" prefHeight="47.0" prefWidth="140.0" text="Reporte Edad" />
+                <Button layoutX="17.0" layoutY="256.0" mnemonicParsing="false" onAction="#reportesexo" prefHeight="47.0" prefWidth="140.0" text="Reporte Sexo" />
+                <Button layoutX="17.0" layoutY="325.0" mnemonicParsing="false" onAction="#reporteIngresos" prefHeight="47.0" prefWidth="140.0" text="Reporte Ingresos" />
+                <Button fx:id="btnConfiguracion1" layoutX="17.0" layoutY="390.0" mnemonicParsing="false" onAction="#extra" prefHeight="47.0" prefWidth="140.0" text="Reporte Citas" />
+            <Label layoutX="189.0" layoutY="140.0" text="Muestra a los pacientes del municipio seleccionado.">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="189.0" layoutY="202.0" text="Muestra a los pacientes de la edad ingresada.">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="189.0" layoutY="270.0" text="Muestra a los pacientes agrupados por los géneros.">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="189.0" layoutY="339.0" text="Muestra los ingresos que se han tenido en las consultas.">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="188.0" layoutY="404.0" text="Muestra las citas que se han realizado en diferentes formatos.">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
             </children>
         </Pane>
         <Pane fx:id="paneRIngresos" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
