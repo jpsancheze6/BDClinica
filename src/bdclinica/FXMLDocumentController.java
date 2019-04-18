@@ -50,7 +50,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 import javafx.scene.control.TextInputDialog;
+import reportes.reporteEdad;
 import reportes.reporteIngresos;
+import reportes.reporteMunicipios;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -59,7 +61,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Pane paneAgregarPaciente, panePacientes, paneCitas, paneHistorial,
             paneReportes, paneConfiguracion, paneExtra, paneEditarPaciente, paneH,
-            paneAgregarH, paneRIngresos;
+            paneAgregarH, paneRIngresos, paneMuni, paneEdad;
     @FXML
     private javafx.scene.control.TextField nombre, telefono, costo, idPaciente, Hora;
     @FXML
@@ -72,6 +74,27 @@ public class FXMLDocumentController implements Initializable {
     private ObservableList<tableHistorial> datosHi = FXCollections.observableArrayList();
     @FXML
     public TableView<tablePaci> tablePA;
+    //Tabla Municipio
+    @FXML
+    private ObservableList<reporteMunicipios> datosMuni = FXCollections.observableArrayList();
+    @FXML
+    public TableView<reporteMunicipios> tableMuni;
+    @FXML
+    public TableColumn<reporteMunicipios, String> nomMuni;
+    @FXML
+    public TableColumn<reporteMunicipios, Integer> cantMuni;
+    // Tabla Edad
+    @FXML
+    private ObservableList<reporteEdad> datosEdad = FXCollections.observableArrayList();
+    @FXML
+    public TableView<reporteEdad> tableEdad;
+    @FXML
+    public TableColumn<reporteEdad, String> nomEd;
+    @FXML
+    public TableColumn<reporteEdad, String> apeEd;
+    @FXML
+    public TableColumn<reporteEdad, Integer> cantEd;
+    //----
     @FXML
     public TableView<tableHistorial> tableHist;
     @FXML
@@ -101,7 +124,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public TableColumn<paciente_tabla, Integer> Id;
     @FXML
-    public ComboBox cbxMunicipios, cbxMunicipiosEdicion;
+    public ComboBox cbxMunicipios, cbxMunicipiosEdicion, muniBox;
     @FXML
     public TableColumn<paciente_tabla, String> Nombre;
     @FXML
@@ -110,7 +133,7 @@ public class FXMLDocumentController implements Initializable {
     public CheckBox cuadroMasculino, cuadroFemenino, cuadroMasculinoEdicion, cuadroFemeninoEdicion;
     @FXML
     public TextField txtNombre, txtApellido, txtNombreEdicion, txtApellidoEdicion,
-            txtN, txtHid, txtPac, txtMed, txtTelefono, txtTelefonoEdicion;
+            txtN, txtHid, txtPac, txtMed, txtTelefono, txtTelefonoEdicion, txtEdad;
     @FXML
     public TextArea txtPade, txtDesc, txtAnte, txtHC, txtEF;
 
@@ -251,6 +274,7 @@ public class FXMLDocumentController implements Initializable {
         tablePA.getItems().clear();
         paneH.setVisible(false);
         paneAgregarH.setVisible(false);
+        paneMuni.setVisible(false);
         //Código extra desde acá
     }
 
@@ -309,7 +333,6 @@ public class FXMLDocumentController implements Initializable {
     //Boton para agregar una consulta al historial del paciente seleccionado (btnAC)
     @FXML
     public void abrirpaneH(int idHist, String no, String ap) {
-        datosP = FXCollections.observableArrayList();
         Connection con = null;
         conexionBD conBD = new conexionBD();
         con = conBD.conectarMySQL();
@@ -621,6 +644,7 @@ public class FXMLDocumentController implements Initializable {
         paneHistorial.setVisible(false);
         panePacientes.setVisible(false);
         paneReportes.setVisible(false);
+        paneMuni.setVisible(false);
         //Código extra desde acá
     }
 
@@ -633,8 +657,10 @@ public class FXMLDocumentController implements Initializable {
             alert.setTitle("Advertencia");
             alert.setHeaderText("Error");
             alert.setContentText("Faltan campos por llenar");
+
             alert.showAndWait();
         } else {
+
             boolean atendido1 = false, reconsulta1 = false;
             String nombre1 = nombre.getText();
             String telefono1 = telefono.getText();
@@ -823,7 +849,9 @@ public class FXMLDocumentController implements Initializable {
                 PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
                 ResultSet rs = preparedStatement.executeQuery(selectSQL);
                 //ciclo para agregar todos los pacientes con el nombre a la lista
+
                 while (rs.next()) {
+
                     int id1 = rs.getInt(1);
                     String Nombre11 = rs.getString(2);
                     boolean Reconsulta1 = rs.getBoolean(3);
@@ -1214,8 +1242,184 @@ public class FXMLDocumentController implements Initializable {
         paneHistorial.setVisible(false);
         panePacientes.setVisible(false);
         paneReportes.setVisible(true);
+        paneMuni.setVisible(false);
         //Código extra desde acá
-
+    }
+    
+    // REPORTE MUNICIPIO
+    @FXML
+    private void reporteMu(ActionEvent event) throws SQLException {
+        paneReportes.setVisible(false);
+        tableDatosMuni();
+        paneMuni.setVisible(true);
+        //Código extra desde acá
+    }
+    
+    @FXML
+    private void regMuni(ActionEvent event) {
+        paneReportes.setVisible(true);
+        paneMuni.setVisible(false);
+        paneEdad.setVisible(false);
+        tableEdad.getItems().clear();
+        tableMuni.getItems().clear();
+        txtEdad.setText(null);
+        //Código extra desde acá
+    }
+    
+    @FXML
+    private void buscarMuni(ActionEvent event) {
+        tableMuni.getItems().clear();
+        int seleccion = muniBox.getSelectionModel().getSelectedIndex();
+        Connection con = null;
+        conexionBD conBD = new conexionBD();
+        con = conBD.conectarMySQL();
+        try {
+            String selectSQL = "select m.Nombre, p.Nombre from paciente p inner join municipio m on p.idMunicipio = m.idMunicipio where m.idMunicipio = " + seleccion + ";";
+            PreparedStatement preparedStatement = con.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            while (rs.next()) {
+                String nomb = rs.getString(1);
+                String cant = rs.getString(2);
+                reporteMunicipios rm = new reporteMunicipios(nomb, cant);
+                datosMuni.add(rm);
+            }
+            //agrega a la tabla
+            nomMuni.setCellValueFactory(new PropertyValueFactory<>("nombreMuni"));
+            cantMuni.setCellValueFactory(new PropertyValueFactory<>("cantidadMuni"));
+            tableMuni.setItems(datosMuni);
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error en la BD");
+            alert.setContentText("Comprobar errores");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
+        
+    }
+    
+    @FXML
+    public void tableDatosMuni() throws SQLException {
+        Connection con = null;
+        conexionBD conBD = new conexionBD();
+        con = conBD.conectarMySQL();
+        try {
+            String selectSQL = "select m.Nombre, count(*) from paciente p inner join municipio m on p.idMunicipio = m.idMunicipio group by m.idMunicipio;";
+            String sentencia = "select * from municipio";
+            PreparedStatement preparedStatement = con.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            Statement stm = con.createStatement();
+            ResultSet rs2 = stm.executeQuery(sentencia);
+            ObservableList<String> municipios = FXCollections.observableArrayList();
+            municipios.add("-- Seleccione Municipio --");
+            if (rs2 != null) {
+                while (rs2.next()) {
+                    //Agregar columna a los municipios
+                    municipios.add(rs2.getString(2));
+                }
+                muniBox.setItems(municipios);
+            }
+            } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error en la BD");
+            alert.setContentText("Comprobar errores");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait(); 
+        }
+    }
+    
+    // REPORTE EDAD
+    @FXML
+    private void reporteEdad(ActionEvent event) throws SQLException {
+        paneReportes.setVisible(false);
+        paneEdad.setVisible(true);
+        //Código extra desde acá
+    }
+    
+    @FXML
+    private void mostrarEdad(ActionEvent event) {
+        int edad = Integer.parseInt(txtEdad.getText());
+        tableEdad.getItems().clear();
+        Connection con = null;
+        conexionBD conBD = new conexionBD();
+        con = conBD.conectarMySQL();
+        try {
+            String selectSQL = "select p.Nombre, p.apellido, r.Edad from receta r inner join historial h on r.idHistorial = h.idHistorial inner join paciente p on h.idHistorial = p.idHistorial where r.Edad = " + edad + " group by r.idHistorial;";
+            PreparedStatement preparedStatement = con.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            while (rs.next()) {
+                String nomb = rs.getString(1);
+                String ape = rs.getString(2);
+                int ed = rs.getInt(3);
+                reporteEdad re = new reporteEdad(nomb, ape, ed);
+                datosEdad.add(re);
+            }
+            //agrega a la tabla
+            nomEd.setCellValueFactory(new PropertyValueFactory<>("nombreEdad"));
+            apeEd.setCellValueFactory(new PropertyValueFactory<>("apellidoEdad"));
+            cantEd.setCellValueFactory(new PropertyValueFactory<>("cantidadEdad"));
+            tableEdad.setItems(datosEdad);
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Excepción");
+            alert.setHeaderText("Error en la BD");
+            alert.setContentText("Comprobar errores");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+            Label label = new Label("Detalles:");
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.showAndWait();
+        }
+        
     }
 
     @FXML

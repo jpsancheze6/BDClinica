@@ -16,7 +16,7 @@ public class conexionBD {
 
     public String driver = "com.mysql.jdbc.Driver";
     public String base = "clinica";//<- Esto cambiarlo sin duda
-    public String host = "10.101.7.1";//<- Cambiar esto
+    public String host = "localhost";//<- Cambiar esto
     public String puerto = "3306";//<- Posiblemente eso
     public String url = "jdbc:mysql://" + host + ":" + puerto + "/" + base
             + "?useUnicode=true&"
