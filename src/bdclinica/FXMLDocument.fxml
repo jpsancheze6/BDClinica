@@ -25,8 +25,8 @@
                 <Button fx:id="btnPacientes" mnemonicParsing="false" onAction="#pacientes" prefHeight="80.0" prefWidth="180.0" text="Pacientes" />
                 <Button fx:id="btnModificarPacientes1" layoutY="80.0" mnemonicParsing="false" onAction="#citas" prefHeight="80.0" prefWidth="180.0" text="Citas" />
                 <Button fx:id="btnHistorial" layoutY="160.0" mnemonicParsing="false" onAction="#historial" prefHeight="80.0" prefWidth="180.0" text="Historial" />
-                <Button fx:id="btnReportes" layoutY="240.0" mnemonicParsing="false" onAction="#reportes" prefHeight="80.0" prefWidth="180.0" text="Reportes" />
-                <Button fx:id="btnConfiguracion" layoutY="320.0" mnemonicParsing="false" onAction="#configuracion" prefHeight="80.0" prefWidth="180.0" text="Configuracion" />
+                <Button fx:id="btnReportes" layoutY="241.0" mnemonicParsing="false" onAction="#reportes" prefHeight="80.0" prefWidth="180.0" text="Reportes" />
+                <Button fx:id="btnConfiguracion" layoutY="321.0" mnemonicParsing="false" onAction="#configuracion" prefHeight="80.0" prefWidth="180.0" text="Configuracion" />
             </children>
         </Pane>
         <Pane fx:id="paneAgregarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -168,7 +168,7 @@
         <Pane fx:id="paneExtra" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
                 
-            <TableView fx:id="tablaconsulta" layoutX="13.0" layoutY="72.0" prefHeight="209.0" prefWidth="560.0">
+            <TableView fx:id="tablaconsulta" layoutX="15.0" layoutY="59.0" prefHeight="209.0" prefWidth="560.0">
               <columns>
                  <TableColumn fx:id="Idcitac" prefWidth="75.0" text="Id" />
                         <TableColumn fx:id="Nombrepacientec" prefWidth="75.0" text="Nombre" />
@@ -179,17 +179,17 @@
                         <TableColumn fx:id="costocitac" prefWidth="75.0" text="Costo" />
               </columns>
             </TableView>
-                <Button fx:id="consultacita" layoutX="27.0" layoutY="324.0" mnemonicParsing="false" onAction="#tabla3" prefHeight="41.0" prefWidth="174.0" text="Ver todas las citas" />
-            <Button fx:id="citapornombre" layoutX="390.0" layoutY="324.0" mnemonicParsing="false" onAction="#consultacitapornombre" prefHeight="41.0" prefWidth="174.0" text="Citas por nombre" />
-            <Button fx:id="citaporfecha" layoutX="206.0" layoutY="324.0" mnemonicParsing="false" onAction="#fechacon" prefHeight="41.0" prefWidth="174.0" text="Citas por fecha" />
-            <DatePicker fx:id="fechac" disable="true" layoutX="206.0" layoutY="381.0" onAction="#consultaporfecha" promptText="SELECCIONE FECHA" />
+                <Button fx:id="consultacita" layoutX="27.0" layoutY="303.0" mnemonicParsing="false" onAction="#tabla3" prefHeight="41.0" prefWidth="174.0" text="Todas las citas" />
+            <Button fx:id="citapornombre" layoutX="388.0" layoutY="303.0" mnemonicParsing="false" onAction="#consultacitapornombre" prefHeight="41.0" prefWidth="174.0" text="Citas por nombre" />
+            <Button fx:id="citaporfecha" layoutX="207.0" layoutY="303.0" mnemonicParsing="false" onAction="#fechacon" prefHeight="41.0" prefWidth="174.0" text="Citas por fecha" />
+            <DatePicker fx:id="fechac" disable="true" layoutX="207.0" layoutY="364.0" onAction="#consultaporfecha" promptText="SELECCIONE FECHA" />
             <Label fx:id="g" layoutX="344.0" layoutY="318.0" visible="false" />
             <Label layoutX="217.0" layoutY="24.0" text="Reportes Citas">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button layoutX="206.0" layoutY="445.0" mnemonicParsing="false" onAction="#reportes" prefHeight="41.0" prefWidth="174.0" text="Regresar" />
+            <Button layoutX="208.0" layoutY="448.0" mnemonicParsing="false" onAction="#reportes" prefHeight="41.0" prefWidth="174.0" text="Regresar" />
             </children>
         </Pane>
         <Pane fx:id="paneEditarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -265,7 +265,8 @@
         </Pane>
         <Pane fx:id="paneReportes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
          <children>
-            <Button layoutX="78.0" layoutY="134.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Reporte Edad" />
+            <Button fx:id="btnMuni" layoutX="78.0" layoutY="71.0" mnemonicParsing="false" onAction="#reporteMu" prefHeight="47.0" prefWidth="140.0" text="Reporte Municipio" />
+            <Button fx:id="btnEdadRe" layoutX="78.0" layoutY="134.0" mnemonicParsing="false" onAction="#reporteEdad" prefHeight="47.0" prefWidth="140.0" text="Reporte Edad" />
             <Button layoutX="78.0" layoutY="202.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Reporte Sexo" />
             <Button layoutX="78.0" layoutY="271.0" mnemonicParsing="false" onAction="#reporteIngresos" prefHeight="47.0" prefWidth="140.0" text="Reporte Ingresos" />
                 <Button fx:id="btnConfiguracion1" layoutX="78.0" layoutY="336.0" mnemonicParsing="false" onAction="#extra" prefHeight="47.0" prefWidth="140.0" text="Historial Citas" />
@@ -298,6 +299,43 @@
                   <Font size="18.0" />
                </font>
             </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="paneMuni" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
+         <children>
+            <Label layoutX="196.0" layoutY="24.0" text="Reporte Municipios">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tableMuni" layoutX="43.0" layoutY="145.0" prefHeight="347.0" prefWidth="501.0">
+              <columns>
+                <TableColumn fx:id="nomMuni" prefWidth="271.0" text="Municipio" />
+                <TableColumn fx:id="cantMuni" prefWidth="229.0" text="Pacientes" />
+              </columns>
+            </TableView>
+            <Button fx:id="btnRegM" layoutX="483.0" layoutY="511.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
+            <ComboBox fx:id="muniBox" layoutX="130.0" layoutY="87.0" promptText="Municipios" />
+            <Button fx:id="btnMost" layoutX="376.0" layoutY="87.0" mnemonicParsing="false" onAction="#buscarMuni" text="Mostrar" />
+         </children></Pane>
+      <Pane fx:id="paneEdad" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
+         <children>
+            <Label layoutX="221.0" layoutY="31.0" text="Reporte Edad">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="119.0" layoutY="93.0" text="Ingrese la edad:" />
+            <TextField fx:id="txtEdad" layoutX="209.0" layoutY="89.0" prefHeight="25.0" prefWidth="119.0" />
+            <Button fx:id="btnEdad" layoutX="349.0" layoutY="89.0" mnemonicParsing="false" onAction="#mostrarEdad" text="Mostrar" />
+            <Button fx:id="btnRegE" layoutX="461.0" layoutY="483.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
+            <TableView fx:id="tableEdad" layoutX="69.0" layoutY="135.0" prefHeight="339.0" prefWidth="453.0">
+              <columns>
+                <TableColumn fx:id="nomEd" prefWidth="157.0" text="Nombre" />
+                <TableColumn fx:id="apeEd" prefWidth="148.0" text="Apellido" />
+                  <TableColumn fx:id="cantEd" prefWidth="147.0" text="Edad" />
+              </columns>
+            </TableView>
          </children>
       </Pane>
     </children>
