@@ -42,6 +42,7 @@ import paciente.datosPacientes;
 import paciente.registrarPaciente;
 import cita.paciente_tablacita;
 import cita.Modificar;
+import reportes.tablasexo;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
@@ -54,7 +55,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Pane paneAgregarPaciente, panePacientes, paneCitas, paneHistorial,
             paneReportes, paneConfiguracion, paneExtra, paneEditarPaciente, paneH,
-            paneAgregarH;
+            paneAgregarH, paneRsexo;
     @FXML
     private javafx.scene.control.TextField nombre, telefono, costo, idPaciente, Hora;
     @FXML
@@ -111,6 +112,15 @@ public class FXMLDocumentController implements Initializable {
     public TableColumn<paciente_tablacita, String> Atendidocitac;
     public TableColumn<paciente_tablacita, String> costocitac;
     private ObservableList<paciente_tablacita> listaconsulta = FXCollections.observableArrayList();
+
+    @FXML
+    private TableView<tablasexo> tablasexo1;
+    public TableColumn<tablasexo, String> Nombrepacientes;
+    public TableColumn<tablasexo, String> Apellidopacientes;
+    public TableColumn<tablasexo, String> Telefonos;
+    public TableColumn<tablasexo, String> Fechanac;
+
+    private ObservableList<tablasexo> listareportesexo = FXCollections.observableArrayList();
 
     public void actualizardatos() {
         lista2.clear();
@@ -951,6 +961,108 @@ public class FXMLDocumentController implements Initializable {
         paneReportes.setVisible(true);
         //Código extra desde acá
 
+    }
+
+    @FXML
+    CheckBox m1, f1;
+
+    @FXML
+    private void reportesexo(ActionEvent event) {
+        paneReportes.setVisible(false);
+        paneRsexo.setVisible(true);
+
+    }
+     @FXML
+    private void tablasexoM(ActionEvent event) {
+        listareportesexo.clear();
+        String campo="Sexo";
+      
+        String valor="M";
+         try {
+            //conectando con base de datos
+            Connection conn = null;
+            conexionBD conexion = new conexionBD();
+            conn = conexion.conectarMySQL();
+            //Haciendo la consulta
+            String selectSQL = "SELECT Nombre,Apellido,Fecha_de_Nacimiento,Telefono FROM paciente Where " + campo + " LIKE '%" + valor + "%'";
+            PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            //ciclo para agregar todos los pacientes con el nombre a la lista
+
+            while (rs.next()) {
+
+               
+                String Nombre11 = rs.getString(1);
+                String Apellido11 = rs.getString(2);
+                Date fecha11=rs.getDate(3);
+                String Telefono1 = rs.getString(4);
+               
+                 String fecha2 = new SimpleDateFormat("yyyy-MM-dd ").format(fecha11);
+                tablasexo listap = new tablasexo( Nombre11, Apellido11, fecha2, Telefono1);
+                listareportesexo.add(listap);
+            }
+            rs.close();
+            conn.close();
+            //agrega a la tabla
+          
+            Nombrepacientes.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+           Apellidopacientes.setCellValueFactory(new PropertyValueFactory<>("Apellido"));
+            Fechanac.setCellValueFactory(new PropertyValueFactory<>("Fecha"));
+            Telefonos.setCellValueFactory(new PropertyValueFactory<>("Telefono"));
+            
+           
+            tablasexo1.setItems(listareportesexo);
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            
+        }
+    
+    }
+    @FXML
+    private void tablasexoF(ActionEvent event) {
+        listareportesexo.clear();
+        String campo="Sexo";
+      
+        String valor="F";
+         try {
+            //conectando con base de datos
+            Connection conn = null;
+            conexionBD conexion = new conexionBD();
+            conn = conexion.conectarMySQL();
+            //Haciendo la consulta
+            String selectSQL = "SELECT Nombre,Apellido,Fecha_de_Nacimiento,Telefono FROM paciente Where " + campo + " LIKE '%" + valor + "%'";
+            PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+            //ciclo para agregar todos los pacientes con el nombre a la lista
+
+            while (rs.next()) {
+
+               
+                String Nombre11 = rs.getString(1);
+                String Apellido11 = rs.getString(2);
+                Date fecha11=rs.getDate(3);
+                String Telefono1 = rs.getString(4);
+               
+                 String fecha2 = new SimpleDateFormat("yyyy-MM-dd ").format(fecha11);
+                tablasexo listap = new tablasexo( Nombre11, Apellido11, fecha2, Telefono1);
+                listareportesexo.add(listap);
+            }
+            rs.close();
+            conn.close();
+            //agrega a la tabla
+          
+            Nombrepacientes.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+           Apellidopacientes.setCellValueFactory(new PropertyValueFactory<>("Apellido"));
+            Fechanac.setCellValueFactory(new PropertyValueFactory<>("Fecha"));
+            Telefonos.setCellValueFactory(new PropertyValueFactory<>("Telefono"));
+            
+           
+            tablasexo1.setItems(listareportesexo);
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            
+        }
+    
     }
 
     @FXML

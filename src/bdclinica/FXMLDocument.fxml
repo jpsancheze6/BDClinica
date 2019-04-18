@@ -146,9 +146,27 @@
         </Pane>
         <Pane fx:id="paneReportes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
-                <Button layoutX="14.0" layoutY="354.0" mnemonicParsing="false" text="Button" />
+               <Button layoutX="78.0" layoutY="71.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Reporte Municipio" />
+             <Button layoutX="78.0" layoutY="134.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Reporte Edad" />
+             <Button layoutX="78.0" layoutY="202.0" mnemonicParsing="false" onAction="#reportesexo" prefHeight="47.0" prefWidth="140.0" text="Reporte Sexo" />
+             <Button layoutX="77.0" layoutY="289.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="140.0" text="Reporte Ingresos" />
+            
             </children>
         </Pane>
+        <Pane fx:id="paneRsexo" layoutX="191.0" layoutY="16.0" prefHeight="531.0" prefWidth="560.0" visible="false">
+         <children>
+            <TableView fx:id="tablasexo1" layoutX="131.0" layoutY="225.0" prefHeight="200.0" prefWidth="306.0">
+              <columns>
+               <TableColumn fx:id="Nombrepacientes" prefWidth="75.0" text="Nombre" />
+               <TableColumn fx:id="Apellidopacientes" prefWidth="75.0" text="Apellido" />
+                <TableColumn fx:id="Fechanac" prefWidth="75.0" text="Fecha" />
+                  <TableColumn fx:id="Telefonos" prefWidth="75.0" text="Telefono" />
+              </columns>
+            </TableView>
+            <Button fx:id="breportesexoh" layoutX="33.0" layoutY="58.0" mnemonicParsing="false" onAction="#tablasexoM" prefHeight="35.0" prefWidth="119.0" text="Hombre" />
+            <Button fx:id="breportesexoM" layoutX="33.0" layoutY="112.0" mnemonicParsing="false" onAction="#tablasexoF" prefHeight="35.0" prefWidth="119.0" text="Mujer" />
+         </children>
+            </Pane>
         <Pane fx:id="paneConfiguracion" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
                 <Button layoutX="14.0" layoutY="435.0" mnemonicParsing="false" text="Button" />
