@@ -633,15 +633,13 @@ public class FXMLDocumentController implements Initializable {
             alert.setTitle("Advertencia");
             alert.setHeaderText("Error");
             alert.setContentText("Faltan campos por llenar");
-
             alert.showAndWait();
         } else {
-
             boolean atendido1 = false, reconsulta1 = false;
             String nombre1 = nombre.getText();
             String telefono1 = telefono.getText();
             String costo1 = costo.getText();
-            int costo2 = Integer.parseInt(costo1);
+            double costo2 = Double.parseDouble(costo1);
             String id = idPaciente.getText();
             int idpaciente = Integer.parseInt(id);
             //tomando la fecha y hora
@@ -661,18 +659,24 @@ public class FXMLDocumentController implements Initializable {
             if (selected1 == true) {
                 atendido1 = true;
             }
-            nombre.clear();
-            telefono.clear();
-            costo.clear();
-            idPaciente.clear();
-            reconsulta.setSelected(false);
-            atendido.setSelected(false);
-            Hora.clear();
-            //agregar.setDisable(true);
-            lista.clear();
-            lista2.clear();
             //enviando al metodo
-            citas.recibirdatos(nombre1, reconsulta1, telefono1, fecha2, idpaciente, atendido1, costo2);
+            boolean bandera = citas.recibirdatos(nombre1, reconsulta1, telefono1, fecha2, idpaciente, atendido1, costo2);
+            if (bandera == true) {
+                nombre.clear();
+                telefono.clear();
+                costo.clear();
+                idPaciente.clear();
+                reconsulta.setSelected(false);
+                atendido.setSelected(false);
+                Hora.clear();
+                //agregar.setDisable(true);
+                lista.clear();
+                lista2.clear();
+                tabla.setVisible(false);
+                tabla2.setVisible(false);
+                actualizar.setDisable(true);
+                modificarcita.setDisable(true);
+            }
         }
     }
 
@@ -683,6 +687,12 @@ public class FXMLDocumentController implements Initializable {
         actualizar.setDisable(true);
         modificarcita.setDisable(true);
         agregar.setDisable(false);
+        nombre.setText("");
+        reconsulta.setSelected(false);
+        telefono.setText("");
+        Hora.setText("");
+        atendido.setSelected(false);
+        costo.setText("");
     }
 
     @FXML
@@ -703,7 +713,7 @@ public class FXMLDocumentController implements Initializable {
         //Obteniendo pacientes con mismo nombre
         try {
             //Haciendo la consulta
-            String selectSQL = "SELECT idPaciente, Nombre, Apellido FROM paciente WHERE Nombre LIKE '%" + nombre1 + "%'";
+            String selectSQL = "SELECT idPaciente, Nombre, Apellido FROM paciente WHERE apellido LIKE '%" + nombre1 + "%'";
             PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
             ResultSet rs = preparedStatement.executeQuery(selectSQL);
             //ciclo para agregar todos los pacientes con el nombre a la lista
@@ -813,9 +823,7 @@ public class FXMLDocumentController implements Initializable {
                 PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
                 ResultSet rs = preparedStatement.executeQuery(selectSQL);
                 //ciclo para agregar todos los pacientes con el nombre a la lista
-
                 while (rs.next()) {
-
                     int id1 = rs.getInt(1);
                     String Nombre11 = rs.getString(2);
                     boolean Reconsulta1 = rs.getBoolean(3);
@@ -865,7 +873,6 @@ public class FXMLDocumentController implements Initializable {
                 alert.showAndWait();
             }
         }
-
     }
 
     @FXML
