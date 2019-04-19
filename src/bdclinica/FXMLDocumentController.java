@@ -1865,8 +1865,8 @@ public class FXMLDocumentController implements Initializable {
                 int tel = Integer.parseInt(telefono);
                 //Mandar a registrarPaciente.java
                 registrarPaciente rp = new registrarPaciente();
-                rp.recibirDatos(nombre, apellido, fecha, genero, seleccion, tel);
-                cancelarIngresarPaciente();
+                rp.recibirDatos(nombre, apellido, fecha, genero, seleccion, tel);                
+                pacientes();
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.initStyle(StageStyle.UTILITY);
