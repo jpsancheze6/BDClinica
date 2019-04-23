@@ -246,15 +246,15 @@ public class FXMLDocumentController implements Initializable {
         paneRsexo.setVisible(false);
         //Código extra desde acá
         //Conectar con la base de datos para cargar municipios
-        conexionBD sql = new conexionBD();
-        Connection con = sql.conectarMySQL();
-        String sentencia = "select * from municipio";
         try {
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            String sentencia = "select * from municipio";
+            ObservableList<String> municipios = FXCollections.observableArrayList();
+            municipios.add("-- Seleccione Municipio --");
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sentencia);
             //
-            ObservableList<String> municipios = FXCollections.observableArrayList();
-            municipios.add("-- Seleccione Municipio --");
             int n = -1;
             if (rs != null) {
                 while (rs.next()) {
@@ -262,6 +262,7 @@ public class FXMLDocumentController implements Initializable {
                     municipios.add(rs.getString(2));
                 }
                 cbxMunicipios.setItems(municipios);
+                cbxMunicipios.getSelectionModel().select(0);
             } else {
                 System.out.println("No hay datos");
             }
@@ -1865,7 +1866,7 @@ public class FXMLDocumentController implements Initializable {
                 int tel = Integer.parseInt(telefono);
                 //Mandar a registrarPaciente.java
                 registrarPaciente rp = new registrarPaciente();
-                rp.recibirDatos(nombre, apellido, fecha, genero, seleccion, tel);                
+                rp.recibirDatos(nombre, apellido, fecha, genero, seleccion, tel);
                 pacientes();
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
