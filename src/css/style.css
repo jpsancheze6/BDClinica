@@ -8,3 +8,13 @@
     -fx-background-radius: 0;
 }
 */
+#lblLogin{
+    -fx-graphic: url("../img/login.png");
+    -fx-graphic-text-gap : 10;
+}
+#btnAceptarLogin{
+    -fx-background-color: #00BD3A;
+}
+#btnCancelarLogin{
+    -fx-background-color: #FC4349;
+}
