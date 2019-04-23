@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="208.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bdclinica.FXMLLoginController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="266.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bdclinica.FXMLLoginController">
    <children>
-      <TextField fx:id="txtUsuario" layoutX="32.0" layoutY="24.0" promptText="Usuario" />
-      <PasswordField fx:id="txtPassword" layoutX="28.0" layoutY="75.0" promptText="Contraseña" />
-      <Button fx:id="btnAceptar" layoutX="32.0" layoutY="122.0" mnemonicParsing="false" onAction="#aceptar" text="Aceptar" />
-      <Button fx:id="btnCancelar" layoutX="102.0" layoutY="122.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+      <Button fx:id="btnAceptar" layoutX="64.0" layoutY="267.0" mnemonicParsing="false" onAction="#aceptar" text="Aceptar" />
+      <Button fx:id="btnCancelar" layoutX="134.0" layoutY="267.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+      <JFXTextField fx:id="txtUsuario" layoutX="45.0" layoutY="128.0" prefHeight="25.0" prefWidth="182.0" promptText="Usuario" />
+      <JFXPasswordField fx:id="txtPassword" layoutX="42.0" layoutY="187.0" prefHeight="25.0" prefWidth="182.0" promptText="Contraseña" />
    </children>
 </Pane>
