@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -14,7 +13,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
@@ -22,45 +20,45 @@
     <children>
         <Pane fx:id="paneBotones" prefHeight="562.0" prefWidth="180.0">
             <children>
-                <Button fx:id="btnPacientes" mnemonicParsing="false" onAction="#pacientes" prefHeight="80.0" prefWidth="180.0" text="Pacientes" />
-                <Button fx:id="btnModificarPacientes1" layoutY="80.0" mnemonicParsing="false" onAction="#citas" prefHeight="80.0" prefWidth="180.0" text="Citas" />
-                <Button fx:id="btnHistorial" layoutY="160.0" mnemonicParsing="false" onAction="#historial" prefHeight="80.0" prefWidth="180.0" text="Historial" />
-                <Button fx:id="btnReportes" layoutY="241.0" mnemonicParsing="false" onAction="#reportes" prefHeight="80.0" prefWidth="180.0" text="Reportes" />
-                <Button fx:id="btnConfiguracion" layoutY="321.0" mnemonicParsing="false" onAction="#configuracion" prefHeight="80.0" prefWidth="180.0" text="Configuracion" />
+                <JFXButton fx:id="btnPacientes" mnemonicParsing="false" onAction="#pacientes" prefHeight="80.0" prefWidth="180.0" text="Pacientes" />
+                <JFXButton fx:id="btnModificarPacientes1" layoutY="80.0" mnemonicParsing="false" onAction="#citas" prefHeight="80.0" prefWidth="180.0" text="Citas" />
+                <JFXButton fx:id="btnHistorial" layoutY="160.0" mnemonicParsing="false" onAction="#historial" prefHeight="80.0" prefWidth="180.0" text="Historial" />
+                <JFXButton fx:id="btnReportes" layoutY="241.0" mnemonicParsing="false" onAction="#reportes" prefHeight="80.0" prefWidth="180.0" text="Reportes" />
+                <JFXButton fx:id="btnConfiguracion" layoutY="321.0" mnemonicParsing="false" onAction="#configuracion" prefHeight="80.0" prefWidth="180.0" text="Configuracion" />
             </children>
         </Pane>
         <Pane fx:id="paneAgregarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
-                <TextField fx:id="txtNombre" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
-                <TextField fx:id="txtApellido" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
+                <JFXTextField fx:id="txtNombre" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
+                <JFXTextField fx:id="txtApellido" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
                 <DatePicker fx:id="dtFecha" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
-                <CheckBox fx:id="cuadroMasculino" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculino" text="Masculino">
+                <JFXCheckBox fx:id="cuadroMasculino" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculino" text="Masculino">
                     <font>
                         <Font size="14.0" />
                     </font>
-                </CheckBox>
-                <CheckBox fx:id="cuadroFemenino" layoutX="341.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarFemenino" text="Femenino">
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="cuadroFemenino" layoutX="341.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarFemenino" text="Femenino">
                     <font>
                         <Font size="14.0" />
                     </font>
-                </CheckBox>
-                <ComboBox fx:id="cbxMunicipios" layoutX="148.0" layoutY="305.0" prefHeight="25.0" prefWidth="345.0" />
-                <Button fx:id="bntConfirmar" layoutX="225.0" layoutY="430.0" mnemonicParsing="false" onAction="#guardarUsuario" text="Confirmar">
+                </JFXCheckBox>
+                <JFXComboBox fx:id="cbxMunicipios" layoutX="148.0" layoutY="305.0" prefHeight="25.0" prefWidth="345.0" />
+                <JFXButton fx:id="bntConfirmar" layoutX="225.0" layoutY="430.0" mnemonicParsing="false" onAction="#guardarUsuario" text="Confirmar">
                     <font>
                         <Font size="14.0" />
                     </font>
-                </Button>
-                <Button fx:id="btnCancelar" layoutX="339.0" layoutY="430.0" mnemonicParsing="false" onAction="#cancelarIngresarPaciente" text="Cancelar">
+                </JFXButton>
+                <JFXButton fx:id="btnCancelar" layoutX="339.0" layoutY="430.0" mnemonicParsing="false" onAction="#cancelarIngresarPaciente" text="Cancelar">
                     <font>
                         <Font size="14.0" />
                     </font>
-                </Button>
+                </JFXButton>
                 <Label layoutX="197.0" layoutY="24.0" text="Ingreso de Pacientes">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <TextField fx:id="txtTelefono" layoutX="148.0" layoutY="367.0" prefHeight="25.0" prefWidth="345.0" promptText="Telefono" />
+                <JFXTextField fx:id="txtTelefono" layoutX="148.0" layoutY="367.0" prefHeight="25.0" prefWidth="345.0" promptText="Telefono" />
             </children>
         </Pane>
         <Pane fx:id="panePacientes" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -70,18 +68,18 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnAgregarPaciente" layoutX="156.0" layoutY="481.0" mnemonicParsing="false" onAction="#agregarPaciente" prefHeight="47.0" prefWidth="117.0" text="Agregar Paciente" />
+                <JFXButton fx:id="btnAgregarPaciente" layoutX="156.0" layoutY="481.0" mnemonicParsing="false" onAction="#agregarPaciente" prefHeight="47.0" prefWidth="117.0" text="Agregar Paciente" />
                 <TableView fx:id="tblPacientes" layoutX="14.0" layoutY="58.0" prefHeight="400.0" prefWidth="560.0">
                     <columns>
                         <TableColumn prefWidth="75.0" text="C1" />
                         <TableColumn prefWidth="75.0" text="C2" />
                     </columns>
                 </TableView>
-                <Button fx:id="btnEditar" layoutX="304.0" layoutY="481.0" mnemonicParsing="false" onAction="#editarPaciente" prefHeight="47.0" prefWidth="134.0" text="Editar Paciente">
+                <JFXButton fx:id="btnEditar" layoutX="304.0" layoutY="481.0" mnemonicParsing="false" onAction="#editarPaciente" prefHeight="47.0" prefWidth="134.0" text="Editar Paciente">
                     <font>
                         <Font size="14.0" />
                     </font>
-                </Button>
+                </JFXButton>
             </children>
         </Pane>
         <Pane fx:id="paneCitas" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -91,17 +89,17 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <TextField fx:id="nombre" layoutX="48.0" layoutY="90.0" promptText="Apellido" />
-                <CheckBox fx:id="reconsulta" layoutX="83.0" layoutY="135.0" mnemonicParsing="false" text="Reconsulta" />
-                <TextField fx:id="telefono" disable="true" layoutX="48.0" layoutY="164.0" promptText="Telefono" />
+                <JFXTextField fx:id="nombre" layoutX="48.0" layoutY="90.0" promptText="Apellido" />
+                <JFXCheckBox fx:id="reconsulta" layoutX="83.0" layoutY="135.0" mnemonicParsing="false" text="Reconsulta" />
+                <JFXTextField fx:id="telefono" disable="true" layoutX="48.0" layoutY="164.0" promptText="Telefono" />
                 <DatePicker fx:id="fecha" layoutX="17.0" layoutY="220.0" prefHeight="31.0" prefWidth="119.0" promptText="Fecha" />
-                <TextField fx:id="Hora" layoutX="154.0" layoutY="220.0" prefHeight="31.0" prefWidth="95.0" promptText="Hora" />
-                <Button fx:id="buscar" layoutX="34.0" layoutY="270.0" mnemonicParsing="false" onAction="#Buscar" text="Buscar paciente" />
-                <Button fx:id="cancelar" layoutX="154.0" layoutY="270.0" mnemonicParsing="false" onAction="#cancelarprocesos" text="Cancelar" />
-                <CheckBox fx:id="atendido" layoutX="410.0" layoutY="129.0" mnemonicParsing="false" text="Atendido" />
-                <TextField fx:id="idPaciente" layoutX="370.0" layoutY="83.0" promptText="ID Paciente" visible="false" />
-                <Button fx:id="agregar" disable="true" layoutX="372.0" layoutY="236.0" mnemonicParsing="false" onMouseClicked="#agregarcita" prefHeight="47.0" prefWidth="132.0" text="Ingresar" />
-                <TextField fx:id="costo" disable="true" layoutX="371.0" layoutY="166.0" promptText="Costo" />
+                <JFXTextField fx:id="Hora" layoutX="154.0" layoutY="220.0" prefHeight="31.0" prefWidth="95.0" promptText="Hora" />
+                <JFXButton fx:id="buscar" layoutX="34.0" layoutY="270.0" mnemonicParsing="false" onAction="#Buscar" text="Buscar paciente" />
+                <JFXButton fx:id="cancelar" layoutX="154.0" layoutY="270.0" mnemonicParsing="false" onAction="#cancelarprocesos" text="Cancelar" />
+                <JFXCheckBox fx:id="atendido" layoutX="410.0" layoutY="129.0" mnemonicParsing="false" text="Atendido" />
+                <JFXTextField fx:id="idPaciente" layoutX="370.0" layoutY="83.0" promptText="ID Paciente" visible="false" />
+                <JFXButton fx:id="agregar" disable="true" layoutX="372.0" layoutY="236.0" mnemonicParsing="false" onMouseClicked="#agregarcita" prefHeight="47.0" prefWidth="132.0" text="Ingresar" />
+                <JFXTextField fx:id="costo" disable="true" layoutX="371.0" layoutY="166.0" promptText="Costo" />
                 <TableView fx:id="tabla" layoutX="17.0" layoutY="324.0" onMouseClicked="#seleccionado" prefHeight="200.0" prefWidth="250.0" visible="false">
                     <columns>
                         <TableColumn fx:id="Id" prefWidth="75.0" text="Id" />
@@ -110,7 +108,7 @@
                     </columns>
 
                 </TableView>
-                <Button fx:id="modificarcita" disable="true" layoutX="425.0" layoutY="524.0" mnemonicParsing="false" onAction="#tabla2" text="Modificar cita" />
+                <JFXButton fx:id="modificarcita" disable="true" layoutX="425.0" layoutY="524.0" mnemonicParsing="false" onAction="#tabla2" text="Modificar cita" />
                 <TableView fx:id="tabla2" layoutX="270.0" layoutY="295.0" onMouseClicked="#seleccionadotabla2" prefHeight="225.0" prefWidth="298.0" visible="false">
                     <columns>
                         <TableColumn fx:id="Idcita" prefWidth="75.0" text="Id" />
@@ -122,7 +120,7 @@
                         <TableColumn fx:id="costocita" prefWidth="75.0" text="Costo" />
                     </columns>
                 </TableView>
-                <Button fx:id="actualizar" disable="true" layoutX="325.0" layoutY="524.0" mnemonicParsing="false" onAction="#actualizardatos" text="Actualizar cita" />
+                <JFXButton fx:id="actualizar" disable="true" layoutX="325.0" layoutY="524.0" mnemonicParsing="false" onAction="#actualizardatos" text="Actualizar cita" />
             </children>
         </Pane>
         <Pane fx:id="paneHistorial" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -133,14 +131,14 @@
                     </font>
                 </Label>
                 <Label layoutX="124.0" layoutY="89.0" text="Apellido del Paciente :" />
-                <TextField fx:id="txtN" layoutX="248.0" layoutY="85.0" prefHeight="25.0" prefWidth="146.0">
+                <JFXTextField fx:id="txtN" layoutX="248.0" layoutY="85.0" prefHeight="25.0" prefWidth="146.0">
                     <font>
                         <Font name="Arial" size="12.0" />
                     </font>
-                </TextField>
-                <Button fx:id="btnBuscar" layoutX="402.0" layoutY="85.0" mnemonicParsing="false" onAction="#tablePA" text="Buscar" />
-                <Button fx:id="btnAbrir" layoutX="502.0" layoutY="509.0" mnemonicParsing="false" onAction="#seleccionarFila" text="Abrir">
-                </Button>
+                </JFXTextField>
+                <JFXButton fx:id="btnBuscar" layoutX="402.0" layoutY="85.0" mnemonicParsing="false" onAction="#tablePA" text="Buscar" />
+                <JFXButton fx:id="btnAbrir" layoutX="502.0" layoutY="509.0" mnemonicParsing="false" onAction="#seleccionarFila" text="Abrir">
+                </JFXButton>
                 <TableView fx:id="tablePA" layoutX="38.0" layoutY="130.0" prefHeight="367.0" prefWidth="510.0">
                     <columns>
                         <TableColumn fx:id="IDPaciente" prefWidth="89.0" text="ID" />
@@ -160,29 +158,29 @@
                         <TableColumn fx:id="Fechanac" prefWidth="116.0" text="Fecha" />
                     </columns>
                 </TableView>
-                <Button fx:id="breportesexoh" layoutX="147.0" layoutY="124.0" mnemonicParsing="false" onAction="#tablasexoM" prefHeight="35.0" prefWidth="119.0" text="Hombre" />
-                <Button fx:id="breportesexoM" layoutX="304.0" layoutY="124.0" mnemonicParsing="false" onAction="#tablasexoF" prefHeight="35.0" prefWidth="119.0" text="Mujer" />
+                <JFXButton fx:id="breportesexoh" layoutX="147.0" layoutY="124.0" mnemonicParsing="false" onAction="#tablasexoM" prefHeight="35.0" prefWidth="119.0" text="Hombre" />
+                <JFXButton fx:id="breportesexoM" layoutX="304.0" layoutY="124.0" mnemonicParsing="false" onAction="#tablasexoF" prefHeight="35.0" prefWidth="119.0" text="Mujer" />
             <Label layoutX="222.0" layoutY="20.0" text="Reporte Sexo">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button layoutX="260.0" layoutY="436.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
+            <JFXButton layoutX="260.0" layoutY="436.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
             </children>
         </Pane>
         <Pane fx:id="paneConfiguracion" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
-                <Button layoutX="249.0" layoutY="302.0" mnemonicParsing="false" onAction="#crearUsuario" text="Crear Usuario" />
+                <JFXButton layoutX="249.0" layoutY="302.0" mnemonicParsing="false" onAction="#crearUsuario" text="Crear Usuario" />
                 <PasswordField fx:id="txtPass1" layoutX="219.0" layoutY="154.0" promptText="Contraseña" />
                 <PasswordField fx:id="txtPass2" layoutX="218.0" layoutY="197.0" promptText="Confirmar Contraseña" />
-                <TextField fx:id="txtUsuario" layoutX="218.0" layoutY="113.0" promptText="Nombre Usuario" />
+                <JFXTextField fx:id="txtUsuario" layoutX="218.0" layoutY="113.0" promptText="Nombre Usuario" />
                 <Label layoutX="202.0" layoutY="46.0" text="Registrar Usuario">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <CheckBox fx:id="cbxAdministrador" layoutX="202.0" layoutY="258.0" mnemonicParsing="false" onAction="#seleccionarAdministrador" text="Administrador" />
-                <CheckBox fx:id="cbxRegular" layoutX="319.0" layoutY="258.0" mnemonicParsing="false" onAction="#seleccionarRegular" text="Regular" />
+                <JFXCheckBox fx:id="cbxAdministrador" layoutX="202.0" layoutY="258.0" mnemonicParsing="false" onAction="#seleccionarAdministrador" text="Administrador" />
+                <JFXCheckBox fx:id="cbxRegular" layoutX="319.0" layoutY="258.0" mnemonicParsing="false" onAction="#seleccionarRegular" text="Regular" />
             </children>
         </Pane>
         <Pane fx:id="paneExtra" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -199,9 +197,9 @@
                         <TableColumn fx:id="costocitac" prefWidth="75.0" text="Costo" />
                     </columns>
                 </TableView>
-                <Button fx:id="consultacita" layoutX="27.0" layoutY="303.0" mnemonicParsing="false" onAction="#tabla3" prefHeight="41.0" prefWidth="174.0" text="Todas las citas" />
-                <Button fx:id="citapornombre" layoutX="388.0" layoutY="303.0" mnemonicParsing="false" onAction="#consultacitapornombre" prefHeight="41.0" prefWidth="174.0" text="Citas por nombre" />
-                <Button fx:id="citaporfecha" layoutX="207.0" layoutY="303.0" mnemonicParsing="false" onAction="#fechacon" prefHeight="41.0" prefWidth="174.0" text="Citas por fecha" />
+                <JFXButton fx:id="consultacita" layoutX="27.0" layoutY="303.0" mnemonicParsing="false" onAction="#tabla3" prefHeight="41.0" prefWidth="174.0" text="Todas las citas" />
+                <JFXButton fx:id="citapornombre" layoutX="388.0" layoutY="303.0" mnemonicParsing="false" onAction="#consultacitapornombre" prefHeight="41.0" prefWidth="174.0" text="Citas por nombre" />
+                <JFXButton fx:id="citaporfecha" layoutX="207.0" layoutY="303.0" mnemonicParsing="false" onAction="#fechacon" prefHeight="41.0" prefWidth="174.0" text="Citas por fecha" />
                 <DatePicker fx:id="fechac" disable="true" layoutX="207.0" layoutY="364.0" onAction="#consultaporfecha" promptText="SELECCIONE FECHA" />
                 <Label fx:id="g" layoutX="344.0" layoutY="318.0" visible="false" />
                 <Label layoutX="217.0" layoutY="24.0" text="Reportes Citas">
@@ -209,7 +207,7 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Button layoutX="208.0" layoutY="448.0" mnemonicParsing="false" onAction="#reportes" prefHeight="41.0" prefWidth="174.0" text="Regresar" />
+                <JFXButton layoutX="208.0" layoutY="448.0" mnemonicParsing="false" onAction="#reportes" prefHeight="41.0" prefWidth="174.0" text="Regresar" />
             </children>
         </Pane>
         <Pane fx:id="paneEditarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -219,36 +217,36 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <TextField fx:id="txtNombreEdicion" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
-                <TextField fx:id="txtApellidoEdicion" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
+                <JFXTextField fx:id="txtNombreEdicion" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
+                <JFXTextField fx:id="txtApellidoEdicion" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
                 <DatePicker fx:id="dtFechaEdicion" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
-                <CheckBox fx:id="cuadroMasculinoEdicion" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculinoEdicion" text="Masculino">
+                <JFXCheckBox fx:id="cuadroMasculinoEdicion" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculinoEdicion" text="Masculino">
                     <font>
                         <Font size="14.0" />
                     </font>
-                </CheckBox>
-                <CheckBox fx:id="cuadroFemeninoEdicion" layoutX="341.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarFemeninoEdicion" text="Femenino">
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="cuadroFemeninoEdicion" layoutX="341.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarFemeninoEdicion" text="Femenino">
                     <font>
                         <Font size="14.0" />
                     </font>
-                </CheckBox>
-                <ComboBox fx:id="cbxMunicipiosEdicion" layoutX="148.0" layoutY="305.0" prefHeight="25.0" prefWidth="345.0" />
-                <TextField fx:id="txtTelefonoEdicion" layoutX="146.0" layoutY="354.0" prefHeight="25.0" prefWidth="345.0" promptText="Telefono" />
-                <Button fx:id="bntConfirmarEdicion" layoutX="225.0" layoutY="436.0" mnemonicParsing="false" onAction="#guardarUsuarioEditado" text="Confirmar">
+                </JFXCheckBox>
+                <JFXComboBox fx:id="cbxMunicipiosEdicion" layoutX="148.0" layoutY="305.0" prefHeight="25.0" prefWidth="345.0" />
+                <JFXTextField fx:id="txtTelefonoEdicion" layoutX="146.0" layoutY="354.0" prefHeight="25.0" prefWidth="345.0" promptText="Telefono" />
+                <JFXButton fx:id="bntConfirmarEdicion" layoutX="225.0" layoutY="436.0" mnemonicParsing="false" onAction="#guardarUsuarioEditado" text="Confirmar">
                     <font>
                         <Font size="14.0" />
                     </font>
-                </Button>
-                <Button fx:id="btnCancelarEdicion" layoutX="339.0" layoutY="436.0" mnemonicParsing="false" onAction="#cancelarEdicion" text="Cancelar">
+                </JFXButton>
+                <JFXButton fx:id="btnCancelarEdicion" layoutX="339.0" layoutY="436.0" mnemonicParsing="false" onAction="#cancelarEdicion" text="Cancelar">
                     <font>
                         <Font size="14.0" />
                     </font>
-                </Button>
+                </JFXButton>
             </children>
         </Pane>
         <Pane fx:id="paneH" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
             <children>
-                <Button fx:id="btnReg" layoutX="504.0" layoutY="513.0" mnemonicParsing="false" onAction="#handleButtonAction4" text="Regresar" />
+                <JFXButton fx:id="btnReg" layoutX="504.0" layoutY="513.0" mnemonicParsing="false" onAction="#handleButtonAction4" text="Regresar" />
                 <TableView fx:id="tableHist" layoutX="21.0" layoutY="79.0" prefHeight="425.0" prefWidth="544.0">
                     <columns>
                         <TableColumn fx:id="fechaHist" prefWidth="97.0" text="Fecha" />
@@ -260,9 +258,9 @@
                 </TableView>
                 <Label layoutX="42.0" layoutY="29.0" text="Historial ID:" />
                 <Label layoutX="210.0" layoutY="29.0" text="Paciente:" />
-                <TextField fx:id="txtHid" disable="true" layoutX="110.0" layoutY="25.0" prefHeight="25.0" prefWidth="61.0" />
-                <TextField fx:id="txtPac" disable="true" layoutX="261.0" layoutY="25.0" prefHeight="25.0" prefWidth="306.0" />
-                <Button fx:id="btnAC" layoutX="21.0" layoutY="513.0" mnemonicParsing="false" onAction="#agregarConsulta" text="Agregar Consulta">            </Button>
+                <JFXTextField fx:id="txtHid" disable="true" layoutX="110.0" layoutY="25.0" prefHeight="25.0" prefWidth="61.0" />
+                <JFXTextField fx:id="txtPac" disable="true" layoutX="261.0" layoutY="25.0" prefHeight="25.0" prefWidth="306.0" />
+                <JFXButton fx:id="btnAC" layoutX="21.0" layoutY="513.0" mnemonicParsing="false" onAction="#agregarConsulta" text="Agregar Consulta">            </JFXButton>
             </children>
         </Pane>
         <Pane fx:id="paneAgregarH" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
@@ -273,13 +271,13 @@
                 </TextArea>
                 <TextArea fx:id="txtAnte" layoutX="119.0" layoutY="281.0" prefHeight="54.0" prefWidth="386.0" promptText="Antecedentes">
                 </TextArea>
-                <TextField fx:id="txtMed" layoutX="119.0" layoutY="118.0" prefHeight="25.0" prefWidth="386.0" promptText="Medicamento" />
+                <JFXTextField fx:id="txtMed" layoutX="119.0" layoutY="118.0" prefHeight="25.0" prefWidth="386.0" promptText="Medicamento" />
                 <Separator layoutX="54.0" layoutY="259.0" prefHeight="10.0" prefWidth="470.0" visible="false" />
                 <TextArea fx:id="txtHC" layoutX="119.0" layoutY="356.0" prefHeight="62.0" prefWidth="386.0" promptText="Historia Clinica">
                 </TextArea>
                 <TextArea fx:id="txtEF" layoutX="119.0" layoutY="437.0" prefHeight="54.0" prefWidth="386.0" promptText="Examen Fisico">
                 </TextArea>
-                <Button fx:id="btnAgregar" layoutX="286.0" layoutY="511.0" mnemonicParsing="false" onAction="#handleButtonAction5" text="Agregar" />
+                <JFXButton fx:id="btnAgregar" layoutX="286.0" layoutY="511.0" mnemonicParsing="false" onAction="#handleButtonAction5" text="Agregar" />
                 <Separator layoutX="95.0" layoutY="259.0" prefHeight="2.0" prefWidth="427.0" />
             </children>
         </Pane>
@@ -290,11 +288,11 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnMuni" layoutX="17.0" layoutY="125.0" mnemonicParsing="false" onAction="#reporteMu" prefHeight="47.0" prefWidth="140.0" text="Reporte Municipio" />
-                <Button fx:id="btnEdadRe" layoutX="17.0" layoutY="188.0" mnemonicParsing="false" onAction="#reporteEdad" prefHeight="47.0" prefWidth="140.0" text="Reporte Edad" />
-                <Button layoutX="17.0" layoutY="256.0" mnemonicParsing="false" onAction="#reportesexo" prefHeight="47.0" prefWidth="140.0" text="Reporte Sexo" />
-                <Button layoutX="17.0" layoutY="325.0" mnemonicParsing="false" onAction="#reporteIngresos" prefHeight="47.0" prefWidth="140.0" text="Reporte Ingresos" />
-                <Button fx:id="btnConfiguracion1" layoutX="17.0" layoutY="390.0" mnemonicParsing="false" onAction="#extra" prefHeight="47.0" prefWidth="140.0" text="Reporte Citas" />
+                <JFXButton fx:id="btnMuni" layoutX="17.0" layoutY="125.0" mnemonicParsing="false" onAction="#reporteMu" prefHeight="47.0" prefWidth="140.0" text="Reporte Municipio" />
+                <JFXButton fx:id="btnEdadRe" layoutX="17.0" layoutY="188.0" mnemonicParsing="false" onAction="#reporteEdad" prefHeight="47.0" prefWidth="140.0" text="Reporte Edad" />
+                <JFXButton layoutX="17.0" layoutY="256.0" mnemonicParsing="false" onAction="#reportesexo" prefHeight="47.0" prefWidth="140.0" text="Reporte Sexo" />
+                <JFXButton layoutX="17.0" layoutY="325.0" mnemonicParsing="false" onAction="#reporteIngresos" prefHeight="47.0" prefWidth="140.0" text="Reporte Ingresos" />
+                <JFXButton fx:id="btnConfiguracion1" layoutX="17.0" layoutY="390.0" mnemonicParsing="false" onAction="#extra" prefHeight="47.0" prefWidth="140.0" text="Reporte Citas" />
             <Label layoutX="189.0" layoutY="140.0" text="Muestra a los pacientes del municipio seleccionado.">
                <font>
                   <Font size="14.0" />
@@ -331,14 +329,14 @@
                 </Label>
                 <DatePicker fx:id="fechaInicio" layoutX="63.0" layoutY="73.0" promptText="Fecha Inicio" />
                 <DatePicker fx:id="fechaFinal" layoutX="311.0" layoutY="73.0" promptText="Fecha Final" />
-                <Button layoutX="244.0" layoutY="124.0" mnemonicParsing="false" onAction="#consultarIngresos" text="Consultar" />
+                <JFXButton layoutX="244.0" layoutY="124.0" mnemonicParsing="false" onAction="#consultarIngresos" text="Consultar" />
                 <TableView fx:id="tblIngresos" layoutX="13.0" layoutY="173.0" prefHeight="258.0" prefWidth="560.0">
                     <columns>
                         <TableColumn prefWidth="75.0" text="C1" />
                         <TableColumn prefWidth="75.0" text="C2" />
                     </columns>
                 </TableView>
-                <Button layoutX="435.0" layoutY="474.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
+                <JFXButton layoutX="435.0" layoutY="474.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
                 <Label fx:id="lblIngresos" layoutX="98.0" layoutY="478.0" text="       ">
                     <font>
                         <Font size="18.0" />
@@ -359,9 +357,9 @@
                         <TableColumn fx:id="cantMuni" prefWidth="229.0" text="Pacientes" />
                     </columns>
                 </TableView>
-                <Button fx:id="btnRegM" layoutX="483.0" layoutY="511.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
-                <ComboBox fx:id="muniBox" layoutX="130.0" layoutY="87.0" promptText="Municipios" />
-                <Button fx:id="btnMost" layoutX="376.0" layoutY="87.0" mnemonicParsing="false" onAction="#buscarMuni" text="Mostrar" />
+                <JFXButton fx:id="btnRegM" layoutX="483.0" layoutY="511.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
+                <JFXComboBox fx:id="muniBox" layoutX="130.0" layoutY="87.0" promptText="Municipios" />
+                <JFXButton fx:id="btnMost" layoutX="376.0" layoutY="87.0" mnemonicParsing="false" onAction="#buscarMuni" text="Mostrar" />
             </children>
         </Pane>
         <Pane fx:id="paneEdad" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
@@ -372,9 +370,9 @@
                     </font>
                 </Label>
                 <Label layoutX="119.0" layoutY="93.0" text="Ingrese la edad:" />
-                <TextField fx:id="txtEdad" layoutX="209.0" layoutY="89.0" prefHeight="25.0" prefWidth="119.0" />
-                <Button fx:id="btnEdad" layoutX="349.0" layoutY="89.0" mnemonicParsing="false" onAction="#mostrarEdad" text="Mostrar" />
-                <Button fx:id="btnRegE" layoutX="461.0" layoutY="483.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
+                <JFXTextField fx:id="txtEdad" layoutX="209.0" layoutY="89.0" prefHeight="25.0" prefWidth="119.0" />
+                <JFXButton fx:id="btnEdad" layoutX="349.0" layoutY="89.0" mnemonicParsing="false" onAction="#mostrarEdad" text="Mostrar" />
+                <JFXButton fx:id="btnRegE" layoutX="461.0" layoutY="483.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
                 <TableView fx:id="tableEdad" layoutX="69.0" layoutY="135.0" prefHeight="339.0" prefWidth="453.0">
                     <columns>
                         <TableColumn fx:id="nomEd" prefWidth="157.0" text="Nombre" />

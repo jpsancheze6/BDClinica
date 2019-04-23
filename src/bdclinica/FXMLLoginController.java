@@ -116,7 +116,7 @@ public class FXMLLoginController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Error");
-                alert.setHeaderText("Error al ingresaar");
+                alert.setHeaderText("Error al ingresar");
                 alert.setContentText("El usuario no existe");
                 alert.showAndWait();
             }
