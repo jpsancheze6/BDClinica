@@ -20,11 +20,11 @@
     <children>
         <Pane fx:id="paneBotones" prefHeight="562.0" prefWidth="180.0">
             <children>
-                <JFXButton fx:id="btnPacientes" mnemonicParsing="false" onAction="#pacientes" prefHeight="80.0" prefWidth="180.0" text="Pacientes" />
-                <JFXButton fx:id="btnModificarPacientes1" layoutY="80.0" mnemonicParsing="false" onAction="#citas" prefHeight="80.0" prefWidth="180.0" text="Citas" />
-                <JFXButton fx:id="btnHistorial" layoutY="160.0" mnemonicParsing="false" onAction="#historial" prefHeight="80.0" prefWidth="180.0" text="Historial" />
-                <JFXButton fx:id="btnReportes" layoutY="241.0" mnemonicParsing="false" onAction="#reportes" prefHeight="80.0" prefWidth="180.0" text="Reportes" />
-                <JFXButton fx:id="btnConfiguracion" layoutY="321.0" mnemonicParsing="false" onAction="#configuracion" prefHeight="80.0" prefWidth="180.0" text="Configuracion" />
+                <JFXButton fx:id="btnPacientes" mnemonicParsing="false" onAction="#pacientes" prefHeight="80.0" prefWidth="180.0" text="Pacientes     " />
+                <JFXButton fx:id="btnModificarPacientes1" layoutY="80.0" mnemonicParsing="false" onAction="#citas" prefHeight="80.0" prefWidth="180.0" text="Citas         " />
+                <JFXButton fx:id="btnHistorial" layoutY="160.0" mnemonicParsing="false" onAction="#historial" prefHeight="80.0" prefWidth="180.0" text="Historial     " />
+                <JFXButton fx:id="btnReportes" layoutY="240.0" mnemonicParsing="false" onAction="#reportes" prefHeight="80.0" prefWidth="180.0" text="Reportes     " />
+                <JFXButton fx:id="btnConfiguracion" layoutY="320.0" mnemonicParsing="false" onAction="#configuracion" prefHeight="80.0" prefWidth="180.0" text="Configuracion" />
             </children>
         </Pane>
         <Pane fx:id="paneAgregarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -171,8 +171,8 @@
         <Pane fx:id="paneConfiguracion" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
                 <JFXButton layoutX="249.0" layoutY="302.0" mnemonicParsing="false" onAction="#crearUsuario" text="Crear Usuario" />
-                <PasswordField fx:id="txtPass1" layoutX="219.0" layoutY="154.0" promptText="Contraseña" />
-                <PasswordField fx:id="txtPass2" layoutX="218.0" layoutY="197.0" promptText="Confirmar Contraseña" />
+                <JFXPasswordField fx:id="txtPass1" layoutX="219.0" layoutY="154.0" promptText="Contraseña" />
+                <JFXPasswordField fx:id="txtPass2" layoutX="218.0" layoutY="197.0" promptText="Confirmar Contraseña" />
                 <JFXTextField fx:id="txtUsuario" layoutX="218.0" layoutY="113.0" promptText="Nombre Usuario" />
                 <Label layoutX="202.0" layoutY="46.0" text="Registrar Usuario">
                     <font>
