@@ -2283,7 +2283,7 @@ public class FXMLDocumentController implements Initializable {
             i++;
         }
         try{
-            FileOutputStream archivo = new FileOutputStream("C:\\Users\\izasj\\Documents\\ReporteIngresos.xlsx");
+            FileOutputStream archivo = new FileOutputStream("ReporteIngresos.xlsx");
             libro.write(archivo);
             archivo.close();
         }catch(Exception ex) {
@@ -2310,7 +2310,7 @@ public class FXMLDocumentController implements Initializable {
             i++;
         }
         try{
-            FileOutputStream archivo = new FileOutputStream("C:\\Users\\izasj\\Documents\\ReporteEdad.xlsx");
+            FileOutputStream archivo = new FileOutputStream("ReporteEdad.xlsx");
             libro.write(archivo);
             archivo.close();
         }catch(Exception ex) {
@@ -2339,7 +2339,7 @@ public class FXMLDocumentController implements Initializable {
             i++;
         }
         try{
-            FileOutputStream archivo = new FileOutputStream("C:\\Users\\izasj\\Documents\\ReporteSexo.xlsx");
+            FileOutputStream archivo = new FileOutputStream("ReporteSexo.xlsx");
             libro.write(archivo);
             archivo.close();
         }catch(Exception ex) {
@@ -2366,7 +2366,7 @@ public class FXMLDocumentController implements Initializable {
             i++;
         }
         try{
-            FileOutputStream archivo = new FileOutputStream("C:\\Users\\izasj\\Documents\\ReporteMunicipios.xlsx");
+            FileOutputStream archivo = new FileOutputStream("ReporteMunicipios.xlsx");
             libro.write(archivo);
             archivo.close();
         }catch(Exception ex) {
@@ -2401,7 +2401,7 @@ public class FXMLDocumentController implements Initializable {
             i++;
         }
         try{
-            FileOutputStream archivo = new FileOutputStream("C:\\Users\\izasj\\Documents\\ReporteCitas.xlsx");
+            FileOutputStream archivo = new FileOutputStream("ReporteCitas.xlsx");
             libro.write(archivo);
             archivo.close();
         }catch(Exception ex) {
