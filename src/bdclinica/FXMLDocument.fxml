@@ -152,10 +152,10 @@
             <children>
                 <TableView fx:id="tablasexo1" layoutX="30.0" layoutY="181.0" prefHeight="200.0" prefWidth="525.0">
                     <columns>
-                        <TableColumn fx:id="Apellidopacientes" prefWidth="160.0" text="Apellido" />
-                        <TableColumn fx:id="Nombrepacientes" prefWidth="133.0" text="Nombre" />
+                        <TableColumn fx:id="Apellidopacientes" prefWidth="152.0" text="Apellido" />
+                        <TableColumn fx:id="Nombrepacientes" prefWidth="141.0" text="Nombre" />
                         <TableColumn fx:id="Telefonos" minWidth="0.0" prefWidth="107.0" text="Telefono" />
-                        <TableColumn fx:id="Fechanac" prefWidth="116.0" text="Fecha" />
+                        <TableColumn fx:id="Fechanac" prefWidth="124.0" text="Fecha de Nacimiento" />
                     </columns>
                 </TableView>
                 <JFXButton fx:id="breportesexoh" layoutX="147.0" layoutY="124.0" mnemonicParsing="false" onAction="#tablasexoM" prefHeight="35.0" prefWidth="119.0" text="Hombre" />
@@ -165,7 +165,8 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <JFXButton layoutX="260.0" layoutY="436.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
+            <JFXButton layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
+            <JFXButton fx:id="btnExSe" layoutX="76.0" layoutY="435.0" onAction="#excelSexo" prefHeight="35.0" prefWidth="100.0" text="Guardar en Excel" />
             </children>
         </Pane>
         <Pane fx:id="paneConfiguracion" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -207,7 +208,8 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <JFXButton layoutX="208.0" layoutY="448.0" mnemonicParsing="false" onAction="#reportes" prefHeight="41.0" prefWidth="174.0" text="Regresar" />
+                <JFXButton layoutX="344.0" layoutY="447.0" mnemonicParsing="false" onAction="#reportes" prefHeight="41.0" prefWidth="174.0" text="Regresar" />
+            <JFXButton fx:id="btnExCi" layoutX="88.0" layoutY="447.0" onAction="#excelCita" prefHeight="41.0" prefWidth="132.0" text="Guardar en Excel" />
             </children>
         </Pane>
         <Pane fx:id="paneEditarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -336,12 +338,13 @@
                         <TableColumn prefWidth="75.0" text="C2" />
                     </columns>
                 </TableView>
-                <JFXButton layoutX="435.0" layoutY="474.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
-                <Label fx:id="lblIngresos" layoutX="98.0" layoutY="478.0" text="       ">
+                <JFXButton layoutX="435.0" layoutY="457.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
+                <Label fx:id="lblIngresos" layoutX="63.0" layoutY="479.0" text="       ">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
+            <JFXButton fx:id="btnExIn" layoutX="426.0" layoutY="505.0" onAction="#excelIngresos" prefHeight="35.0" prefWidth="117.0" text="Guardar en Excel" />
             </children>
         </Pane>
         <Pane fx:id="paneMuni" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
@@ -353,13 +356,15 @@
                 </Label>
                 <TableView fx:id="tableMuni" layoutX="43.0" layoutY="145.0" prefHeight="347.0" prefWidth="501.0">
                     <columns>
-                        <TableColumn fx:id="nomMuni" prefWidth="271.0" text="Municipio" />
-                        <TableColumn fx:id="cantMuni" prefWidth="229.0" text="Pacientes" />
+                        <TableColumn fx:id="nomMuni" prefWidth="187.0" text="Municipio" />
+                        <TableColumn fx:id="cantMuni" prefWidth="157.0" text="Nombre" />
+                  <TableColumn fx:id="apeMuni" prefWidth="156.0" text="Apellido" />
                     </columns>
                 </TableView>
                 <JFXButton fx:id="btnRegM" layoutX="483.0" layoutY="511.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
                 <JFXComboBox fx:id="muniBox" layoutX="130.0" layoutY="87.0" promptText="Municipios" />
                 <JFXButton fx:id="btnMost" layoutX="376.0" layoutY="87.0" mnemonicParsing="false" onAction="#buscarMuni" text="Mostrar" />
+            <JFXButton fx:id="btnExMun" layoutX="86.0" layoutY="511.0" onAction="#excelMuni" text="Guardar en Excel" />
             </children>
         </Pane>
         <Pane fx:id="paneEdad" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
@@ -372,7 +377,7 @@
                 <Label layoutX="119.0" layoutY="93.0" text="Ingrese la edad:" />
                 <JFXTextField fx:id="txtEdad" layoutX="209.0" layoutY="89.0" prefHeight="25.0" prefWidth="119.0" />
                 <JFXButton fx:id="btnEdad" layoutX="349.0" layoutY="89.0" mnemonicParsing="false" onAction="#mostrarEdad" text="Mostrar" />
-                <JFXButton fx:id="btnRegE" layoutX="461.0" layoutY="483.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
+                <JFXButton fx:id="btnRegE" layoutX="459.0" layoutY="496.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
                 <TableView fx:id="tableEdad" layoutX="69.0" layoutY="135.0" prefHeight="339.0" prefWidth="453.0">
                     <columns>
                         <TableColumn fx:id="nomEd" prefWidth="157.0" text="Nombre" />
@@ -380,6 +385,7 @@
                         <TableColumn fx:id="cantEd" prefWidth="147.0" text="Edad" />
                     </columns>
                 </TableView>
+            <JFXButton fx:id="btnExEd" layoutX="93.0" layoutY="496.0" onAction="#excelEdad" text="Guardar en Excel" />
             </children>
         </Pane>
     </children>

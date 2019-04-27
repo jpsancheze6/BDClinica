@@ -43,6 +43,7 @@ import cita.Modificar;
 import historial.tableHistorial;
 import historial.tablePaci;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import reportes.tablasexo;
@@ -51,6 +52,11 @@ import java.text.SimpleDateFormat;
 import java.util.Optional;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextInputDialog;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import reportes.reporteEdad;
 import reportes.reporteIngresos;
 import reportes.reporteMunicipios;
@@ -101,7 +107,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public TableColumn<reporteMunicipios, String> nomMuni;
     @FXML
-    public TableColumn<reporteMunicipios, Integer> cantMuni;
+    public TableColumn<reporteMunicipios, String> cantMuni;
+     @FXML
+    public TableColumn<reporteMunicipios, String> apeMuni;
     // Tabla Edad
     @FXML
     private ObservableList<reporteEdad> datosEdad = FXCollections.observableArrayList();
@@ -819,18 +827,20 @@ public class FXMLDocumentController implements Initializable {
         conexionBD conBD = new conexionBD();
         con = conBD.conectarMySQL();
         try {
-            String selectSQL = "select m.Nombre, p.Nombre from paciente p inner join municipio m on p.idMunicipio = m.idMunicipio where m.idMunicipio = " + seleccion + ";";
+            String selectSQL = "select m.Nombre, p.Nombre, p.Apellido from paciente p inner join municipio m on p.idMunicipio = m.idMunicipio where m.idMunicipio = " + seleccion + ";";
             PreparedStatement preparedStatement = con.prepareStatement(selectSQL);
             ResultSet rs = preparedStatement.executeQuery(selectSQL);
             while (rs.next()) {
                 String nomb = rs.getString(1);
                 String cant = rs.getString(2);
-                reporteMunicipios rm = new reporteMunicipios(nomb, cant);
+                String ape = rs.getString(3);
+                reporteMunicipios rm = new reporteMunicipios(nomb, cant, ape);
                 datosMuni.add(rm);
             }
             //agrega a la tabla
             nomMuni.setCellValueFactory(new PropertyValueFactory<>("nombreMuni"));
             cantMuni.setCellValueFactory(new PropertyValueFactory<>("cantidadMuni"));
+            apeMuni.setCellValueFactory(new PropertyValueFactory<>("apellidoMuni"));
             tableMuni.setItems(datosMuni);
         } catch (SQLException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -2133,7 +2143,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private DatePicker fechaInicio, fechaFinal;
     @FXML
-    private TableView tblIngresos;
+    private TableView<reporteIngresos> tblIngresos;
     @FXML
     private Label lblIngresos;
 
@@ -2249,8 +2259,156 @@ public class FXMLDocumentController implements Initializable {
         ActionEvent event = null;
         reportes(event);
     }
-
     //Fin reporte ingresos
+    
+    //Abrir reporte en excel
+    @FXML
+    private void excelIngresos(ActionEvent event) throws SQLException {
+        Workbook libro = new XSSFWorkbook();
+        Sheet hoja = libro.createSheet("Reporte");
+        Row fila0 = hoja.createRow(0);
+        fila0.createCell(0).setCellValue("Nombre");
+        fila0.createCell(1).setCellValue("Apellido");
+        fila0.createCell(2).setCellValue("Fecha");
+        fila0.createCell(3).setCellValue("Costo");
+        int tam = tblIngresos.getItems().size();
+        int i = 0;
+        while(i < tam) {
+            reporteIngresos rIng = tblIngresos.getItems().get(i);
+            Row fila = hoja.createRow(i + 1);
+            fila.createCell(0).setCellValue(rIng.getNombre());
+            fila.createCell(1).setCellValue(rIng.getApellido());
+            fila.createCell(2).setCellValue(rIng.getFecha());
+            fila.createCell(3).setCellValue(rIng.getCosto());
+            i++;
+        }
+        try{
+            FileOutputStream archivo = new FileOutputStream("C:\\Users\\izasj\\Documents\\ReporteIngresos.xlsx");
+            libro.write(archivo);
+            archivo.close();
+        }catch(Exception ex) {
+            System.out.println("Error" + ex);
+        }
+    }
+    
+    @FXML
+    private void excelEdad(ActionEvent event) throws SQLException {
+        Workbook libro = new XSSFWorkbook();
+        Sheet hoja = libro.createSheet("Reporte");
+        Row fila0 = hoja.createRow(0);
+        fila0.createCell(0).setCellValue("Nombre");
+        fila0.createCell(1).setCellValue("Apellido");
+        fila0.createCell(2).setCellValue("Edad");
+        int tam = tableEdad.getItems().size();
+        int i = 0;
+        while(i < tam) {
+            reporteEdad rEdad = tableEdad.getItems().get(i);
+            Row fila = hoja.createRow(i + 1);
+            fila.createCell(0).setCellValue(rEdad.getNombreEdad());
+            fila.createCell(1).setCellValue(rEdad.getApellidoEdad());
+            fila.createCell(2).setCellValue(rEdad.getCantidadEdad());
+            i++;
+        }
+        try{
+            FileOutputStream archivo = new FileOutputStream("C:\\Users\\izasj\\Documents\\ReporteEdad.xlsx");
+            libro.write(archivo);
+            archivo.close();
+        }catch(Exception ex) {
+            System.out.println("Error" + ex);
+        }
+    }
+    
+    @FXML
+    private void excelSexo(ActionEvent event) throws SQLException {
+        Workbook libro = new XSSFWorkbook();
+        Sheet hoja = libro.createSheet("Reporte");
+        Row fila0 = hoja.createRow(0);
+        fila0.createCell(0).setCellValue("Apellido");
+        fila0.createCell(1).setCellValue("Nombre");
+        fila0.createCell(2).setCellValue("Telefono");
+        fila0.createCell(3).setCellValue("Fecha de Nacimiento");
+        int tam = tablasexo1.getItems().size();
+        int i = 0;
+        while(i < tam) {
+            tablasexo rSexo = tablasexo1.getItems().get(i);
+            Row fila = hoja.createRow(i + 1);
+            fila.createCell(0).setCellValue(rSexo.getApellido());
+            fila.createCell(1).setCellValue(rSexo.getNombre());
+            fila.createCell(2).setCellValue(rSexo.getTelefono());
+            fila.createCell(3).setCellValue(rSexo.getFecha());
+            i++;
+        }
+        try{
+            FileOutputStream archivo = new FileOutputStream("C:\\Users\\izasj\\Documents\\ReporteSexo.xlsx");
+            libro.write(archivo);
+            archivo.close();
+        }catch(Exception ex) {
+            System.out.println("Error" + ex);
+        }
+    }
+    
+    @FXML
+    private void excelMuni(ActionEvent event) throws SQLException {
+        Workbook libro = new XSSFWorkbook();
+        Sheet hoja = libro.createSheet("Reporte");
+        Row fila0 = hoja.createRow(0);
+        fila0.createCell(0).setCellValue("Municipio");
+        fila0.createCell(1).setCellValue("Nombre");
+        fila0.createCell(2).setCellValue("Apellido");
+        int tam = tableMuni.getItems().size();
+        int i = 0;
+        while(i < tam) {
+            reporteMunicipios rMuni = tableMuni.getItems().get(i);
+            Row fila = hoja.createRow(i + 1);
+            fila.createCell(0).setCellValue(rMuni.getNombreMuni());
+            fila.createCell(1).setCellValue(rMuni.getCantidadMuni());
+            fila.createCell(2).setCellValue(rMuni.getApellidoMuni());
+            i++;
+        }
+        try{
+            FileOutputStream archivo = new FileOutputStream("C:\\Users\\izasj\\Documents\\ReporteMunicipios.xlsx");
+            libro.write(archivo);
+            archivo.close();
+        }catch(Exception ex) {
+            System.out.println("Error" + ex);
+        }
+    }
+    
+    @FXML
+    private void excelCita(ActionEvent event) throws SQLException {
+        Workbook libro = new XSSFWorkbook();
+        Sheet hoja = libro.createSheet("Reporte");
+        Row fila0 = hoja.createRow(0);
+        fila0.createCell(0).setCellValue("ID");
+        fila0.createCell(1).setCellValue("Nombre");
+        fila0.createCell(2).setCellValue("Reconsulta");
+        fila0.createCell(3).setCellValue("Telefono");
+        fila0.createCell(4).setCellValue("Fecha");
+        fila0.createCell(5).setCellValue("Atendido");
+        fila0.createCell(6).setCellValue("Costo");
+        int tam = tablaconsulta.getItems().size();
+        int i = 0;
+        while(i < tam) {
+            paciente_tablacita rCita = tablaconsulta.getItems().get(i);
+            Row fila = hoja.createRow(i + 1);
+            fila.createCell(0).setCellValue(rCita.getId());
+            fila.createCell(1).setCellValue(rCita.getNombre());
+            fila.createCell(2).setCellValue(rCita.getReconsulta());
+            fila.createCell(3).setCellValue(rCita.getTelefono());
+            fila.createCell(4).setCellValue(rCita.getFecha());
+            fila.createCell(5).setCellValue(rCita.getAtendido());
+            fila.createCell(6).setCellValue(rCita.getCosto());
+            i++;
+        }
+        try{
+            FileOutputStream archivo = new FileOutputStream("C:\\Users\\izasj\\Documents\\ReporteCitas.xlsx");
+            libro.write(archivo);
+            archivo.close();
+        }catch(Exception ex) {
+            System.out.println("Error" + ex);
+        }
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

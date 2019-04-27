@@ -8,19 +8,29 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class reporteMunicipios {
     private SimpleStringProperty nombreMuni;
+    private SimpleStringProperty apellidoMuni;
     private SimpleStringProperty cantidadMuni;
     
-    public reporteMunicipios(String nom, String cant) {
+    public reporteMunicipios(String nom, String cant, String ape) {
         this.nombreMuni = new SimpleStringProperty(nom);
+        this.apellidoMuni = new SimpleStringProperty(ape);
         this.cantidadMuni = new SimpleStringProperty(cant);
     }
 
+    public String getApellidoMuni() {
+        return apellidoMuni.get();
+    }
+
+    public void setApellidoMuni(String apellidoMuni) {
+        this.apellidoMuni = new SimpleStringProperty(apellidoMuni);;
+    }
+    
     public String getNombreMuni() {
         return nombreMuni.get();
     }
 
     public void setNombreMuni(String nombreMuni) {
-        this.nombreMuni =new SimpleStringProperty(nombreMuni);;
+        this.nombreMuni = new SimpleStringProperty(nombreMuni);;
     }
 
     public String getCantidadMuni() {
