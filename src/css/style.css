@@ -4,34 +4,50 @@
 
 .button{/* Color de todos los botones*/
     -fx-color: black;
-    -fx-background-color: #1F80A6;
+    -fx-background-color: #61698A;
     -fx-background-radius: 0;
 }
-#panePacientes{
+#panePacientes, #paneAgregarPaciente, #panePacientes, #paneCitas, #paneHistorial,
+#paneReportes, #paneConfiguracion, #paneExtra, #paneEditarPaciente, #paneH,
+#paneAgregarH, #paneRsexo, #paneRIngresos, #paneMuni, #paneEdad, #paneCrearUsuario, #paneRuta{
     -fx-background-color: #FFFFFF;
 }
 /* Iconos en los botones de acceso */
 #btnPacientes{
     -fx-graphic: url("../img/pacientes.png");
     -fx-graphic-text-gap : 10;
+    -fx-color: black;
+    -fx-background-color: #1F80A6;
+    -fx-background-radius: 0;
 }
 #btnModificarPacientes1{
     -fx-graphic: url("../img/citas.png");
     -fx-graphic-text-gap : 10;
+    -fx-color: black;
+    -fx-background-color: #1F80A6;
+    -fx-background-radius: 0;
 }
 #btnHistorial{
     -fx-graphic: url("../img/historial.png");
     -fx-graphic-text-gap : 10;
+    -fx-color: black;
+    -fx-background-color: #1F80A6;
+    -fx-background-radius: 0;
 }
 #btnReportes{
     -fx-graphic: url("../img/reportes.png");
     -fx-graphic-text-gap : 10;
+    -fx-color: black;
+    -fx-background-color: #1F80A6;
+    -fx-background-radius: 0;
 }
 #btnConfiguracion{
     -fx-graphic: url("../img/confi.png");
     -fx-graphic-text-gap : 10;
+    -fx-color: black;
+    -fx-background-color: #1F80A6;
+    -fx-background-radius: 0;
 }
-
 #lblLogin{
     -fx-graphic: url("../img/login.png");
     -fx-graphic-text-gap : 10;
@@ -46,4 +62,25 @@
 }
 #paneBotones{
     -fx-background-color: #1F80A6;
+}
+/* Botones de cancelar */
+#btnCancelar{
+    -fx-background-color: #FC4349;
+    -fx-background-radius: 1;
+}
+#cancelar{
+    -fx-background-color: #FC4349;
+    -fx-background-radius: 1;
+}
+#cancelarRuta{
+    -fx-background-color: #FC4349;
+    -fx-background-radius: 1;
+}
+#cancelarRuta1{
+    -fx-background-color: #FC4349;
+    -fx-background-radius: 1;
+}
+#btnCancelarEdicion{
+    -fx-background-color: #FC4349;
+    -fx-background-radius: 1;
 }
