@@ -31,7 +31,7 @@
             <children>
                 <JFXTextField fx:id="txtNombre" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
                 <JFXTextField fx:id="txtApellido" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
-                <DatePicker fx:id="dtFecha" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
+                <JFXDatePicker fx:id="dtFecha" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
                 <JFXCheckBox fx:id="cuadroMasculino" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculino" text="Masculino">
                     <font>
                         <Font size="14.0" />
@@ -92,7 +92,7 @@
                 <JFXTextField fx:id="nombre" layoutX="48.0" layoutY="90.0" promptText="Apellido" />
                 <JFXCheckBox fx:id="reconsulta" layoutX="83.0" layoutY="135.0" mnemonicParsing="false" text="Reconsulta" />
                 <JFXTextField fx:id="telefono" disable="true" layoutX="48.0" layoutY="164.0" promptText="Telefono" />
-                <DatePicker fx:id="fecha" layoutX="17.0" layoutY="220.0" prefHeight="31.0" prefWidth="119.0" promptText="Fecha" />
+                <JFXDatePicker fx:id="fecha" layoutX="17.0" layoutY="220.0" prefHeight="31.0" prefWidth="119.0" promptText="Fecha" />
                 <JFXTextField fx:id="Hora" layoutX="154.0" layoutY="220.0" prefHeight="31.0" prefWidth="95.0" promptText="Hora" />
                 <JFXButton fx:id="buscar" layoutX="34.0" layoutY="270.0" mnemonicParsing="false" onAction="#Buscar" text="Buscar paciente" />
                 <JFXButton fx:id="cancelar" layoutX="154.0" layoutY="270.0" mnemonicParsing="false" onAction="#cancelarprocesos" text="Cancelar" />
@@ -130,8 +130,7 @@
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Label layoutX="124.0" layoutY="89.0" text="Apellido del Paciente :" />
-                <JFXTextField fx:id="txtN" layoutX="248.0" layoutY="85.0" prefHeight="25.0" prefWidth="146.0">
+                <JFXTextField fx:id="txtN" layoutX="248.0" layoutY="85.0" prefHeight="25.0" prefWidth="146.0" promptText="Apellido del paciente:">
                     <font>
                         <Font name="Arial" size="12.0" />
                     </font>
@@ -160,63 +159,63 @@
                 </TableView>
                 <JFXButton fx:id="breportesexoh" layoutX="147.0" layoutY="124.0" mnemonicParsing="false" onAction="#tablasexoM" prefHeight="35.0" prefWidth="119.0" text="Hombre" />
                 <JFXButton fx:id="breportesexoM" layoutX="304.0" layoutY="124.0" mnemonicParsing="false" onAction="#tablasexoF" prefHeight="35.0" prefWidth="119.0" text="Mujer" />
-            <Label layoutX="222.0" layoutY="20.0" text="Reporte Sexo">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <JFXButton layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
-            <JFXButton fx:id="btnExSe" layoutX="76.0" layoutY="435.0" onAction="#excelSexo" prefHeight="35.0" prefWidth="100.0" text="Guardar en Excel" />
+                <Label layoutX="222.0" layoutY="20.0" text="Reporte Sexo">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <JFXButton layoutX="390.0" layoutY="435.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
+                <JFXButton fx:id="btnExSe" layoutX="93.0" layoutY="435.0" onAction="#excelSexo" prefHeight="35.0" prefWidth="140.0" text="Guardar en Excel" />
             </children>
         </Pane>
         <Pane fx:id="paneCrearUsuario" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
-               <children>
-                      <JFXButton layoutX="145.0" layoutY="370.0" mnemonicParsing="false" onAction="#crearUsuario" prefHeight="35.0" prefWidth="126.0" text="Crear Usuario" />
-                      <JFXPasswordField fx:id="txtPass1" layoutX="208.0" layoutY="178.0" promptText="Contraseña" />
-                      <JFXPasswordField fx:id="txtPass2" layoutX="208.0" layoutY="225.0" promptText="Confirmar Contraseña" />
-                      <JFXTextField fx:id="txtUsuario" layoutX="208.0" layoutY="128.0" promptText="Nombre Usuario" />
-                      <Label layoutX="184.0" layoutY="47.0" text="Registrar Usuario">
-                          <font>
-                              <Font size="24.0" />
-                          </font>
-                      </Label>
-                      <JFXCheckBox fx:id="cbxAdministrador" layoutX="288.0" layoutY="292.0" mnemonicParsing="false" onAction="#seleccionarAdministrador" text="Administrador" />
-                      <JFXCheckBox fx:id="cbxRegular" layoutX="197.0" layoutY="292.0" mnemonicParsing="false" onAction="#seleccionarRegular" text="Regular" />
-            <JFXButton layoutX="293.0" layoutY="370.0" mnemonicParsing="false" onAction="#cancelarRuta" prefHeight="35.0" prefWidth="126.0" text="Cancelar" />
-               </children>
-            </Pane>
-            <Pane fx:id="paneRuta" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
-               <children>
-                  <Label layoutX="154.0" layoutY="32.0" text="Cambiar Ruta de Reportes">
-                     <font>
+            <children>
+                <JFXButton layoutX="145.0" layoutY="370.0" mnemonicParsing="false" onAction="#crearUsuario" prefHeight="35.0" prefWidth="126.0" text="Crear Usuario" />
+                <JFXPasswordField fx:id="txtPass1" layoutX="208.0" layoutY="178.0" promptText="Contraseña" />
+                <JFXPasswordField fx:id="txtPass2" layoutX="208.0" layoutY="225.0" promptText="Confirmar Contraseña" />
+                <JFXTextField fx:id="txtUsuario" layoutX="208.0" layoutY="128.0" promptText="Nombre Usuario" />
+                <Label layoutX="184.0" layoutY="47.0" text="Registrar Usuario">
+                    <font>
                         <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <JFXButton layoutX="189.0" layoutY="386.0" onAction="#guardarRuta" prefHeight="35.0" prefWidth="87.0" text="Guardar" />
-                  <JFXButton layoutX="310.0" layoutY="386.0" onAction="#cancelarRuta" prefHeight="35.0" prefWidth="87.0" text="Cancelar" />
-                  <JFXTextField fx:id="txtRuta" editable="false" layoutX="124.0" layoutY="192.0" prefHeight="38.0" prefWidth="338.0" promptText="Ruta" />
-                  <JFXButton layoutX="227.0" layoutY="264.0" onAction="#cambiarRuta" prefHeight="35.0" prefWidth="132.0" text="Cambiar Ruta" />
-               </children>
-            </Pane>
+                    </font>
+                </Label>
+                <JFXCheckBox fx:id="cbxAdministrador" layoutX="288.0" layoutY="292.0" mnemonicParsing="false" onAction="#seleccionarAdministrador" text="Administrador" />
+                <JFXCheckBox fx:id="cbxRegular" layoutX="197.0" layoutY="292.0" mnemonicParsing="false" onAction="#seleccionarRegular" text="Regular" />
+                <JFXButton fx:id="cancelarRuta" layoutX="293.0" layoutY="370.0" mnemonicParsing="false" onAction="#cancelarRuta" prefHeight="35.0" prefWidth="126.0" text="Cancelar" />
+            </children>
+        </Pane>
+        <Pane fx:id="paneRuta" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+            <children>
+                <Label layoutX="154.0" layoutY="32.0" text="Cambiar Ruta de Reportes">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <JFXButton layoutX="189.0" layoutY="386.0" onAction="#guardarRuta" prefHeight="35.0" prefWidth="87.0" text="Guardar" />
+                <JFXButton fx:id="cancelarRuta1" layoutX="310.0" layoutY="386.0" onAction="#cancelarRuta" prefHeight="35.0" prefWidth="87.0" text="Cancelar" />
+                <JFXTextField fx:id="txtRuta" editable="false" layoutX="124.0" layoutY="192.0" prefHeight="38.0" prefWidth="338.0" promptText="Ruta" />
+                <JFXButton layoutX="227.0" layoutY="264.0" onAction="#cambiarRuta" prefHeight="35.0" prefWidth="132.0" text="Cambiar Ruta" />
+            </children>
+        </Pane>
         <Pane fx:id="paneConfiguracion" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
-            <JFXButton layoutX="55.0" layoutY="175.0" onAction="#vistaCrearUsuario" text="Crear Usuario" />
-            <Label layoutX="219.0" layoutY="39.0" text="Configuración">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <JFXButton layoutX="55.0" layoutY="236.0" onAction="#vistaCambiarRuta" text="Cambiar Ruta" />
-            <Label layoutX="174.0" layoutY="179.0" text="Crea un usuario para el manejo del sistema.">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="174.0" layoutY="239.0" text="Cambia la ruta en la que guardan los reportes.">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
+                <JFXButton layoutX="55.0" layoutY="175.0" onAction="#vistaCrearUsuario" text="Crear Usuario" />
+                <Label layoutX="219.0" layoutY="39.0" text="Configuración">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <JFXButton layoutX="55.0" layoutY="236.0" onAction="#vistaCambiarRuta" text="Cambiar Ruta" />
+                <Label layoutX="174.0" layoutY="179.0" text="Crea un usuario para el manejo del sistema.">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="174.0" layoutY="239.0" text="Cambia la ruta en la que guardan los reportes.">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
             </children>
         </Pane>
         <Pane fx:id="paneExtra" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -236,7 +235,7 @@
                 <JFXButton fx:id="consultacita" layoutX="27.0" layoutY="303.0" mnemonicParsing="false" onAction="#tabla3" prefHeight="41.0" prefWidth="174.0" text="Todas las citas" />
                 <JFXButton fx:id="citapornombre" layoutX="388.0" layoutY="303.0" mnemonicParsing="false" onAction="#consultacitapornombre" prefHeight="41.0" prefWidth="174.0" text="Citas por nombre" />
                 <JFXButton fx:id="citaporfecha" layoutX="207.0" layoutY="303.0" mnemonicParsing="false" onAction="#fechacon" prefHeight="41.0" prefWidth="174.0" text="Citas por fecha" />
-                <DatePicker fx:id="fechac" disable="true" layoutX="207.0" layoutY="364.0" onAction="#consultaporfecha" promptText="SELECCIONE FECHA" />
+                <JFXDatePicker fx:id="fechac" disable="true" layoutX="207.0" layoutY="364.0" onAction="#consultaporfecha" promptText="SELECCIONE FECHA" />
                 <Label fx:id="g" layoutX="344.0" layoutY="318.0" visible="false" />
                 <Label layoutX="217.0" layoutY="24.0" text="Reportes Citas">
                     <font>
@@ -244,7 +243,7 @@
                     </font>
                 </Label>
                 <JFXButton layoutX="344.0" layoutY="447.0" mnemonicParsing="false" onAction="#reportes" prefHeight="41.0" prefWidth="174.0" text="Regresar" />
-            <JFXButton fx:id="btnExCi" layoutX="88.0" layoutY="447.0" onAction="#excelCita" prefHeight="41.0" prefWidth="132.0" text="Guardar en Excel" />
+                <JFXButton fx:id="btnExCi" layoutX="88.0" layoutY="447.0" onAction="#excelCita" prefHeight="41.0" prefWidth="132.0" text="Guardar en Excel" />
             </children>
         </Pane>
         <Pane fx:id="paneEditarPaciente" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -256,7 +255,7 @@
                 </Label>
                 <JFXTextField fx:id="txtNombreEdicion" layoutX="146.0" layoutY="113.0" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" />
                 <JFXTextField fx:id="txtApellidoEdicion" layoutX="148.0" layoutY="159.0" prefHeight="25.0" prefWidth="345.0" promptText="Apellido" />
-                <DatePicker fx:id="dtFechaEdicion" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
+                <JFXDatePicker fx:id="dtFechaEdicion" layoutX="148.0" layoutY="206.0" prefHeight="25.0" prefWidth="345.0" promptText="Fecha Nacimiento" />
                 <JFXCheckBox fx:id="cuadroMasculinoEdicion" layoutX="207.0" layoutY="260.0" mnemonicParsing="false" onAction="#seleccionarMasculinoEdicion" text="Masculino">
                     <font>
                         <Font size="14.0" />
@@ -293,27 +292,25 @@
                         <TableColumn fx:id="descripHist" prefWidth="144.0" text="Descripccion" />
                     </columns>
                 </TableView>
-                <Label layoutX="42.0" layoutY="29.0" text="Historial ID:" />
-                <Label layoutX="210.0" layoutY="29.0" text="Paciente:" />
-                <JFXTextField fx:id="txtHid" disable="true" layoutX="110.0" layoutY="25.0" prefHeight="25.0" prefWidth="61.0" />
-                <JFXTextField fx:id="txtPac" disable="true" layoutX="261.0" layoutY="25.0" prefHeight="25.0" prefWidth="306.0" />
+                <JFXTextField fx:id="txtHid" disable="true" layoutX="110.0" layoutY="25.0" prefHeight="25.0" prefWidth="61.0" promptText="ID Historial" />
+                <JFXTextField fx:id="txtPac" disable="true" layoutX="261.0" layoutY="25.0" prefHeight="25.0" prefWidth="306.0" promptText="Paciente" />
                 <JFXButton fx:id="btnAC" layoutX="21.0" layoutY="513.0" mnemonicParsing="false" onAction="#agregarConsulta" text="Agregar Consulta">            </JFXButton>
             </children>
         </Pane>
         <Pane fx:id="paneAgregarH" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
             <children>
-                <TextArea fx:id="txtPade" layoutX="119.0" layoutY="33.0" prefHeight="62.0" prefWidth="386.0" promptText="Padecimiento">
-                </TextArea>
-                <TextArea fx:id="txtDesc" layoutX="119.0" layoutY="173.0" prefHeight="62.0" prefWidth="386.0" promptText="Descipcion">
-                </TextArea>
-                <TextArea fx:id="txtAnte" layoutX="119.0" layoutY="281.0" prefHeight="54.0" prefWidth="386.0" promptText="Antecedentes">
-                </TextArea>
+                <JFXTextArea fx:id="txtPade" layoutX="119.0" layoutY="33.0" prefHeight="62.0" prefWidth="386.0" promptText="Padecimiento">
+                </JFXTextArea>
+                <JFXTextArea fx:id="txtDesc" layoutX="119.0" layoutY="173.0" prefHeight="62.0" prefWidth="386.0" promptText="Descipcion">
+                </JFXTextArea>
+                <JFXTextArea fx:id="txtAnte" layoutX="119.0" layoutY="281.0" prefHeight="54.0" prefWidth="386.0" promptText="Antecedentes">
+                </JFXTextArea>
                 <JFXTextField fx:id="txtMed" layoutX="119.0" layoutY="118.0" prefHeight="25.0" prefWidth="386.0" promptText="Medicamento" />
                 <Separator layoutX="54.0" layoutY="259.0" prefHeight="10.0" prefWidth="470.0" visible="false" />
-                <TextArea fx:id="txtHC" layoutX="119.0" layoutY="356.0" prefHeight="62.0" prefWidth="386.0" promptText="Historia Clinica">
-                </TextArea>
-                <TextArea fx:id="txtEF" layoutX="119.0" layoutY="437.0" prefHeight="54.0" prefWidth="386.0" promptText="Examen Fisico">
-                </TextArea>
+                <JFXTextArea fx:id="txtHC" layoutX="119.0" layoutY="356.0" prefHeight="62.0" prefWidth="386.0" promptText="Historia Clinica">
+                </JFXTextArea>
+                <JFXTextArea fx:id="txtEF" layoutX="119.0" layoutY="437.0" prefHeight="54.0" prefWidth="386.0" promptText="Examen Fisico">
+                </JFXTextArea>
                 <JFXButton fx:id="btnAgregar" layoutX="286.0" layoutY="511.0" mnemonicParsing="false" onAction="#handleButtonAction5" text="Agregar" />
                 <Separator layoutX="95.0" layoutY="259.0" prefHeight="2.0" prefWidth="427.0" />
             </children>
@@ -330,31 +327,31 @@
                 <JFXButton layoutX="17.0" layoutY="256.0" mnemonicParsing="false" onAction="#reportesexo" prefHeight="47.0" prefWidth="140.0" text="Reporte Sexo" />
                 <JFXButton layoutX="17.0" layoutY="325.0" mnemonicParsing="false" onAction="#reporteIngresos" prefHeight="47.0" prefWidth="140.0" text="Reporte Ingresos" />
                 <JFXButton fx:id="btnConfiguracion1" layoutX="17.0" layoutY="390.0" mnemonicParsing="false" onAction="#extra" prefHeight="47.0" prefWidth="140.0" text="Reporte Citas" />
-            <Label layoutX="189.0" layoutY="140.0" text="Muestra a los pacientes del municipio seleccionado.">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="189.0" layoutY="202.0" text="Muestra a los pacientes de la edad ingresada.">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="189.0" layoutY="270.0" text="Muestra a los pacientes agrupados por los géneros.">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="189.0" layoutY="339.0" text="Muestra los ingresos que se han tenido en las consultas.">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="188.0" layoutY="404.0" text="Muestra las citas que se han realizado en diferentes formatos.">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
+                <Label layoutX="189.0" layoutY="140.0" text="Muestra a los pacientes del municipio seleccionado.">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="189.0" layoutY="202.0" text="Muestra a los pacientes de la edad ingresada.">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="189.0" layoutY="270.0" text="Muestra a los pacientes agrupados por los géneros.">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="189.0" layoutY="339.0" text="Muestra los ingresos que se han tenido en las consultas.">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="188.0" layoutY="404.0" text="Muestra las citas que se han realizado en diferentes formatos.">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
             </children>
         </Pane>
         <Pane fx:id="paneRIngresos" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
@@ -364,8 +361,8 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <DatePicker fx:id="fechaInicio" layoutX="63.0" layoutY="73.0" promptText="Fecha Inicio" />
-                <DatePicker fx:id="fechaFinal" layoutX="311.0" layoutY="73.0" promptText="Fecha Final" />
+                <JFXDatePicker fx:id="fechaInicio" layoutX="63.0" layoutY="73.0" promptText="Fecha Inicio" />
+                <JFXDatePicker fx:id="fechaFinal" layoutX="311.0" layoutY="73.0" promptText="Fecha Final" />
                 <JFXButton layoutX="244.0" layoutY="124.0" mnemonicParsing="false" onAction="#consultarIngresos" text="Consultar" />
                 <TableView fx:id="tblIngresos" layoutX="13.0" layoutY="173.0" prefHeight="258.0" prefWidth="560.0">
                     <columns>
@@ -373,13 +370,13 @@
                         <TableColumn prefWidth="75.0" text="C2" />
                     </columns>
                 </TableView>
-                <JFXButton layoutX="435.0" layoutY="457.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
+                <JFXButton layoutX="398.0" layoutY="462.0" mnemonicParsing="false" onAction="#regresarReportes" prefHeight="35.0" prefWidth="99.0" text="Regresar" />
                 <Label fx:id="lblIngresos" layoutX="63.0" layoutY="479.0" text="       ">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-            <JFXButton fx:id="btnExIn" layoutX="426.0" layoutY="505.0" onAction="#excelIngresos" prefHeight="35.0" prefWidth="117.0" text="Guardar en Excel" />
+                <JFXButton fx:id="btnExIn" layoutX="150.0" layoutY="462.0" onAction="#excelIngresos" prefHeight="35.0" prefWidth="117.0" text="Guardar en Excel" />
             </children>
         </Pane>
         <Pane fx:id="paneMuni" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
@@ -393,13 +390,13 @@
                     <columns>
                         <TableColumn fx:id="nomMuni" prefWidth="187.0" text="Municipio" />
                         <TableColumn fx:id="cantMuni" prefWidth="157.0" text="Nombre" />
-                  <TableColumn fx:id="apeMuni" prefWidth="156.0" text="Apellido" />
+                        <TableColumn fx:id="apeMuni" prefWidth="156.0" text="Apellido" />
                     </columns>
                 </TableView>
-                <JFXButton fx:id="btnRegM" layoutX="483.0" layoutY="511.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
+                <JFXButton fx:id="btnRegM" layoutX="402.0" layoutY="511.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
                 <JFXComboBox fx:id="muniBox" layoutX="130.0" layoutY="87.0" promptText="Municipios" />
                 <JFXButton fx:id="btnMost" layoutX="376.0" layoutY="87.0" mnemonicParsing="false" onAction="#buscarMuni" text="Mostrar" />
-            <JFXButton fx:id="btnExMun" layoutX="86.0" layoutY="511.0" onAction="#excelMuni" text="Guardar en Excel" />
+                <JFXButton fx:id="btnExMun" layoutX="125.0" layoutY="511.0" onAction="#excelMuni" text="Guardar en Excel" />
             </children>
         </Pane>
         <Pane fx:id="paneEdad" layoutX="178.0" prefHeight="561.0" prefWidth="586.0" visible="false">
@@ -409,10 +406,9 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Label layoutX="119.0" layoutY="93.0" text="Ingrese la edad:" />
-                <JFXTextField fx:id="txtEdad" layoutX="209.0" layoutY="89.0" prefHeight="25.0" prefWidth="119.0" />
+                <JFXTextField fx:id="txtEdad" layoutX="209.0" layoutY="89.0" prefHeight="25.0" prefWidth="119.0" promptText="Ingrese la Edad" />
                 <JFXButton fx:id="btnEdad" layoutX="349.0" layoutY="89.0" mnemonicParsing="false" onAction="#mostrarEdad" text="Mostrar" />
-                <JFXButton fx:id="btnRegE" layoutX="459.0" layoutY="496.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
+                <JFXButton fx:id="btnRegE" layoutX="406.0" layoutY="496.0" mnemonicParsing="false" onAction="#regMuni" text="Regresar" />
                 <TableView fx:id="tableEdad" layoutX="69.0" layoutY="135.0" prefHeight="339.0" prefWidth="453.0">
                     <columns>
                         <TableColumn fx:id="nomEd" prefWidth="157.0" text="Nombre" />
@@ -420,7 +416,7 @@
                         <TableColumn fx:id="cantEd" prefWidth="147.0" text="Edad" />
                     </columns>
                 </TableView>
-            <JFXButton fx:id="btnExEd" layoutX="93.0" layoutY="496.0" onAction="#excelEdad" text="Guardar en Excel" />
+                <JFXButton fx:id="btnExEd" layoutX="129.0" layoutY="496.0" onAction="#excelEdad" text="Guardar en Excel" />
             </children>
         </Pane>
     </children>
