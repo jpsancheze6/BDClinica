@@ -169,19 +169,54 @@
             <JFXButton fx:id="btnExSe" layoutX="76.0" layoutY="435.0" onAction="#excelSexo" prefHeight="35.0" prefWidth="100.0" text="Guardar en Excel" />
             </children>
         </Pane>
+        <Pane fx:id="paneCrearUsuario" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+               <children>
+                      <JFXButton layoutX="145.0" layoutY="370.0" mnemonicParsing="false" onAction="#crearUsuario" prefHeight="35.0" prefWidth="126.0" text="Crear Usuario" />
+                      <JFXPasswordField fx:id="txtPass1" layoutX="208.0" layoutY="178.0" promptText="Contraseña" />
+                      <JFXPasswordField fx:id="txtPass2" layoutX="208.0" layoutY="225.0" promptText="Confirmar Contraseña" />
+                      <JFXTextField fx:id="txtUsuario" layoutX="208.0" layoutY="128.0" promptText="Nombre Usuario" />
+                      <Label layoutX="184.0" layoutY="47.0" text="Registrar Usuario">
+                          <font>
+                              <Font size="24.0" />
+                          </font>
+                      </Label>
+                      <JFXCheckBox fx:id="cbxAdministrador" layoutX="288.0" layoutY="292.0" mnemonicParsing="false" onAction="#seleccionarAdministrador" text="Administrador" />
+                      <JFXCheckBox fx:id="cbxRegular" layoutX="197.0" layoutY="292.0" mnemonicParsing="false" onAction="#seleccionarRegular" text="Regular" />
+            <JFXButton layoutX="293.0" layoutY="370.0" mnemonicParsing="false" onAction="#cancelarRuta" prefHeight="35.0" prefWidth="126.0" text="Cancelar" />
+               </children>
+            </Pane>
+            <Pane fx:id="paneRuta" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
+               <children>
+                  <Label layoutX="154.0" layoutY="32.0" text="Cambiar Ruta de Reportes">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <JFXButton layoutX="189.0" layoutY="386.0" onAction="#guardarRuta" prefHeight="35.0" prefWidth="87.0" text="Guardar" />
+                  <JFXButton layoutX="310.0" layoutY="386.0" onAction="#cancelarRuta" prefHeight="35.0" prefWidth="87.0" text="Cancelar" />
+                  <JFXTextField fx:id="txtRuta" editable="false" layoutX="124.0" layoutY="192.0" prefHeight="38.0" prefWidth="338.0" promptText="Ruta" />
+                  <JFXButton layoutX="227.0" layoutY="264.0" onAction="#cambiarRuta" prefHeight="35.0" prefWidth="132.0" text="Cambiar Ruta" />
+               </children>
+            </Pane>
         <Pane fx:id="paneConfiguracion" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">
             <children>
-                <JFXButton layoutX="249.0" layoutY="302.0" mnemonicParsing="false" onAction="#crearUsuario" text="Crear Usuario" />
-                <JFXPasswordField fx:id="txtPass1" layoutX="219.0" layoutY="154.0" promptText="Contraseña" />
-                <JFXPasswordField fx:id="txtPass2" layoutX="218.0" layoutY="197.0" promptText="Confirmar Contraseña" />
-                <JFXTextField fx:id="txtUsuario" layoutX="218.0" layoutY="113.0" promptText="Nombre Usuario" />
-                <Label layoutX="202.0" layoutY="46.0" text="Registrar Usuario">
-                    <font>
-                        <Font size="24.0" />
-                    </font>
-                </Label>
-                <JFXCheckBox fx:id="cbxAdministrador" layoutX="202.0" layoutY="258.0" mnemonicParsing="false" onAction="#seleccionarAdministrador" text="Administrador" />
-                <JFXCheckBox fx:id="cbxRegular" layoutX="319.0" layoutY="258.0" mnemonicParsing="false" onAction="#seleccionarRegular" text="Regular" />
+            <JFXButton layoutX="55.0" layoutY="175.0" onAction="#vistaCrearUsuario" text="Crear Usuario" />
+            <Label layoutX="219.0" layoutY="39.0" text="Configuración">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <JFXButton layoutX="55.0" layoutY="236.0" onAction="#vistaCambiarRuta" text="Cambiar Ruta" />
+            <Label layoutX="174.0" layoutY="179.0" text="Crea un usuario para el manejo del sistema.">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="174.0" layoutY="239.0" text="Cambia la ruta en la que guardan los reportes.">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
             </children>
         </Pane>
         <Pane fx:id="paneExtra" layoutX="180.0" prefHeight="562.0" prefWidth="586.0" visible="false">

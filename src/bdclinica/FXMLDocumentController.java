@@ -42,6 +42,7 @@ import cita.paciente_tablacita;
 import cita.Modificar;
 import historial.tableHistorial;
 import historial.tablePaci;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -49,10 +50,15 @@ import java.io.RandomAccessFile;
 import reportes.tablasexo;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextInputDialog;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Window;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -68,7 +74,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Pane paneAgregarPaciente, panePacientes, paneCitas, paneHistorial,
             paneReportes, paneConfiguracion, paneExtra, paneEditarPaciente, paneH,
-            paneAgregarH, paneRsexo, paneRIngresos, paneMuni, paneEdad;
+            paneAgregarH, paneRsexo, paneRIngresos, paneMuni, paneEdad, paneCrearUsuario, paneRuta;
 
     private void prueba() {
         paneAgregarH.setVisible(false);
@@ -108,7 +114,7 @@ public class FXMLDocumentController implements Initializable {
     public TableColumn<reporteMunicipios, String> nomMuni;
     @FXML
     public TableColumn<reporteMunicipios, String> cantMuni;
-     @FXML
+    @FXML
     public TableColumn<reporteMunicipios, String> apeMuni;
     // Tabla Edad
     @FXML
@@ -160,7 +166,8 @@ public class FXMLDocumentController implements Initializable {
     public CheckBox cuadroMasculino, cuadroFemenino, cuadroMasculinoEdicion, cuadroFemeninoEdicion;
     @FXML
     public TextField txtNombre, txtApellido, txtNombreEdicion, txtApellidoEdicion,
-            txtN, txtHid, txtPac, txtMed, txtTelefono, txtTelefonoEdicion, txtEdad;
+            txtN, txtHid, txtPac, txtMed, txtTelefono, txtTelefonoEdicion, txtEdad,
+            txtRuta;
     @FXML
     public TextArea txtPade, txtDesc, txtAnte, txtHC, txtEF;
 
@@ -252,6 +259,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(false);
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
+        paneCrearUsuario.setVisible(false);
+        paneRuta.setVisible(false);
         //Código extra desde acá
         //Conectar con la base de datos para cargar municipios
         try {
@@ -318,6 +327,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(false);
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
+        paneCrearUsuario.setVisible(false);
+        paneRuta.setVisible(false);
         //Código extra desde acá
     }
 
@@ -466,6 +477,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(false);
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
+        paneCrearUsuario.setVisible(false);
+        paneRuta.setVisible(false);
         Connection con = null;
         conexionBD conBD = new conexionBD();
         con = conBD.conectarMySQL();
@@ -597,6 +610,8 @@ public class FXMLDocumentController implements Initializable {
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
         tableHist.getItems().clear();
+        paneCrearUsuario.setVisible(false);
+        paneRuta.setVisible(false);
     }
 
     //Boton para agregar datos de una consulta al historial del paciente (btnAgregar)
@@ -620,6 +635,8 @@ public class FXMLDocumentController implements Initializable {
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
         tableHist.getItems().clear();
+        paneCrearUsuario.setVisible(false);
+        paneRuta.setVisible(false);
     }
     // HISTORIAL---------
 
@@ -639,6 +656,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(false);
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
+        paneCrearUsuario.setVisible(false);
+        paneRuta.setVisible(false);
         //Código extra desde acá
         //Agregar a tblPacientes los pacientes que hay
         tblPacientes.getColumns().clear();
@@ -737,6 +756,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(false);
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
+        paneCrearUsuario.setVisible(false);
+        paneRuta.setVisible(false);
         //Código extra desde acá
     }
 
@@ -1391,6 +1412,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(false);
         paneReportes.setVisible(true);
         paneRsexo.setVisible(false);
+        paneCrearUsuario.setVisible(false);
+        paneRuta.setVisible(false);
         //Código extra desde acá
     }
 
@@ -1470,6 +1493,8 @@ public class FXMLDocumentController implements Initializable {
         tableEdad.getItems().clear();
         tableMuni.getItems().clear();
         txtEdad.setText(null);
+        paneCrearUsuario.setVisible(false);
+        paneRuta.setVisible(false);
         //Código extra desde acá
     }
 
@@ -1492,6 +1517,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(false);
         paneReportes.setVisible(false);
         paneRsexo.setVisible(true);
+        paneCrearUsuario.setVisible(false);
+        paneRuta.setVisible(false);
     }
 
     @FXML
@@ -1662,6 +1689,8 @@ public class FXMLDocumentController implements Initializable {
             paneRIngresos.setVisible(false);
             paneReportes.setVisible(false);
             paneRsexo.setVisible(false);
+            paneCrearUsuario.setVisible(false);
+            paneRuta.setVisible(false);
             //Código extra desde acá
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -1672,6 +1701,76 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
         }
 
+    }
+
+    @FXML
+    private void vistaCrearUsuario() {
+        paneConfiguracion.setVisible(false);
+        paneCrearUsuario.setVisible(true);
+    }
+
+    @FXML
+    private void vistaCambiarRuta() {
+        paneConfiguracion.setVisible(false);
+        paneRuta.setVisible(true);
+        String ruta = "";
+        try {
+            RandomAccessFile raf = new RandomAccessFile("ruta.txt", "rw");
+            int contador = raf.readInt();
+            for (int x = 0; x < contador; x++) {
+                ruta = ruta + raf.readChar();
+            }
+            raf.close();
+            txtRuta.setText(ruta);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void cambiarRuta() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        Window stage = null;
+        File selectedDirectory = directoryChooser.showDialog(stage);
+
+        if (selectedDirectory == null) {
+            //Mostar mensaje de que no se ha seleccionado ninguna carpeta
+
+        } else {
+            //Colocar en el txt
+            txtRuta.setText(selectedDirectory.getAbsolutePath());
+        }
+    }
+
+    @FXML
+    private void guardarRuta() {
+        String ruta = txtRuta.getText();
+        if (ruta.length() <= 0) {
+            //Mensaje de que no se ha seleccionado ruta
+        } else {
+            try {
+                RandomAccessFile raf = new RandomAccessFile("ruta.txt", "rw");
+                raf.writeInt(ruta.length());
+                raf.writeChars(ruta);
+                raf.close();
+                //Mensaje de que se realizó el cambio correctamente
+                paneConfiguracion.setVisible(true);
+                paneRuta.setVisible(false);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @FXML
+    private void cancelarRuta() {
+        paneConfiguracion.setVisible(true);
+        paneCrearUsuario.setVisible(false);
+        paneRuta.setVisible(false);
     }
 
     @FXML
@@ -2260,10 +2359,24 @@ public class FXMLDocumentController implements Initializable {
         reportes(event);
     }
     //Fin reporte ingresos
-    
+
     //Abrir reporte en excel
     @FXML
     private void excelIngresos(ActionEvent event) throws SQLException {
+        //Lectura de la ruta del archivo
+        String ruta = "";
+        try {
+            RandomAccessFile raf = new RandomAccessFile("ruta.txt", "rw");
+            int contador = raf.readInt();
+            for (int x = 0; x < contador; x++) {
+                ruta = ruta + raf.readChar();
+            }
+            raf.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Workbook libro = new XSSFWorkbook();
         Sheet hoja = libro.createSheet("Reporte");
         Row fila0 = hoja.createRow(0);
@@ -2273,7 +2386,7 @@ public class FXMLDocumentController implements Initializable {
         fila0.createCell(3).setCellValue("Costo");
         int tam = tblIngresos.getItems().size();
         int i = 0;
-        while(i < tam) {
+        while (i < tam) {
             reporteIngresos rIng = tblIngresos.getItems().get(i);
             Row fila = hoja.createRow(i + 1);
             fila.createCell(0).setCellValue(rIng.getNombre());
@@ -2282,17 +2395,45 @@ public class FXMLDocumentController implements Initializable {
             fila.createCell(3).setCellValue(rIng.getCosto());
             i++;
         }
-        try{
-            FileOutputStream archivo = new FileOutputStream("ReporteIngresos.xlsx");
+        try {
+            fecha f = new fecha();
+            FileOutputStream archivo = new FileOutputStream(ruta + "\\ReporteIngresos "
+                    + f.fecha() + ".xlsx");
             libro.write(archivo);
             archivo.close();
-        }catch(Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Información");
+            alert.setHeaderText("Archivo creado correctamente");
+            alert.setContentText("En: " + ruta);
+            alert.showAndWait();
+        } catch (Exception ex) {
             System.out.println("Error" + ex);
         }
     }
-    
+
     @FXML
     private void excelEdad(ActionEvent event) throws SQLException {
+        //Lectura de la ruta del archivo
+        String ruta = "";
+        try {
+            RandomAccessFile raf = new RandomAccessFile("ruta.txt", "rw");
+            int contador = raf.readInt();
+            for (int x = 0; x < contador; x++) {
+                ruta = ruta + raf.readChar();
+            }
+            raf.close();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Información");
+            alert.setHeaderText("Archivo creado correctamente");
+            alert.setContentText("En: " + ruta);
+            alert.showAndWait();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Workbook libro = new XSSFWorkbook();
         Sheet hoja = libro.createSheet("Reporte");
         Row fila0 = hoja.createRow(0);
@@ -2301,7 +2442,7 @@ public class FXMLDocumentController implements Initializable {
         fila0.createCell(2).setCellValue("Edad");
         int tam = tableEdad.getItems().size();
         int i = 0;
-        while(i < tam) {
+        while (i < tam) {
             reporteEdad rEdad = tableEdad.getItems().get(i);
             Row fila = hoja.createRow(i + 1);
             fila.createCell(0).setCellValue(rEdad.getNombreEdad());
@@ -2309,17 +2450,39 @@ public class FXMLDocumentController implements Initializable {
             fila.createCell(2).setCellValue(rEdad.getCantidadEdad());
             i++;
         }
-        try{
-            FileOutputStream archivo = new FileOutputStream("ReporteEdad.xlsx");
+        try {
+            fecha f = new fecha();
+            FileOutputStream archivo = new FileOutputStream(ruta + "\\ReporteEdad "
+                    + f.fecha() + ".xlsx");
             libro.write(archivo);
             archivo.close();
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Error" + ex);
         }
     }
-    
+
     @FXML
     private void excelSexo(ActionEvent event) throws SQLException {
+        //Lectura de la ruta del archivo
+        String ruta = "";
+        try {
+            RandomAccessFile raf = new RandomAccessFile("ruta.txt", "rw");
+            int contador = raf.readInt();
+            for (int x = 0; x < contador; x++) {
+                ruta = ruta + raf.readChar();
+            }
+            raf.close();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Información");
+            alert.setHeaderText("Archivo creado correctamente");
+            alert.setContentText("En: " + ruta);
+            alert.showAndWait();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Workbook libro = new XSSFWorkbook();
         Sheet hoja = libro.createSheet("Reporte");
         Row fila0 = hoja.createRow(0);
@@ -2329,7 +2492,7 @@ public class FXMLDocumentController implements Initializable {
         fila0.createCell(3).setCellValue("Fecha de Nacimiento");
         int tam = tablasexo1.getItems().size();
         int i = 0;
-        while(i < tam) {
+        while (i < tam) {
             tablasexo rSexo = tablasexo1.getItems().get(i);
             Row fila = hoja.createRow(i + 1);
             fila.createCell(0).setCellValue(rSexo.getApellido());
@@ -2338,17 +2501,39 @@ public class FXMLDocumentController implements Initializable {
             fila.createCell(3).setCellValue(rSexo.getFecha());
             i++;
         }
-        try{
-            FileOutputStream archivo = new FileOutputStream("ReporteSexo.xlsx");
+        try {
+            fecha f = new fecha();
+            FileOutputStream archivo = new FileOutputStream(ruta + "\\ReporteSexo "
+                    + f.fecha() + ".xlsx");
             libro.write(archivo);
             archivo.close();
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Error" + ex);
         }
     }
-    
+
     @FXML
     private void excelMuni(ActionEvent event) throws SQLException {
+        //Lectura de la ruta del archivo
+        String ruta = "";
+        try {
+            RandomAccessFile raf = new RandomAccessFile("ruta.txt", "rw");
+            int contador = raf.readInt();
+            for (int x = 0; x < contador; x++) {
+                ruta = ruta + raf.readChar();
+            }
+            raf.close();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Información");
+            alert.setHeaderText("Archivo creado correctamente");
+            alert.setContentText("En: " + ruta);
+            alert.showAndWait();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Workbook libro = new XSSFWorkbook();
         Sheet hoja = libro.createSheet("Reporte");
         Row fila0 = hoja.createRow(0);
@@ -2357,7 +2542,7 @@ public class FXMLDocumentController implements Initializable {
         fila0.createCell(2).setCellValue("Apellido");
         int tam = tableMuni.getItems().size();
         int i = 0;
-        while(i < tam) {
+        while (i < tam) {
             reporteMunicipios rMuni = tableMuni.getItems().get(i);
             Row fila = hoja.createRow(i + 1);
             fila.createCell(0).setCellValue(rMuni.getNombreMuni());
@@ -2365,17 +2550,39 @@ public class FXMLDocumentController implements Initializable {
             fila.createCell(2).setCellValue(rMuni.getApellidoMuni());
             i++;
         }
-        try{
-            FileOutputStream archivo = new FileOutputStream("ReporteMunicipios.xlsx");
+        try {
+            fecha f = new fecha();
+            FileOutputStream archivo = new FileOutputStream(ruta + "\\ReporteMunicipio "
+                    + f.fecha() + ".xlsx");
             libro.write(archivo);
             archivo.close();
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Error" + ex);
         }
     }
-    
+
     @FXML
     private void excelCita(ActionEvent event) throws SQLException {
+        //Lectura de la ruta del archivo
+        String ruta = "";
+        try {
+            RandomAccessFile raf = new RandomAccessFile("ruta.txt", "rw");
+            int contador = raf.readInt();
+            for (int x = 0; x < contador; x++) {
+                ruta = ruta + raf.readChar();
+            }
+            raf.close();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Información");
+            alert.setHeaderText("Archivo creado correctamente");
+            alert.setContentText("En: " + ruta);
+            alert.showAndWait();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Workbook libro = new XSSFWorkbook();
         Sheet hoja = libro.createSheet("Reporte");
         Row fila0 = hoja.createRow(0);
@@ -2388,7 +2595,7 @@ public class FXMLDocumentController implements Initializable {
         fila0.createCell(6).setCellValue("Costo");
         int tam = tablaconsulta.getItems().size();
         int i = 0;
-        while(i < tam) {
+        while (i < tam) {
             paciente_tablacita rCita = tablaconsulta.getItems().get(i);
             Row fila = hoja.createRow(i + 1);
             fila.createCell(0).setCellValue(rCita.getId());
@@ -2400,15 +2607,17 @@ public class FXMLDocumentController implements Initializable {
             fila.createCell(6).setCellValue(rCita.getCosto());
             i++;
         }
-        try{
-            FileOutputStream archivo = new FileOutputStream("ReporteCitas.xlsx");
+        try {
+            fecha f = new fecha();
+            FileOutputStream archivo = new FileOutputStream(ruta + "\\ReporteCitas "
+                    + f.fecha() + ".xlsx");
             libro.write(archivo);
             archivo.close();
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Error" + ex);
         }
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
