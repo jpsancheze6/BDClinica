@@ -24,8 +24,8 @@ public class conexionBD {
             + "useLegacyDatetimeCode=false&"
             + "serverTimezone=UTC&"
             + "useSSL=false";
-    public String username = "docuser";//<- Cambiar esto por el usuario
-    public String password = "url.2019";//<- Y esto por la contraseña
+    public String username = "root";//<- Cambiar esto por el usuario
+    public String password = "";//<- Y esto por la contraseña
 
     public Connection conectarMySQL() {
         Connection conn = null;

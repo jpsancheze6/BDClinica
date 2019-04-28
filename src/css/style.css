@@ -1,10 +1,49 @@
 /*
     Hoja de estilos para todo el proyecto
 */
-/*
-.button{/* Color de todos los botones
+
+.button{/* Color de todos los botones*/
     -fx-color: black;
-    -fx-background-color: #333333;
+    -fx-background-color: #1F80A6;
     -fx-background-radius: 0;
 }
-*/
+#panePacientes{
+    -fx-background-color: #FFFFFF;
+}
+/* Iconos en los botones de acceso */
+#btnPacientes{
+    -fx-graphic: url("../img/pacientes.png");
+    -fx-graphic-text-gap : 10;
+}
+#btnModificarPacientes1{
+    -fx-graphic: url("../img/citas.png");
+    -fx-graphic-text-gap : 10;
+}
+#btnHistorial{
+    -fx-graphic: url("../img/historial.png");
+    -fx-graphic-text-gap : 10;
+}
+#btnReportes{
+    -fx-graphic: url("../img/reportes.png");
+    -fx-graphic-text-gap : 10;
+}
+#btnConfiguracion{
+    -fx-graphic: url("../img/confi.png");
+    -fx-graphic-text-gap : 10;
+}
+
+#lblLogin{
+    -fx-graphic: url("../img/login.png");
+    -fx-graphic-text-gap : 10;
+}
+#btnAceptarLogin{
+    -fx-background-color: #00BD3A;
+    -fx-background-radius: 1;
+}
+#btnCancelarLogin{
+    -fx-background-color: #FC4349;
+    -fx-background-radius: 1;
+}
+#paneBotones{
+    -fx-background-color: #1F80A6;
+}

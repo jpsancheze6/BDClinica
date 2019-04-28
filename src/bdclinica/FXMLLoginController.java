@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
@@ -72,6 +73,8 @@ public class FXMLLoginController implements Initializable {
                     Parent root1 = (Parent) fxmlLoader.load();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root1));
+                    stage.getIcons().add(new Image("/img/icono.png"));
+                    stage.setTitle("Clínica Médica");
                     stage.setResizable(false);
                     stage.show();
                     //Cerrar ventana actual
@@ -113,7 +116,7 @@ public class FXMLLoginController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Error");
-                alert.setHeaderText("Error al ingresaar");
+                alert.setHeaderText("Error al ingresar");
                 alert.setContentText("El usuario no existe");
                 alert.showAndWait();
             }
@@ -122,7 +125,8 @@ public class FXMLLoginController implements Initializable {
 
     @FXML
     public void cancelar(ActionEvent e) {
-
+        txtPassword.setText("");
+        txtUsuario.setText("");
     }
 
     @Override

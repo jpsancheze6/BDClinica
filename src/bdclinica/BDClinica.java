@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class BDClinica extends Application {
@@ -15,6 +16,7 @@ public class BDClinica extends Application {
         
         stage.setScene(scene);
         stage.setTitle("Login");
+        stage.getIcons().add(new Image("/img/icono.png"));
         stage.setResizable(false);
         stage.show();
     }
