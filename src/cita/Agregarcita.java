@@ -45,6 +45,7 @@ public class Agregarcita {
                 alert.setHeaderText("Correcto");
                 alert.setContentText("Cita ingresada correctamente");
                 alert.showAndWait();
+                conn.commit();
             }
             bandera = true;
         } catch (Exception e) {

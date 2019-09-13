@@ -22,13 +22,12 @@ import javafx.stage.StageStyle;
 
 public class Modificar {
 
-    public void Actualizar(int idcita, String nombre1, boolean reconsulta1, String telefono1, boolean atendido1, int costo1) {
-
+    public void Actualizar(int idcita, String nombre1, boolean reconsulta1, String telefono1, boolean atendido1, int costo1) throws SQLException {
+        Connection conn = null;
+        conexionBD conexion = new conexionBD();
+        conn = conexion.conectarMySQL();
         if (showConfirm("", "¿Desea modificar los datos actuales?", "Si", "No", "Cancelar").equals("Si")) {
-            Connection conn = null;
             try {
-                conexionBD conexion = new conexionBD();
-                conn = conexion.conectarMySQL();
                 //creando la consulta
                 String Ssql = "UPDATE cita SET Nombre=?, Reconsulta=?, Telefono=?, Atendido=?, Costo=?"
                         + " WHERE idCita=?";
@@ -50,6 +49,7 @@ public class Modificar {
                     alert.setContentText("Datos actualizados correctamente");
                     alert.showAndWait();
                 }
+                conn.commit();
                 prest.close();
                 conn.close();
             } catch (SQLException e) {
@@ -80,6 +80,10 @@ public class Modificar {
                 alert.getDialogPane().setExpandableContent(expContent);
                 alert.showAndWait();
             }
+        } else {
+            //rollback de la transaccion
+            conn.rollback();
+            //
         }
     }
     public static final String YES = "Sí";
@@ -87,7 +91,9 @@ public class Modificar {
     public static final String OK = "OK";
     public static final String CANCEL = "Cancelar";
 
-    public static String showConfirm(String title, String message, String... options) {
+    public static String showConfirm(String title, String message, String... options) throws SQLException {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UTILITY);
         alert.setTitle("Seleccione una opción");

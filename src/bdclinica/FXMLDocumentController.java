@@ -209,7 +209,8 @@ public class FXMLDocumentController implements Initializable {
 
     private ObservableList<tablasexo> listareportesexo = FXCollections.observableArrayList();
 
-    public void actualizardatos() {
+    
+    public void actualizardatos() throws SQLException {
         lista2.clear();
         Modificar mod = new Modificar();
         boolean atendido1 = false, reconsulta1 = false;
@@ -243,6 +244,7 @@ public class FXMLDocumentController implements Initializable {
         lista2.clear();
     }
 
+    //Paciente.agregar
     @FXML
     private void agregarPaciente(ActionEvent event) {
         paneAgregarH.setVisible(false);
@@ -266,6 +268,9 @@ public class FXMLDocumentController implements Initializable {
         try {
             conexionBD sql = new conexionBD();
             Connection con = sql.conectarMySQL();
+            //inicia la transaccion
+            con.setAutoCommit(false);
+            //
             String sentencia = "select * from municipio";
             ObservableList<String> municipios = FXCollections.observableArrayList();
             municipios.add("-- Seleccione Municipio --");
@@ -342,6 +347,7 @@ public class FXMLDocumentController implements Initializable {
         String no = null;
         no = txtN.getText();
         try {
+            
             String selectSQL = "select idPaciente, Nombre, apellido from paciente where apellido LIKE '%" + no + "%'";
             PreparedStatement preparedStatement = con.prepareStatement(selectSQL);
             ResultSet rs = preparedStatement.executeQuery(selectSQL);
@@ -440,7 +446,12 @@ public class FXMLDocumentController implements Initializable {
 
     //abrir el historial del paciente seleccionado
     @FXML
-    public void seleccionarFila(ActionEvent event) {
+    public void seleccionarFila(ActionEvent event) throws SQLException {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //inicia la transaccion
+        con.setAutoCommit(false);
+        //
         txtN.setText(null);
         tablePaci pa = tablePA.getSelectionModel().getSelectedItem();
         int h = pa.getId();
@@ -594,7 +605,12 @@ public class FXMLDocumentController implements Initializable {
 
     //Boton para regresar al pane historial (btnReg)
     @FXML
-    private void handleButtonAction4(ActionEvent event) {
+    private void handleButtonAction4(ActionEvent event) throws SQLException {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //commit de la transaccion
+        con.commit();
+        //
         paneAgregarH.setVisible(false);
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(false);
@@ -616,7 +632,7 @@ public class FXMLDocumentController implements Initializable {
 
     //Boton para agregar datos de una consulta al historial del paciente (btnAgregar)
     @FXML
-    private void handleButtonAction5(ActionEvent event) {
+    private void handleButtonAction5(ActionEvent event) throws SQLException {
         String idh = txtHid.getText();
         addHistorial(idh);
         paneH.setVisible(false);
@@ -637,6 +653,11 @@ public class FXMLDocumentController implements Initializable {
         tableHist.getItems().clear();
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //commit de la transaccion
+        con.commit();
+        //
     }
     // HISTORIAL---------
 
@@ -819,8 +840,14 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    //Cita.cancelar
     @FXML
-    private void cancelarprocesos() {
+    private void cancelarprocesos() throws SQLException {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //rollback de la transaccion
+        con.rollback();
+        //
         tabla.setVisible(false);
         tabla2.setVisible(false);
         actualizar.setDisable(true);
@@ -834,8 +861,14 @@ public class FXMLDocumentController implements Initializable {
         costo.setText("");
     }
 
+    //Cita.BuscarPaciente
     @FXML
     public void Buscar() throws SQLException {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //begin de la transaccion
+        con.setAutoCommit(false);
+        //
         tabla();
         agregar.setDisable(false);
     }
@@ -1398,28 +1431,42 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void reportes(ActionEvent event) {
-        paneAgregarH.setVisible(false);
-        paneAgregarPaciente.setVisible(false);
-        paneCitas.setVisible(false);
-        paneConfiguracion.setVisible(false);
-        paneEdad.setVisible(false);
-        paneEditarPaciente.setVisible(false);
-        paneExtra.setVisible(false);
-        paneH.setVisible(false);
-        paneHistorial.setVisible(false);
-        paneMuni.setVisible(false);
-        panePacientes.setVisible(false);
-        paneRIngresos.setVisible(false);
-        paneReportes.setVisible(true);
-        paneRsexo.setVisible(false);
-        paneCrearUsuario.setVisible(false);
-        paneRuta.setVisible(false);
-        //Código extra desde acá
+        try {
+            paneAgregarH.setVisible(false);
+            paneAgregarPaciente.setVisible(false);
+            paneCitas.setVisible(false);
+            paneConfiguracion.setVisible(false);
+            paneEdad.setVisible(false);
+            paneEditarPaciente.setVisible(false);
+            paneExtra.setVisible(false);
+            paneH.setVisible(false);
+            paneHistorial.setVisible(false);
+            paneMuni.setVisible(false);
+            panePacientes.setVisible(false);
+            paneRIngresos.setVisible(false);
+            paneReportes.setVisible(true);
+            paneRsexo.setVisible(false);
+            paneCrearUsuario.setVisible(false);
+            paneRuta.setVisible(false);
+            //Código extra desde acá
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            //commit de la transaccion
+            con.commit();
+            //
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // REPORTE MUNICIPIO
     @FXML
     private void reporteMu(ActionEvent event) throws SQLException {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //inicia la transaccion
+        con.setAutoCommit(false);
+        //
         paneReportes.setVisible(false);
         tableDatosMuni();
         paneMuni.setVisible(true);
@@ -1475,7 +1522,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void regMuni(ActionEvent event) {
+    private void regMuni(ActionEvent event) throws SQLException {
         paneAgregarH.setVisible(false);
         paneAgregarPaciente.setVisible(false);
         paneCitas.setVisible(false);
@@ -1496,6 +1543,11 @@ public class FXMLDocumentController implements Initializable {
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
         //Código extra desde acá
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //commit de la transaccion
+        con.commit();
+        //
     }
 
     @FXML
@@ -1503,22 +1555,31 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void reportesexo(ActionEvent event) {
-        paneAgregarH.setVisible(false);
-        paneAgregarPaciente.setVisible(false);
-        paneCitas.setVisible(false);
-        paneConfiguracion.setVisible(false);
-        paneEdad.setVisible(false);
-        paneEditarPaciente.setVisible(false);
-        paneExtra.setVisible(false);
-        paneH.setVisible(false);
-        paneHistorial.setVisible(false);
-        paneMuni.setVisible(false);
-        panePacientes.setVisible(false);
-        paneRIngresos.setVisible(false);
-        paneReportes.setVisible(false);
-        paneRsexo.setVisible(true);
-        paneCrearUsuario.setVisible(false);
-        paneRuta.setVisible(false);
+        try {
+            paneAgregarH.setVisible(false);
+            paneAgregarPaciente.setVisible(false);
+            paneCitas.setVisible(false);
+            paneConfiguracion.setVisible(false);
+            paneEdad.setVisible(false);
+            paneEditarPaciente.setVisible(false);
+            paneExtra.setVisible(false);
+            paneH.setVisible(false);
+            paneHistorial.setVisible(false);
+            paneMuni.setVisible(false);
+            panePacientes.setVisible(false);
+            paneRIngresos.setVisible(false);
+            paneReportes.setVisible(false);
+            paneRsexo.setVisible(true);
+            paneCrearUsuario.setVisible(false);
+            paneRuta.setVisible(false);
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            //inicia la transaccion
+            con.setAutoCommit(false);
+            //
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -1704,13 +1765,23 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void vistaCrearUsuario() {
+    private void vistaCrearUsuario() throws SQLException {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //commit de la transaccion
+        con.setAutoCommit(false);
+        //
         paneConfiguracion.setVisible(false);
         paneCrearUsuario.setVisible(true);
     }
 
     @FXML
-    private void vistaCambiarRuta() {
+    private void vistaCambiarRuta() throws SQLException {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //commit de la transaccion
+        con.setAutoCommit(false);
+        //
         paneConfiguracion.setVisible(false);
         paneRuta.setVisible(true);
         String ruta = "";
@@ -1745,7 +1816,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void guardarRuta() {
+    private void guardarRuta() throws SQLException {
         String ruta = txtRuta.getText();
         if (ruta.length() <= 0) {
             //Mensaje de que no se ha seleccionado ruta
@@ -1755,6 +1826,11 @@ public class FXMLDocumentController implements Initializable {
                 raf.writeInt(ruta.length());
                 raf.writeChars(ruta);
                 raf.close();
+                conexionBD sql = new conexionBD();
+                Connection con = sql.conectarMySQL();
+                //commit de la transaccion
+                con.commit();
+                //
                 //Mensaje de que se realizó el cambio correctamente
                 paneConfiguracion.setVisible(true);
                 paneRuta.setVisible(false);
@@ -1767,7 +1843,12 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void cancelarRuta() {
+    private void cancelarRuta() throws SQLException {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //rollback de la transaccion
+        con.rollback();
+        //
         paneConfiguracion.setVisible(true);
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
@@ -1809,6 +1890,7 @@ public class FXMLDocumentController implements Initializable {
                     while (rs1.next()) {
                         int a = rs1.getInt(1);
                         if (a == 1) {
+                            con1.commit();
                             //usuario creado correctamente
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.initStyle(StageStyle.UTILITY);
@@ -1859,21 +1941,30 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void extra(ActionEvent event) {
-        paneAgregarH.setVisible(false);
-        paneAgregarPaciente.setVisible(false);
-        paneCitas.setVisible(false);
-        paneConfiguracion.setVisible(false);
-        paneEdad.setVisible(false);
-        paneEditarPaciente.setVisible(false);
-        paneExtra.setVisible(true);
-        paneH.setVisible(false);
-        paneHistorial.setVisible(false);
-        paneMuni.setVisible(false);
-        panePacientes.setVisible(false);
-        paneRIngresos.setVisible(false);
-        paneReportes.setVisible(false);
-        paneRsexo.setVisible(false);
-        //Código extra desde acá
+        try {
+            paneAgregarH.setVisible(false);
+            paneAgregarPaciente.setVisible(false);
+            paneCitas.setVisible(false);
+            paneConfiguracion.setVisible(false);
+            paneEdad.setVisible(false);
+            paneEditarPaciente.setVisible(false);
+            paneExtra.setVisible(true);
+            paneH.setVisible(false);
+            paneHistorial.setVisible(false);
+            paneMuni.setVisible(false);
+            panePacientes.setVisible(false);
+            paneRIngresos.setVisible(false);
+            paneReportes.setVisible(false);
+            paneRsexo.setVisible(false);
+            //Código extra desde acá
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            //inicia la transaccion
+            con.setAutoCommit(false);
+            //
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -1915,12 +2006,19 @@ public class FXMLDocumentController implements Initializable {
         cuadroMasculinoEdicion.setSelected(false);
     }
 
+    //Paciente.editar.cancelar
     @FXML
-    private void cancelarEdicion() {
+    private void cancelarEdicion() throws SQLException {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //rollback de la transaccion
+        con.rollback();
+        //
         paneEditarPaciente.setVisible(false);
         pacientes();
     }
 
+    //Paciente.agregar.confirmar
     @FXML
     private void guardarUsuario() {
         String nombre = txtNombre.getText();
@@ -1977,6 +2075,11 @@ public class FXMLDocumentController implements Initializable {
                 registrarPaciente rp = new registrarPaciente();
                 rp.recibirDatos(nombre, apellido, fecha, genero, seleccion, tel);
                 pacientes();
+                conexionBD sql = new conexionBD();
+                Connection con = sql.conectarMySQL();
+                //commit de la transaccion
+                con.commit();
+                //
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.initStyle(StageStyle.UTILITY);
@@ -2005,6 +2108,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    //Paciente.editar.confirmar
     @FXML
     private void guardarUsuarioEditado() {
         String nombre = txtNombreEdicion.getText();
@@ -2062,7 +2166,31 @@ public class FXMLDocumentController implements Initializable {
                 rp.recibirDatosEdicion(clave, nombre, apellido, fecha, genero, seleccion, tel);
                 paneEditarPaciente.setVisible(false);
                 panePacientes.setVisible(true);
-                cancelarIngresarPaciente();
+                conexionBD sql = new conexionBD();
+                Connection con = sql.conectarMySQL();
+                //commit de la transaccion
+                con.commit();
+                //
+                txtNombre.setText("");
+                txtApellido.setText("");
+                dtFecha.setValue(LocalDate.now());
+                cbxMunicipios.getSelectionModel().select(0);
+                cuadroMasculino.setSelected(false);
+                cuadroFemenino.setSelected(false);
+                paneAgregarH.setVisible(false);
+                paneAgregarPaciente.setVisible(false);
+                paneCitas.setVisible(false);
+                paneConfiguracion.setVisible(false);
+                paneEdad.setVisible(false);
+                paneEditarPaciente.setVisible(false);
+                paneExtra.setVisible(false);
+                paneH.setVisible(false);
+                paneHistorial.setVisible(false);
+                paneMuni.setVisible(false);
+                panePacientes.setVisible(true);
+                paneRIngresos.setVisible(false);
+                paneReportes.setVisible(false);
+                paneRsexo.setVisible(false);
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.initStyle(StageStyle.UTILITY);
@@ -2091,34 +2219,46 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    //Pacient.agregar.cancelar
     @FXML
-    private void cancelarIngresarPaciente() {
-        txtNombre.setText("");
-        txtApellido.setText("");
-        dtFecha.setValue(LocalDate.now());
-        cbxMunicipios.getSelectionModel().select(0);
-        cuadroMasculino.setSelected(false);
-        cuadroFemenino.setSelected(false);
-
-        paneAgregarH.setVisible(false);
-        paneAgregarPaciente.setVisible(false);
-        paneCitas.setVisible(false);
-        paneConfiguracion.setVisible(false);
-        paneEdad.setVisible(false);
-        paneEditarPaciente.setVisible(false);
-        paneExtra.setVisible(false);
-        paneH.setVisible(false);
-        paneHistorial.setVisible(false);
-        paneMuni.setVisible(false);
-        panePacientes.setVisible(true);
-        paneRIngresos.setVisible(false);
-        paneReportes.setVisible(false);
-        paneRsexo.setVisible(false);
+    private void cancelarIngresarPaciente() throws SQLException {
+            txtNombre.setText("");
+            txtApellido.setText("");
+            dtFecha.setValue(LocalDate.now());
+            cbxMunicipios.getSelectionModel().select(0);
+            cuadroMasculino.setSelected(false);
+            cuadroFemenino.setSelected(false);
+            
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            //rollback de la transaccion
+            con.rollback();
+            //
+            paneAgregarH.setVisible(false);
+            paneAgregarPaciente.setVisible(false);
+            paneCitas.setVisible(false);
+            paneConfiguracion.setVisible(false);
+            paneEdad.setVisible(false);
+            paneEditarPaciente.setVisible(false);
+            paneExtra.setVisible(false);
+            paneH.setVisible(false);
+            paneHistorial.setVisible(false);
+            paneMuni.setVisible(false);
+            panePacientes.setVisible(true);
+            paneRIngresos.setVisible(false);
+            paneReportes.setVisible(false);
+            paneRsexo.setVisible(false);
     }
 
+    //Paciente.editar
     @FXML
-    private void editarPaciente() {
+    private void editarPaciente() throws SQLException {
         try {
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            //inicia la transaccion
+            con.setAutoCommit(false);
+            //
             datosPacientes a = (datosPacientes) tblPacientes.getSelectionModel().getSelectedItem();
             int id = a.getId();
             String nombre = a.getNombre();
@@ -2130,8 +2270,6 @@ public class FXMLDocumentController implements Initializable {
             int telefono = a.getTelefono();
 
             //cargar listado de municipios
-            conexionBD sql = new conexionBD();
-            Connection con = sql.conectarMySQL();
             String sentencia = "select * from municipio";
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sentencia);
@@ -2174,6 +2312,11 @@ public class FXMLDocumentController implements Initializable {
             dtFechaEdicion.setValue(fecha.toLocalDate());
             this.clave = id;
         } catch (Exception e) {
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            //rollback de la transaccion
+            con.rollback();
+            //
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initStyle(StageStyle.UTILITY);
             alert.setTitle("Excepción");
@@ -2218,26 +2361,40 @@ public class FXMLDocumentController implements Initializable {
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
         //Código extra desde acá
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //inicia la transaccion
+        con.setAutoCommit(false);
+        //
     }
 
     //************************************************************************//
     //Panel de reportes de ingresos           
     @FXML
     private void reporteIngresos() {
-        paneAgregarH.setVisible(false);
-        paneAgregarPaciente.setVisible(false);
-        paneCitas.setVisible(false);
-        paneConfiguracion.setVisible(false);
-        paneEdad.setVisible(false);
-        paneEditarPaciente.setVisible(false);
-        paneExtra.setVisible(false);
-        paneH.setVisible(false);
-        paneHistorial.setVisible(false);
-        paneMuni.setVisible(false);
-        panePacientes.setVisible(false);
-        paneRIngresos.setVisible(true);
-        paneReportes.setVisible(false);
-        paneRsexo.setVisible(false);
+        try {
+            paneAgregarH.setVisible(false);
+            paneAgregarPaciente.setVisible(false);
+            paneCitas.setVisible(false);
+            paneConfiguracion.setVisible(false);
+            paneEdad.setVisible(false);
+            paneEditarPaciente.setVisible(false);
+            paneExtra.setVisible(false);
+            paneH.setVisible(false);
+            paneHistorial.setVisible(false);
+            paneMuni.setVisible(false);
+            panePacientes.setVisible(false);
+            paneRIngresos.setVisible(true);
+            paneReportes.setVisible(false);
+            paneRsexo.setVisible(false);
+            conexionBD sql = new conexionBD();
+            Connection con = sql.conectarMySQL();
+            //inicia la transaccion
+            con.setAutoCommit(false);
+            //
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     @FXML
     private DatePicker fechaInicio, fechaFinal;
@@ -2350,13 +2507,18 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void regresarReportes() {
+    private void regresarReportes() throws SQLException {
         fechaInicio.setPromptText("Fecha Inicio");
         fechaFinal.setPromptText("Fecha final");
         lblIngresos.setText("");
         tblIngresos.getColumns().clear();
         ActionEvent event = null;
         reportes(event);
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        //commit de la transaccion
+        con.commit();
+        //
     }
     //Fin reporte ingresos
 
