@@ -4,17 +4,14 @@ import java.sql.Date;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-/**
- *
- * @author izasj
- */
 public class tableHistorial {
+
     private Date fecha;
     private SimpleIntegerProperty edad;
     private SimpleStringProperty padecimiento;
     private SimpleStringProperty medicamento;
     private SimpleStringProperty descrip;
-    
+
     public tableHistorial(Date f, Integer ed, String pade, String medi, String descrip) {
         this.fecha = f;
         this.edad = new SimpleIntegerProperty(ed);
@@ -62,6 +59,5 @@ public class tableHistorial {
     public void setDescrip(String descrip) {
         this.descrip = new SimpleStringProperty(descrip);;
     }
-    
-    
+
 }

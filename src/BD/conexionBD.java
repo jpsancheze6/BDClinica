@@ -25,7 +25,7 @@ public class conexionBD {
             + "serverTimezone=UTC&"
             + "useSSL=false";
     public String username = "root";//<- Cambiar esto por el usuario
-    public String password = "gameBoy_444";//<- Y esto por la contraseña
+    public String password = "rootPass.123";//<- Y esto por la contraseña
     public Connection conectarMySQL() {
         Connection conn = null;
         try {

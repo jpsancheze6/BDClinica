@@ -2206,10 +2206,6 @@ public class FXMLDocumentController implements Initializable {
                 registrarPaciente rp = new registrarPaciente();
                 rp.recibirDatos(nombre, apellido, fecha, genero, seleccion, tel);
                 pacientes();
-                
-                //commit de la transaccion
-                con.commit();
-                //
             } catch (Exception e) {
                 try {
                 System.out.println("Transacción Cancelada");

@@ -1,12 +1,25 @@
 package paciente;
 
 import BD.conexionBD;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -17,9 +30,31 @@ import javafx.stage.StageStyle;
 public class registrarPaciente {
 
     public void recibirDatos(String nombre, String apellido, LocalDate fecha, String genero, int id, int telefono) {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        int numberTran = 0;
         try {
-            conexionBD sql = new conexionBD();
-            Connection con = sql.conectarMySQL();
+            //Inicio de transacción
+            con.setAutoCommit(false);
+            try {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now(); //now = fecha actual
+                //Lectura de el número de transacción
+                BufferedReader reader = new BufferedReader(new FileReader("num.txt"));
+                numberTran = reader.read();
+                reader.close();
+                //Escribir nuevo número de transacción
+                BufferedWriter w = new BufferedWriter(new FileWriter("num.txt"));
+                w.write(numberTran + 1);
+                w.close();
+
+                String start = "[" + now + "] START TRANSACTION No." + numberTran + "\n";
+                Files.write(Paths.get("log.txt"), start.getBytes(), StandardOpenOption.APPEND);
+            } catch (FileNotFoundException ex) {
+                System.out.println(ex);
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
             String sentencia
                     = "insert into paciente(Nombre, Apellido ,Fecha_de_Nacimiento, Sexo, idMunicipio, telefono) values"
                     + "(\"" + nombre + "\",\"" + apellido + "\",\"" + fecha + "\",\"" + genero + "\"," + id + "," + telefono + ");";
@@ -33,8 +68,26 @@ public class registrarPaciente {
                 alert.setHeaderText("Creado");
                 alert.setContentText("Usuario Creado Correctamente");
                 alert.showAndWait();
+                con.commit();
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now(); //now = fecha actual
+                String start = "[" + now + "] TRANSACTION No." + numberTran + " COMPLETED\n";
+                Files.write(Paths.get("log.txt"), start.getBytes(), StandardOpenOption.APPEND);
             }
         } catch (SQLException ex) {
+            try {
+                con.rollback();
+                try {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime now = LocalDateTime.now(); //now = fecha actual
+                    String start = "[" + now + "] TRANSACTION No." + numberTran + " ABORTED\n";
+                    Files.write(Paths.get("log.txt"), start.getBytes(), StandardOpenOption.APPEND);
+                } catch (IOException ex1) {
+                    Logger.getLogger(registrarPaciente.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            } catch (SQLException ex1) {
+                Logger.getLogger(registrarPaciente.class.getName()).log(Level.SEVERE, null, ex1);
+            }
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initStyle(StageStyle.UTILITY);
             alert.setTitle("Excepción");
@@ -58,16 +111,40 @@ public class registrarPaciente {
             expContent.add(textArea, 0, 1);
             alert.getDialogPane().setExpandableContent(expContent);
             alert.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(registrarPaciente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void recibirDatosEdicion(int clave, String nombre, String apellido, LocalDate fecha, String genero, int id, int telefono) {
+        conexionBD sql = new conexionBD();
+        Connection con = sql.conectarMySQL();
+        int numberTran = 0;
         try {
-            conexionBD sql = new conexionBD();
-            Connection con = sql.conectarMySQL();
+            //Inicio de transacción
+            con.setAutoCommit(false);
+            try {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now(); //now = fecha actual
+                //Lectura de el número de transacción
+                BufferedReader reader = new BufferedReader(new FileReader("num.txt"));
+                numberTran = reader.read();
+                reader.close();
+                //Escribir nuevo número de transacción
+                BufferedWriter w = new BufferedWriter(new FileWriter("num.txt"));
+                w.write(numberTran + 1);
+                w.close();
+
+                String start = "[" + now + "] START TRANSACTION No." + numberTran + "\n";
+                Files.write(Paths.get("log.txt"), start.getBytes(), StandardOpenOption.APPEND);
+            } catch (FileNotFoundException ex) {
+                System.out.println(ex);
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
             String sentencia
-                    = "update paciente  set Nombre = \"" + nombre +"\", apellido = \"" + apellido + "\", "
-                    + "Fecha_de_Nacimiento = '" + fecha +"', Sexo = \"" + genero +"\", idMunicipio = " + id + " "
+                    = "update paciente  set Nombre = \"" + nombre + "\", apellido = \"" + apellido + "\", "
+                    + "Fecha_de_Nacimiento = '" + fecha + "', Sexo = \"" + genero + "\", idMunicipio = " + id + " "
                     + ", telefono = " + telefono + " "
                     + "where idPaciente = " + clave + ";";
             Statement stm = con.createStatement();
@@ -80,8 +157,27 @@ public class registrarPaciente {
                 alert.setHeaderText("Editado");
                 alert.setContentText("Usuario editado correctamente");
                 alert.showAndWait();
+                con.commit();
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now(); //now = fecha actual
+                String start = "[" + now + "] TRANSACTION No." + numberTran + " COMPLETED\n";
+                Files.write(Paths.get("log.txt"), start.getBytes(), StandardOpenOption.APPEND);
             }
         } catch (SQLException ex) {
+            try {
+                con.rollback();
+                try {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime now = LocalDateTime.now(); //now = fecha actual
+                    String start = "[" + now + "] TRANSACTION No." + numberTran + " ABORTED\n";
+                    Files.write(Paths.get("log.txt"), start.getBytes(), StandardOpenOption.APPEND);
+                } catch (IOException ex1) {
+                    Logger.getLogger(registrarPaciente.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            } catch (SQLException ex1) {
+                Logger.getLogger(registrarPaciente.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initStyle(StageStyle.UTILITY);
             alert.setTitle("Excepción");
@@ -105,7 +201,9 @@ public class registrarPaciente {
             expContent.add(textArea, 0, 1);
             alert.getDialogPane().setExpandableContent(expContent);
             alert.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(registrarPaciente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
+
 }

@@ -15,12 +15,12 @@ public class paciente_tablacita {
     private SimpleIntegerProperty Costo;
     private SimpleStringProperty Fecha;
 
-    public paciente_tablacita(Integer Id1, String Nombre1, boolean reconsulta1, String Telefono1,String fecha, boolean atendido, int costo) {
+    public paciente_tablacita(Integer Id1, String Nombre1, boolean reconsulta1, String Telefono1, String fecha, boolean atendido, int costo) {
         this.Id = new SimpleIntegerProperty(Id1);
         this.Nombre = new SimpleStringProperty(Nombre1);
         this.Reconsulta = new SimpleBooleanProperty(reconsulta1);
         this.Telefono = new SimpleStringProperty(Telefono1);
-        this.Fecha=new SimpleStringProperty(fecha);
+        this.Fecha = new SimpleStringProperty(fecha);
         this.Atendido = new SimpleBooleanProperty(atendido);
         this.Costo = new SimpleIntegerProperty(costo);
     }
@@ -28,7 +28,8 @@ public class paciente_tablacita {
     public int getId() {
         return Id.get();
     }
-     public void settId(int Id) {
+
+    public void settId(int Id) {
         this.Id = new SimpleIntegerProperty(Id);
     }
 
@@ -71,6 +72,7 @@ public class paciente_tablacita {
     public void setCosto(int costo) {
         this.Costo = new SimpleIntegerProperty(costo);
     }
+
     public String getFecha() {
         return Fecha.get();
     }

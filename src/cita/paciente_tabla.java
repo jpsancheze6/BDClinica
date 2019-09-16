@@ -13,11 +13,11 @@ import javafx.beans.property.SimpleStringProperty;
  * @author tito88
  */
 public class paciente_tabla {
-    
-    
-       private SimpleIntegerProperty Id;
+
+    private SimpleIntegerProperty Id;
     private SimpleStringProperty Nombre;
     private SimpleStringProperty Apellido;
+
     public paciente_tabla(Integer Id1, String Nombre1, String Apellido1) {
         this.Id = new SimpleIntegerProperty(Id1);
         this.Nombre = new SimpleStringProperty(Nombre1);

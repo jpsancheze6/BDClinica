@@ -7,10 +7,11 @@ import java.sql.Date;
  * @author izasj
  */
 public class datosHistorial {
+
     private int idHistorial, idPaciente, edad;
     private Date fecha;
     private String padecimieno, historiaClinica, antecedentes, examenFisico;
-    
+
     public datosHistorial(int idH, int idP, int edad, Date fecha, String pade, String hC, String antec, String eF) {
         this.idHistorial = idH;
         this.idPaciente = idP;
@@ -85,5 +86,5 @@ public class datosHistorial {
     public void setExamenFisico(String examenFisico) {
         this.examenFisico = examenFisico;
     }
-    
+
 }

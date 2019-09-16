@@ -4,10 +4,10 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class tablePaci {
+
     private SimpleIntegerProperty idPaciente;
     private SimpleStringProperty Nombre;
     private SimpleStringProperty Apellido;
-    
 
     public tablePaci(Integer idP, String nom, String ape) {
         this.idPaciente = new SimpleIntegerProperty(idP);
@@ -22,7 +22,7 @@ public class tablePaci {
     public void setStudentId(int Id) {
         this.idPaciente = new SimpleIntegerProperty(Id);
     }
-    
+
     public String getNombre() {
         return Nombre.get();
     }

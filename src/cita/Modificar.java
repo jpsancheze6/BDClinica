@@ -2,14 +2,27 @@ package cita;
 
 import BD.conexionBD;
 import java.awt.Robot;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -26,8 +39,29 @@ public class Modificar {
         Connection conn = null;
         conexionBD conexion = new conexionBD();
         conn = conexion.conectarMySQL();
+        int numberTran = 0;
         if (showConfirm("", "¿Desea modificar los datos actuales?", "Si", "No", "Cancelar").equals("Si")) {
             try {
+                conn.setAutoCommit(false);
+                try {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime now = LocalDateTime.now(); //now = fecha actual
+                    //Lectura de el número de transacción
+                    BufferedReader reader = new BufferedReader(new FileReader("num.txt"));
+                    numberTran = reader.read();
+                    reader.close();
+                    //Escribir nuevo número de transacción
+                    BufferedWriter w = new BufferedWriter(new FileWriter("num.txt"));
+                    w.write(numberTran + 1);
+                    w.close();
+
+                    String start = "[" + now + "] START TRANSACTION No." + numberTran + "\n";
+                    Files.write(Paths.get("log.txt"), start.getBytes(), StandardOpenOption.APPEND);
+                } catch (FileNotFoundException ex) {
+                    System.out.println(ex);
+                } catch (IOException ex) {
+                    System.out.println(ex);
+                }
                 //creando la consulta
                 String Ssql = "UPDATE cita SET Nombre=?, Reconsulta=?, Telefono=?, Atendido=?, Costo=?"
                         + " WHERE idCita=?";
@@ -50,9 +84,22 @@ public class Modificar {
                     alert.showAndWait();
                 }
                 conn.commit();
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now(); //now = fecha actual
+                String start = "[" + now + "] TRANSACTION No." + numberTran + " COMPLETED\n";
+                Files.write(Paths.get("log.txt"), start.getBytes(), StandardOpenOption.APPEND);
                 prest.close();
                 conn.close();
             } catch (SQLException e) {
+                conn.rollback();
+                try {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime now = LocalDateTime.now(); //now = fecha actual
+                    String start = "[" + now + "] TRANSACTION No." + numberTran + " ABORTED\n";
+                    Files.write(Paths.get("log.txt"), start.getBytes(), StandardOpenOption.APPEND);
+                } catch (IOException ex) {
+                    Logger.getLogger(Agregarcita.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.initStyle(StageStyle.UTILITY);
                 alert.setTitle("Excepción");
@@ -79,11 +126,9 @@ public class Modificar {
                 expContent.add(textArea, 0, 1);
                 alert.getDialogPane().setExpandableContent(expContent);
                 alert.showAndWait();
+            } catch (IOException ex) {
+                Logger.getLogger(Modificar.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
-            //rollback de la transaccion
-            conn.rollback();
-            //
         }
     }
     public static final String YES = "Sí";
