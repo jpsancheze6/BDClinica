@@ -122,7 +122,7 @@
                 <JFXTextField fx:id="telefono1" disable="true" layoutX="306.0" layoutY="266.0" promptText="Telefono" />
                 <JFXDatePicker fx:id="fecha11" defaultColor="#1fa645" disable="true" layoutX="48.0" layoutY="323.0" prefHeight="31.0" prefWidth="119.0" promptText="Fecha" />
                 <JFXTextField fx:id="Hora1" disable="true" layoutX="303.0" layoutY="323.0" prefHeight="31.0" prefWidth="95.0" promptText="Hora" />
-                <JFXButton fx:id="Buscar2" layoutX="312.0" layoutY="90.0" mnemonicParsing="false" onAction="#Buscar" text="Buscar paciente" />
+                <JFXButton fx:id="Buscar2" layoutX="312.0" layoutY="90.0" mnemonicParsing="false" onAction="#Buscar2" text="Buscar paciente" />
                 <JFXButton fx:id="cancelar1" layoutX="416.0" layoutY="484.0" mnemonicParsing="false" onAction="#cancelarprocesos" text="Cancelar" />
                 <JFXCheckBox fx:id="atendido1" layoutX="48.0" layoutY="395.0" mnemonicParsing="false" text="Atendido" />
                 <JFXTextField fx:id="idPaciente1" layoutX="366.0" layoutY="25.0" promptText="ID Paciente" visible="false" />
@@ -444,8 +444,8 @@
       <Pane fx:id="paneEscoger" layoutX="178.0" layoutY="1.0" prefHeight="561.0" prefWidth="586.0" visible="false">
             <children>
                
-                <JFXButton layoutX="348.0" layoutY="201.0" onAction="#agregarcita" prefHeight="54.0" prefWidth="116.0" text="Agregar cita" />
-                <JFXButton layoutX="106.0" layoutY="201.0" onAction="#actualizardatos" prefHeight="54.0" prefWidth="116.0" text="Editar cita" />
+                <JFXButton layoutX="348.0" layoutY="201.0" onAction="#ac" prefHeight="54.0" prefWidth="116.0" text="Agregar cita" />
+                <JFXButton layoutX="106.0" layoutY="201.0" onAction="#ec" prefHeight="54.0" prefWidth="116.0" text="Editar cita" />
             <Label fx:id="l1" layoutX="265.0" layoutY="36.0" prefHeight="36.0" prefWidth="61.0" text="Citas">
                <font>
                   <Font size="24.0" />
