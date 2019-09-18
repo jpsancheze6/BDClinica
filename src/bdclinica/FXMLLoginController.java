@@ -1,6 +1,7 @@
 package bdclinica;
 
 import BD.conexionBD;
+import com.jfoenix.controls.JFXSpinner;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.io.StringWriter;
@@ -17,8 +18,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -33,7 +37,9 @@ public class FXMLLoginController implements Initializable {
     TextField txtUsuario;
     @FXML
     PasswordField txtPassword;
-
+   
+    @FXML
+     JFXSpinner sp;
     @FXML
     public void aceptar(ActionEvent e) throws SQLException {
         String usuario = txtUsuario.getText();
@@ -48,6 +54,7 @@ public class FXMLLoginController implements Initializable {
             int a = rs.getInt(1);
             if (a == 1) {
                 try {
+                    
                     conexionBD sql1 = new conexionBD();
                     Connection con1 = sql1.conectarMySQL();
                     String sentencia1 = "SELECT rol FROM usuario WHERE nombre = '" + usuario + "';";
@@ -67,7 +74,7 @@ public class FXMLLoginController implements Initializable {
                             archivo.close();
                         }
                     }
-
+                   
                     //Llamar a una nueva ventana
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
                     Parent root1 = (Parent) fxmlLoader.load();
@@ -128,6 +135,7 @@ public class FXMLLoginController implements Initializable {
         txtPassword.setText("");
         txtUsuario.setText("");
     }
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -23,7 +23,8 @@ public class conexionBD {
             + "useJDBCCompliantTimezoneShift=true&"
             + "useLegacyDatetimeCode=false&"
             + "serverTimezone=UTC&"
-            + "useSSL=false";
+            + "useSSL=false&"
+            + "allowPublicKeyRetrieval=true";
     public String username = "root";//<- Cambiar esto por el usuario
     public String password = "rootPass.123";//<- Y esto por la contraseña
     public Connection conectarMySQL() {
