@@ -42,6 +42,7 @@ public class Modificar {
         int numberTran = 0;
         if (showConfirm("", "¿Desea modificar los datos actuales?", "Si", "No", "Cancelar").equals("Si")) {
             try {
+                conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
                 conn.setAutoCommit(false);
                 try {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");

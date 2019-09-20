@@ -35,6 +35,7 @@ public class registrarPaciente {
         int numberTran = 0;
         try {
             //Inicio de transacción
+            con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             con.setAutoCommit(false);
             try {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -122,6 +123,7 @@ public class registrarPaciente {
         int numberTran = 0;
         try {
             //Inicio de transacción
+            con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             con.setAutoCommit(false);
             try {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");

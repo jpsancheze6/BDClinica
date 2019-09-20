@@ -77,7 +77,7 @@ public class FXMLDocumentController implements Initializable {
 
     int clave;
 
-        @FXML
+    @FXML
     private Pane paneAgregarPaciente, panePacientes, paneCitas, paneHistorial,
             paneReportes, paneConfiguracion, paneExtra, paneEditarPaciente, paneH,
             paneAgregarH, paneRsexo, paneRIngresos, paneMuni, paneEdad, paneCrearUsuario, paneRuta, paneEscoger, paneAgregarcitas;
@@ -85,11 +85,10 @@ public class FXMLDocumentController implements Initializable {
     private javafx.scene.control.TextField nombre, telefono, costo, idPaciente, Hora, idPaciente1, nombre1, costo1, telefono1, Hora1;
     @FXML
     private DatePicker fecha, dtFecha, dtFechaEdicion, fecha11;
- @FXML
+    @FXML
     private CheckBox reconsulta, reconsulta1;
     @FXML
     private CheckBox atendido, atendido1;
-
 
     public void actualizardatos() throws SQLException {
         lista2.clear();
@@ -125,7 +124,7 @@ public class FXMLDocumentController implements Initializable {
         lista2.clear();
     }
 
-   @FXML
+    @FXML
     private void citas(ActionEvent event) {
         paneAgregarH.setVisible(false);
         paneAgregarPaciente.setVisible(false);
@@ -258,7 +257,6 @@ public class FXMLDocumentController implements Initializable {
         actualizar.setDisable(false);
     }
 
-   
     @FXML
     public void tabla() throws SQLException {
         lista = FXCollections.observableArrayList();
@@ -363,7 +361,7 @@ public class FXMLDocumentController implements Initializable {
     public void tabla2() throws SQLException {
         lista2.clear();
 
-        tabla2.setVisible(true);
+        //tabla2.setVisible(true);
 
         String id = nombre1.getText();
         if (id.equals("")) {
@@ -409,6 +407,7 @@ public class FXMLDocumentController implements Initializable {
                 Atendidocita.setCellValueFactory(new PropertyValueFactory<>("Atendido"));
                 costocita.setCellValueFactory(new PropertyValueFactory<>("Costo"));
                 tabla2.setItems(lista2);
+                tabla2.setVisible(true);
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.initStyle(StageStyle.UTILITY);
@@ -436,7 +435,6 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
-
 
     @FXML
     public void seleccionadotabla2() {
@@ -483,8 +481,8 @@ public class FXMLDocumentController implements Initializable {
             telefono1.setDisable(false);
             Hora1.setText(horalocal);
             costo1.setDisable(false);
-        Hora1.setDisable(false);
-        fecha11.setDisable(false);
+            Hora1.setDisable(false);
+            fecha11.setDisable(false);
             actualizar.setDisable(false);
             boolean boleano = persona.getReconsulta();
             reconsulta1.setSelected(boleano);
@@ -535,6 +533,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(false);
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
     }
 
     @FXML
@@ -666,6 +666,8 @@ public class FXMLDocumentController implements Initializable {
         paneRsexo.setVisible(false);
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
         //Código extra desde acá
         //Conectar con la base de datos para cargar municipios
         try {
@@ -732,6 +734,8 @@ public class FXMLDocumentController implements Initializable {
         paneRsexo.setVisible(false);
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
         //Código extra desde acá
     }
 
@@ -883,6 +887,8 @@ public class FXMLDocumentController implements Initializable {
         paneRsexo.setVisible(false);
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
         Connection con = null;
         conexionBD conBD = new conexionBD();
         con = conBD.conectarMySQL();
@@ -943,6 +949,7 @@ public class FXMLDocumentController implements Initializable {
         int numberTran = 0;
         try {
             //Inicio de transacción
+            con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             con.setAutoCommit(false);
             try {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -1062,6 +1069,8 @@ public class FXMLDocumentController implements Initializable {
         tableHist.getItems().clear();
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
     }
 
     //Boton para agregar datos de una consulta al historial del paciente (btnAgregar)
@@ -1087,6 +1096,8 @@ public class FXMLDocumentController implements Initializable {
         tableHist.getItems().clear();
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
     }
     // HISTORIAL---------
 
@@ -1108,6 +1119,8 @@ public class FXMLDocumentController implements Initializable {
         paneRsexo.setVisible(false);
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
         //Código extra desde acá
         //Agregar a tblPacientes los pacientes que hay
         tblPacientes.getColumns().clear();
@@ -1509,6 +1522,8 @@ public class FXMLDocumentController implements Initializable {
         paneRsexo.setVisible(false);
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
         //Código extra desde acá
     }
 
@@ -1590,6 +1605,8 @@ public class FXMLDocumentController implements Initializable {
         txtEdad.setText(null);
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
         //Código extra desde acá
     }
 
@@ -1614,6 +1631,8 @@ public class FXMLDocumentController implements Initializable {
         paneRsexo.setVisible(true);
         paneCrearUsuario.setVisible(false);
         paneRuta.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
     }
 
     @FXML
@@ -1786,6 +1805,8 @@ public class FXMLDocumentController implements Initializable {
             paneRsexo.setVisible(false);
             paneCrearUsuario.setVisible(false);
             paneRuta.setVisible(false);
+            paneAgregarcitas.setVisible(false);
+            paneEscoger.setVisible(false);
             //Código extra desde acá
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -1968,6 +1989,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(false);
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
         //Código extra desde acá
 
     }
@@ -2184,6 +2207,8 @@ public class FXMLDocumentController implements Initializable {
                 paneRIngresos.setVisible(false);
                 paneReportes.setVisible(false);
                 paneRsexo.setVisible(false);
+                paneAgregarcitas.setVisible(false);
+                paneEscoger.setVisible(false);
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.initStyle(StageStyle.UTILITY);
@@ -2236,6 +2261,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(false);
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
     }
 
     //Paciente.editar
@@ -2284,6 +2311,8 @@ public class FXMLDocumentController implements Initializable {
             paneRIngresos.setVisible(false);
             paneReportes.setVisible(false);
             paneRsexo.setVisible(false);
+            paneAgregarcitas.setVisible(false);
+            paneEscoger.setVisible(false);
             txtNombreEdicion.setText(nombre);
             txtApellidoEdicion.setText(apellido);
             txtTelefonoEdicion.setText("" + telefono);
@@ -2340,6 +2369,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(false);
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
         //Código extra desde acá
     }
 
@@ -2361,6 +2392,8 @@ public class FXMLDocumentController implements Initializable {
         paneRIngresos.setVisible(true);
         paneReportes.setVisible(false);
         paneRsexo.setVisible(false);
+        paneAgregarcitas.setVisible(false);
+        paneEscoger.setVisible(false);
     }
     @FXML
     private DatePicker fechaInicio, fechaFinal;

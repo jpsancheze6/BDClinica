@@ -41,6 +41,7 @@ public class Agregarcita {
         Timestamp s = Timestamp.valueOf(Fecha);
 
         //Inicio de transacción
+        conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
         conn.setAutoCommit(false);
         int numberTran = 0;
         try {
